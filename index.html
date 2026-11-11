@@ -1,0 +1,1531 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Psikotes Kraepelin &amp; Pauli</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..800&family=Public+Sans:wght@400;500;600;700&family=Red+Hat+Mono:wght@400;500;600;700&display=swap">
+<style>
+/* Tata letak: lembar kerja psikotes — satu kolom formulir 980px; layar tes memenuhi layar dengan papan angka di bawah */
+:root{
+  --kertas:#F3F5F8; --lembar:#FFFFFF; --tinta:#172030; --pudar:#5B6578; --garis:#D3D9E3; --garis-tipis:#E8ECF2;
+  --biru:#2240B0; --di-biru:#FFFFFF; --biru-lembut:#E8EDFB;
+  --merah:#BC371F; --merah-lembut:#FBE8E3; --kuning:#8A5E08; --kuning-lembut:#FAF0D6; --hijau:#1B7046; --hijau-lembut:#E0F1E7;
+  --font-judul:"Archivo","Arial Narrow",Arial,system-ui,sans-serif;
+  --font-isi:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font-angka:"Red Hat Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --kertas:#0D121A; --lembar:#151C27; --tinta:#E4E9F2; --pudar:#98A2B4; --garis:#2A3443; --garis-tipis:#1E2632;
+    --biru:#93A6FF; --di-biru:#0D121A; --biru-lembut:#1C2647;
+    --merah:#FF8D72; --merah-lembut:#3A1D17; --kuning:#EDC062; --kuning-lembut:#332810; --hijau:#64D39C; --hijau-lembut:#14301F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --kertas:#0D121A; --lembar:#151C27; --tinta:#E4E9F2; --pudar:#98A2B4; --garis:#2A3443; --garis-tipis:#1E2632;
+  --biru:#93A6FF; --di-biru:#0D121A; --biru-lembut:#1C2647;
+  --merah:#FF8D72; --merah-lembut:#3A1D17; --kuning:#EDC062; --kuning-lembut:#332810; --hijau:#64D39C; --hijau-lembut:#14301F;
+  color-scheme:dark;
+}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html.tes-aktif,html.tes-aktif body{overflow:hidden;overscroll-behavior:none}
+body{margin:0;background:var(--kertas);color:var(--tinta);font:400 15px/1.55 var(--font-isi);-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+h1,h2,h3{font-family:var(--font-judul);font-stretch:110%;line-height:1.15;margin:0;text-wrap:balance;letter-spacing:-.005em}
+h1{font-size:clamp(26px,5.2vw,34px);font-weight:780}
+h2{font-size:19px;font-weight:720}
+h3{font-size:15px;font-weight:700}
+p{margin:0}
+b{font-weight:650}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.eyebrow{font:600 11.5px/1.2 var(--font-angka);letter-spacing:.12em;text-transform:uppercase;color:var(--pudar)}
+.lead{color:var(--pudar);max-width:62ch}
+.mono{font-family:var(--font-angka);font-variant-numeric:tabular-nums}
+.catatan-kecil{font-size:12.5px;color:var(--pudar);line-height:1.5}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 64px;display:flex;flex-direction:column;gap:22px}
+.wrap.sempit{max-width:640px}
+.tumpuk{display:flex;flex-direction:column;gap:10px}
+
+/* Kepala */
+.pita{background:var(--lembar);border-bottom:1px solid var(--garis)}
+.kepala{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px;display:flex;align-items:center;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;min-height:56px}
+.merek{display:flex;align-items:center;gap:10px;font:760 16px/1 var(--font-judul);font-stretch:118%;min-width:0}
+.merek svg{flex:none}
+.kepala-aksi{display:flex;align-items:center;gap:2px;flex-wrap:wrap}
+.siapa{font-size:13.5px;color:var(--pudar);margin-right:6px}
+
+/* Tombol & isian */
+.tombol{font:600 14.5px/1.1 var(--font-isi);border-radius:8px;padding:10px 16px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;color:var(--tinta);background:none;min-height:44px;text-align:center}
+.tombol.utama{background:var(--biru);color:var(--di-biru)}
+.tombol.utama:hover{filter:brightness(1.08)}
+.tombol.sekunder{background:var(--lembar);border-color:var(--garis)}
+.tombol.sekunder:hover{border-color:var(--pudar)}
+.tombol.teks{padding:8px 10px;min-height:38px;color:var(--pudar)}
+.tombol.teks:hover{color:var(--tinta)}
+.tombol.kecil{min-height:34px;padding:7px 12px;font-size:13.5px}
+.tombol.lebar{width:100%}
+.tombol:disabled{opacity:.55;cursor:not-allowed}
+:focus-visible{outline:2px solid var(--biru);outline-offset:2px}
+.aksi{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.isian{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:var(--pudar)}
+.isian small{font-weight:400;font-size:12px}
+.isian input,.isian select,.isian textarea,.cari input{font:400 15px/1.4 var(--font-isi);color:var(--tinta);background:var(--lembar);border:1px solid var(--garis);border-radius:8px;padding:10px 12px;min-height:44px;width:100%}
+.isian textarea{min-height:120px;resize:vertical}
+.isian input:focus,.isian select:focus,.isian textarea:focus,.cari input:focus{outline:2px solid var(--biru);outline-offset:-1px;border-color:transparent}
+.gabung{display:flex;gap:8px}
+.gabung input{flex:1;min-width:0}
+form{display:flex;flex-direction:column;gap:14px}
+.saklar{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px dashed var(--garis);border-radius:10px;cursor:pointer;max-width:620px}
+.saklar input{width:18px;height:18px;margin-top:2px;accent-color:var(--biru);flex:none}
+.saklar span{display:flex;flex-direction:column;gap:2px}
+.saklar small{color:var(--pudar);font-size:13px}
+
+/* Panel & notis */
+.lembar{background:var(--lembar);border:1px solid var(--garis);border-radius:12px;padding:20px}
+.notis{padding:11px 14px;border-radius:8px;background:var(--biru-lembut);font-size:14px;line-height:1.5}
+.notis.galat{background:var(--merah-lembut)}
+.notis.ok{background:var(--hijau-lembut)}
+.notis.peringatan{background:var(--kuning-lembut)}
+.banner{display:flex;gap:12px 16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.banner > div{flex:1 1 240px;min-width:0}
+.salin-kotak{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.salin-kotak code{font:500 14px var(--font-angka);background:var(--lembar);border:1px solid var(--garis);border-radius:6px;padding:6px 10px;user-select:all;overflow-wrap:anywhere}
+.memuat{color:var(--pudar);font-size:14px}
+
+/* Chip */
+.chip{display:inline-flex;align-items:center;gap:6px;font:600 11.5px/1 var(--font-isi);padding:5px 9px;border-radius:999px;background:var(--garis-tipis);color:var(--pudar);white-space:nowrap}
+.chip.l0{background:var(--merah-lembut);color:var(--merah)}
+.chip.l1{background:var(--kuning-lembut);color:var(--kuning)}
+.chip.l2{background:var(--garis-tipis);color:var(--tinta)}
+.chip.l3{background:var(--hijau-lembut);color:var(--hijau)}
+.chip.l4{background:var(--hijau);color:var(--lembar)}
+.chip.draf{background:var(--kuning-lembut);color:var(--kuning)}
+.chip.ok{background:var(--hijau-lembut);color:var(--hijau)}
+.chip.biru{background:var(--biru-lembut);color:var(--biru)}
+
+/* Masuk */
+.masuk{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:40px;align-items:start;padding-block:48px 64px}
+.masuk-intro{display:flex;flex-direction:column;gap:14px}
+.masuk-intro h1{font-size:clamp(34px,7vw,52px);font-stretch:118%;line-height:1.02}
+.masuk-form{display:flex;flex-direction:column;gap:16px}
+.akun-demo{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.akun-demo .tombol{justify-content:space-between}
+.akun-demo .tombol span{font:500 12.5px var(--font-angka);color:var(--pudar)}
+.potongan{display:flex;border:1px solid var(--garis);border-radius:10px;background:var(--lembar);width:fit-content;max-width:100%;overflow:hidden;margin-top:10px}
+.pot-lajur{display:flex;flex-direction:column;padding:12px 16px 12px 14px;border-right:1px solid var(--garis-tipis)}
+.pot-lajur:last-child{border-right:0}
+.pa{font:500 19px/22px var(--font-angka);color:var(--tinta)}
+.pj{font:600 13px/12px var(--font-angka);color:var(--biru);padding-left:18px;height:12px}
+@media (max-width:760px){
+  .masuk{grid-template-columns:minmax(0,1fr);gap:24px;padding-block:20px 48px}
+}
+
+/* Kartu tes */
+.kartu-tes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.kartu{display:flex;flex-direction:column;gap:14px}
+.kartu-kepala{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.kartu .desk{color:var(--pudar);font-size:14px}
+.kartu .tombol{margin-top:auto;align-self:flex-start}
+.fakta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0;border:1px solid var(--garis-tipis);border-radius:8px}
+.fakta div{padding:9px 10px;border-left:1px solid var(--garis-tipis);min-width:0}
+.fakta div:first-child{border-left:0}
+.fakta dt{font-size:11.5px;color:var(--pudar)}
+.fakta dd{margin:2px 0 0;font:600 15px var(--font-angka);font-variant-numeric:tabular-nums}
+
+/* Instruksi */
+.instruksi{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);gap:20px;align-items:start}
+@media (max-width:760px){.instruksi{grid-template-columns:minmax(0,1fr)}}
+.langkah{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;counter-reset:l}
+.langkah li{counter-increment:l;display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:baseline;max-width:62ch}
+.langkah li::before{content:counter(l);font:600 13px var(--font-angka);color:var(--biru);border:1.5px solid var(--biru);border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center}
+.contoh{display:flex;flex-direction:column;align-items:center;gap:10px}
+.contoh .catatan-kecil{text-align:center}
+.siap{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--pudar)}
+.konfirmasi{border-color:var(--biru);display:flex;flex-direction:column;gap:12px}
+.setuju{display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer}
+.setuju input{width:18px;height:18px;margin-top:2px;accent-color:var(--biru);flex:none}
+
+/* Strip angka (dipakai di layar tes & contoh) */
+.strip{display:flex;flex-direction:column;width:156px;--h-angka:42px;--h-slot:28px}
+.strip.mini{--h-angka:34px;--h-slot:22px;width:128px}
+.r{display:grid;grid-template-columns:52% 48%;align-items:center}
+.r.angka{height:var(--h-angka)}
+.r.angka .d{text-align:center;font:500 calc(var(--h-angka)*.8)/1 var(--font-angka);color:var(--tinta)}
+.r.angka.lalu .d{color:var(--pudar)}
+.r.slot{height:var(--h-slot)}
+.r .j{font:650 calc(var(--h-slot)*.86)/1 var(--font-angka);color:var(--biru);padding-left:10px}
+.r.slot.garis{background:linear-gradient(var(--merah),var(--merah)) 54% 100%/40% 2px no-repeat}
+.pasang{background:var(--biru-lembut);border-radius:12px;box-shadow:inset 0 0 0 1.5px var(--biru)}
+.kursor{display:inline-block;width:.62em;height:3px;background:var(--biru);vertical-align:middle;animation:kedip 1s steps(1) infinite}
+@keyframes kedip{50%{opacity:0}}
+
+/* Layar tes */
+#layar-tes{position:fixed;inset:0;z-index:50;background:var(--kertas);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);user-select:none;-webkit-user-select:none;touch-action:none;overscroll-behavior:none}
+.tes-kepala{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 16px}
+.tes-judul{display:flex;align-items:center;gap:8px;font:700 13px var(--font-angka);letter-spacing:.14em}
+.tes-kanan{display:flex;align-items:center;gap:6px}
+.tes-posisi{font:600 14px var(--font-angka);font-variant-numeric:tabular-nums}
+.bar{height:3px;background:var(--garis-tipis)}
+.bar i{display:block;height:100%;width:0;background:var(--pudar)}
+.bar.bagian{height:5px}
+.bar.bagian i{background:var(--biru)}
+.strip-wadah{flex:1;min-height:0;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden}
+.strip-wadah .strip{-webkit-mask-image:linear-gradient(transparent,#000 24%,#000 76%,transparent);mask-image:linear-gradient(transparent,#000 24%,#000 76%,transparent)}
+.kosong{visibility:hidden}
+.penuh{position:absolute;top:12px;left:16px;right:16px;text-align:center;font-size:13.5px;color:var(--pudar)}
+.aba{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;background:var(--kertas);opacity:.95;font:800 clamp(44px,13vw,76px)/1 var(--font-judul);font-stretch:125%;letter-spacing:.04em;color:var(--merah)}
+.aba.hitung{color:var(--tinta);font-size:clamp(72px,22vw,120px)}
+.aba.garis{background:none;opacity:1;align-items:flex-start;padding-top:8px;font-size:22px;letter-spacing:.2em}
+.aba.garis span{background:var(--merah);color:var(--kertas);padding:8px 14px;border-radius:8px}
+.aba.selesai{color:var(--biru)}
+.aba.muncul{animation:muncul .45s ease-out}
+@keyframes muncul{from{transform:scale(1.12);opacity:0}}
+.arah{text-align:center;font:500 12px var(--font-angka);color:var(--pudar);padding:4px 0 2px}
+.papan{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;max-width:440px;margin:0 auto;padding:8px 16px 14px}
+.papan button{height:clamp(46px,8.4vh,62px);font:600 26px/1 var(--font-angka);background:var(--lembar);color:var(--tinta);border:1px solid var(--garis);border-radius:12px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.papan button.ditekan{background:var(--biru-lembut);border-color:var(--biru)}
+.papan .koreksi{font:650 14px var(--font-isi);color:var(--merah)}
+.papan .nol{grid-column:span 2}
+@media (max-height:620px){
+  #layar-tes .strip{--h-angka:34px;--h-slot:22px}
+  .papan button{height:44px;font-size:22px}
+}
+
+/* Admin */
+.tab{display:flex;gap:2px;border-bottom:1px solid var(--garis);overflow-x:auto;scrollbar-width:none}
+.tab button{font:600 14px var(--font-isi);padding:11px 12px;border:0;background:none;color:var(--pudar);border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer;white-space:nowrap}
+.tab button[aria-selected="true"]{color:var(--tinta);border-bottom-color:var(--biru)}
+#isi-tab{display:flex;flex-direction:column;gap:16px}
+.saring{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--garis);border-radius:8px;overflow:hidden;background:var(--lembar)}
+.seg button{font:600 13.5px var(--font-isi);padding:9px 12px;border:0;border-left:1px solid var(--garis);background:none;color:var(--pudar);cursor:pointer;min-height:40px}
+.seg button:first-child{border-left:0}
+.seg button[aria-pressed="true"]{background:var(--biru-lembut);color:var(--biru)}
+.cari{flex:1 1 220px;min-width:0}
+.hitung{font-size:13px;color:var(--pudar)}
+.daftar{display:flex;flex-direction:column;border:1px solid var(--garis);border-radius:12px;background:var(--lembar);overflow:hidden}
+.butir{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;align-items:center;padding:14px 16px;border:0;border-top:1px solid var(--garis-tipis);text-align:left;width:100%;background:none;font:inherit;color:inherit}
+.butir:first-child{border-top:0}
+button.butir{cursor:pointer}
+button.butir:hover{background:var(--kertas)}
+.butir .kiri{display:flex;flex-direction:column;gap:3px;min-width:0}
+.butir .nama{font-weight:650;overflow-wrap:anywhere}
+.butir .sub{font-size:13px;color:var(--pudar)}
+.butir .kanan{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.butir .metrik{font:500 13px var(--font-angka);font-variant-numeric:tabular-nums;white-space:nowrap}
+.aksi-kecil{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+@media (max-width:520px){
+  .butir{grid-template-columns:1fr}
+  .butir .kanan{flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap}
+}
+.kosong-isi{padding:28px 20px;text-align:center;color:var(--pudar);border:1px dashed var(--garis);border-radius:12px}
+.dua-kolom{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:820px){.dua-kolom{grid-template-columns:minmax(0,1fr)}}
+.tabel-wadah{overflow-x:auto;border:1px solid var(--garis);border-radius:12px;background:var(--lembar)}
+.tabel{width:100%;border-collapse:collapse;font-size:14px}
+.tabel th{font:600 12px var(--font-isi);color:var(--pudar);text-align:left;padding:10px 14px;border-bottom:1px solid var(--garis);white-space:nowrap}
+.tabel td{padding:11px 14px;border-bottom:1px solid var(--garis-tipis);vertical-align:middle}
+.tabel tr:last-child td{border-bottom:0}
+.tabel .angka{font-family:var(--font-angka);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tabel .satuan{color:var(--pudar);font-size:12px;font-family:var(--font-isi)}
+.tabel .sub-skor{display:block;font:500 12px var(--font-angka);color:var(--pudar);margin-top:2px}
+@media (max-width:520px){.tabel th,.tabel td{padding:10px}.tabel .satuan{display:block}}
+.detail-kepala{display:flex;flex-direction:column;gap:8px}
+.meta{display:flex;gap:8px 12px;flex-wrap:wrap;align-items:center;font-size:13.5px;color:var(--pudar)}
+.angka-ringkas{display:flex;gap:8px 20px;flex-wrap:wrap;font-size:13px;color:var(--pudar)}
+.angka-ringkas b{font:600 14px var(--font-angka);color:var(--tinta);font-variant-numeric:tabular-nums}
+.grafik svg{width:100%;height:auto;display:block}
+.g-grid{stroke:var(--garis-tipis);stroke-width:1}
+.g-label{fill:var(--pudar);font:11px var(--font-angka)}
+.g-area{fill:var(--biru);opacity:.08}
+.g-garis{fill:none;stroke:var(--biru);stroke-width:2;stroke-linejoin:round}
+.g-titik{fill:var(--lembar);stroke:var(--biru);stroke-width:1.6}
+.g-batang{fill:var(--biru);opacity:.85}
+.g-rata{stroke:var(--pudar);stroke-width:1.3;stroke-dasharray:4 4}
+.g-tren{stroke:var(--merah);stroke-width:1.6;stroke-dasharray:7 4}
+.g-ekstrem{fill:none;stroke:var(--tinta);stroke-width:1.2}
+.legenda{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:12.5px;color:var(--pudar);margin-top:8px}
+.legenda span{display:inline-flex;align-items:center;gap:6px}
+.legenda i{display:inline-block;width:18px;height:0;border-top:2px solid var(--biru)}
+.legenda i.rata{border-top:2px dashed var(--pudar)}
+.legenda i.tren{border-top:2px dashed var(--merah)}
+.legenda i.lingkar{width:10px;height:10px;border:1.2px solid var(--tinta);border-radius:50%}
+.interp{display:flex;flex-direction:column;gap:14px}
+.interp-baris{display:flex;flex-direction:column;gap:6px;padding-bottom:14px;border-bottom:1px solid var(--garis-tipis)}
+.interp-baris:last-of-type{border-bottom:0;padding-bottom:0}
+.interp-kepala{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.interp p{max-width:62ch}
+details summary{cursor:pointer;font-weight:600;padding:4px 0}
+.sisi{display:flex;flex-direction:column;gap:16px}
+.norma-tes{display:flex;flex-direction:column;gap:10px}
+@media (prefers-reduced-motion: reduce){
+  .aba.muncul,.kursor{animation:none}
+}
+</style>
+</head>
+<body>
+<div id="app"><main class="wrap"><p class="memuat">Memuat…</p></main></div>
+<div id="layar-tes" hidden></div>
+<script src="config.js"></script>
+<script>
+'use strict';
+/* =================================================================
+   PSIKOTES KRAEPELIN & PAULI — frontend
+   ================================================================= */
+const CFG = Object.assign({ API_URL: '', NAMA_LEMBAGA: 'Psikotes Online' }, window.PSIKOTES_CONFIG || {});
+const DEMO = !String(CFG.API_URL || '').trim();
+const $ = (s, r) => (r || document).querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmt = (x, d = 2) => (x === null || x === undefined || x === '' || isNaN(+x)) ? '–' : (+x).toLocaleString('id-ID', { maximumFractionDigits: d });
+const fmtTgl = v => { if (!v) return '–'; const d = new Date(v); return isNaN(d) ? String(v) : d.toLocaleString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }); };
+function simpanLokal(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* penyimpanan tidak tersedia */ } }
+function bacaLokal(k) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+const NAMA_TES = { kraepelin: 'Kraepelin', pauli: 'Pauli' };
+function galat(pesan, kode) { const e = new Error(pesan); if (kode) e.kode = kode; return e; }
+
+// ==LOGIKA==
+const PENGATURAN_AWAL = {
+  kraepelin: { jumlahLajur: 50, angkaPerLajur: 60, detikPerLajur: 15 },
+  pauli: { durasiMenit: 60, menitPerPeriode: 3 },
+  izinUlang: false, tampilkanHasilKePeserta: false
+};
+const CFG_SINGKAT = { kraepelin: { jumlahLajur: 8, angkaPerLajur: 60, detikPerLajur: 15 }, pauli: { durasiMenit: 3, menitPerPeriode: 0.25 } };
+const CFG_LATIHAN = { kraepelin: { jumlahLajur: 3, angkaPerLajur: 60, detikPerLajur: 10 }, pauli: { durasiMenit: 0.5, menitPerPeriode: 0.25 } };
+const LEVEL = ['Sangat Rendah', 'Rendah', 'Sedang', 'Tinggi', 'Sangat Tinggi'];
+
+const ASPEK = {
+  kraepelin: [
+    { key: 'panker', nama: 'Kecepatan kerja', skor: 'Panker', field: 'panker', satuan: 'jawaban/lajur', d: 2 },
+    { key: 'tianker', nama: 'Ketelitian kerja', skor: 'Tianker', field: 'tianker', satuan: 'salah', d: 0 },
+    { key: 'janker', nama: 'Keajegan kerja', skor: 'Janker', field: 'janker', satuan: 'rentang', d: 0 },
+    { key: 'hanker', nama: 'Ketahanan kerja', skor: 'Hanker', field: 'hanker', satuan: 'tren', d: 2 }
+  ],
+  pauli: [
+    { key: 'total', nama: 'Kapasitas kerja', skor: 'Total', field: 'total', satuan: 'jawaban', d: 0 },
+    { key: 'persenSalah', nama: 'Ketelitian', skor: '% Salah', field: 'persenSalah', satuan: '%', d: 2 },
+    { key: 'persenPenyimpangan', nama: 'Stabilitas kerja', skor: '% Penyimpangan', field: 'persenPenyimpangan', satuan: '%', d: 1 },
+    { key: 'tren', nama: 'Ketahanan kerja', skor: 'Tren', field: 'tren', satuan: '%', d: 1 }
+  ]
+};
+
+// Norma CONTOH untuk format online (sama dengan isi awal sheet Norma).
+const NORMA_AWAL = [
+  { tes: 'kraepelin', aspek: 'panker', nama: 'Kecepatan kerja', arah: 'naik', batas: [6, 8, 11, 14], ket: 'CONTOH — ganti dengan norma resmi' },
+  { tes: 'kraepelin', aspek: 'tianker', nama: 'Ketelitian kerja', arah: 'turun', batas: [2, 5, 9, 14], ket: 'CONTOH — ganti dengan norma resmi' },
+  { tes: 'kraepelin', aspek: 'janker', nama: 'Keajegan kerja', arah: 'turun', batas: [4, 6, 8, 11], ket: 'CONTOH — ganti dengan norma resmi' },
+  { tes: 'kraepelin', aspek: 'hanker', nama: 'Ketahanan kerja', arah: 'naik', batas: [-3, -1, 1, 3], ket: 'CONTOH — ganti dengan norma resmi' },
+  { tes: 'pauli', aspek: 'total', nama: 'Kapasitas kerja', arah: 'naik', batas: [1200, 1800, 2400, 3000], ket: 'CONTOH — ganti dengan norma resmi' },
+  { tes: 'pauli', aspek: 'persenSalah', nama: 'Ketelitian', arah: 'turun', batas: [0.5, 1.5, 3, 5], ket: 'CONTOH — ganti dengan norma resmi' },
+  { tes: 'pauli', aspek: 'persenPenyimpangan', nama: 'Stabilitas kerja', arah: 'turun', batas: [5, 9, 13, 18], ket: 'CONTOH — ganti dengan norma resmi' },
+  { tes: 'pauli', aspek: 'tren', nama: 'Ketahanan kerja', arah: 'naik', batas: [-15, -5, 5, 15], ket: 'CONTOH — ganti dengan norma resmi' }
+];
+
+// Teks interpretasi per aspek, urut dari Sangat Rendah (0) sampai Sangat Tinggi (4).
+const TEKS = {
+  kraepelin: {
+    panker: [
+      'Tempo kerja jauh di bawah norma. Tugas rutin yang menuntut kecepatan kemungkinan membutuhkan waktu jauh lebih lama.',
+      'Tempo kerja di bawah rata-rata. Cenderung lambat atau sangat berhati-hati saat bekerja dengan batas waktu.',
+      'Tempo kerja setara rata-rata. Mampu mengikuti ritme kerja rutin dengan kecepatan wajar.',
+      'Tempo kerja di atas rata-rata. Cepat menyelesaikan tugas rutin.',
+      'Tempo kerja sangat cepat. Sangat sigap pada tugas rutin yang menuntut kecepatan.'
+    ],
+    tianker: [
+      'Kesalahan sangat banyak. Ketelitian perlu menjadi perhatian utama, terutama untuk tugas yang menuntut akurasi.',
+      'Kesalahan cukup sering. Akurasi cenderung turun ketika bekerja cepat.',
+      'Ketelitian wajar. Jumlah kesalahan masih dalam batas umum.',
+      'Teliti. Kesalahan sedikit dan akurasi terjaga.',
+      'Sangat teliti. Hampir tidak ada kesalahan sepanjang tes.'
+    ],
+    janker: [
+      'Hasil antarlajur sangat naik-turun. Ritme kerja tidak stabil; konsentrasi kemungkinan mudah terganggu.',
+      'Hasil antarlajur cukup berfluktuasi. Ritme kerja kurang konsisten.',
+      'Fluktuasi hasil wajar. Ritme kerja cukup konsisten.',
+      'Hasil antarlajur relatif rata. Ritme kerja konsisten.',
+      'Hasil antarlajur sangat rata. Ritme kerja sangat terjaga dari awal hingga akhir.'
+    ],
+    hanker: [
+      'Prestasi turun tajam menjelang akhir. Daya tahan terhadap tugas panjang perlu diperhatikan.',
+      'Prestasi cenderung menurun seiring waktu. Mudah lelah pada tugas yang panjang.',
+      'Prestasi relatif bertahan dari awal hingga akhir.',
+      'Prestasi cenderung meningkat seiring waktu. Daya tahan baik.',
+      'Prestasi meningkat jelas sampai akhir. Daya tahan dan dorongan kerja sangat baik.'
+    ]
+  },
+  pauli: {
+    total: [
+      'Jumlah kerja jauh di bawah norma. Kapasitas untuk tugas rutin berdurasi panjang tergolong sangat rendah.',
+      'Jumlah kerja di bawah rata-rata. Kapasitas untuk tugas rutin berdurasi panjang tergolong rendah.',
+      'Jumlah kerja setara rata-rata. Kapasitas memadai untuk tugas rutin berdurasi panjang.',
+      'Jumlah kerja di atas rata-rata. Produktif pada tugas berdurasi panjang.',
+      'Jumlah kerja sangat tinggi. Sangat produktif pada tugas berdurasi panjang.'
+    ],
+    persenSalah: [
+      'Proporsi kesalahan sangat tinggi. Ketelitian perlu menjadi perhatian utama.',
+      'Proporsi kesalahan cukup tinggi. Akurasi cenderung menurun selama bekerja lama.',
+      'Proporsi kesalahan wajar.',
+      'Kesalahan sedikit. Teliti dalam bekerja lama.',
+      'Hampir tanpa kesalahan. Sangat teliti dalam bekerja lama.'
+    ],
+    persenPenyimpangan: [
+      'Jumlah kerja antarperiode sangat naik-turun. Ritme kerja tidak stabil.',
+      'Jumlah kerja antarperiode cukup berfluktuasi. Ritme kerja kurang konsisten.',
+      'Fluktuasi antarperiode wajar. Ritme kerja cukup stabil.',
+      'Jumlah kerja antarperiode relatif rata. Ritme kerja stabil.',
+      'Jumlah kerja antarperiode sangat rata. Ritme kerja sangat stabil.'
+    ],
+    tren: [
+      'Jumlah kerja turun tajam di bagian akhir. Daya tahan terhadap tugas panjang perlu diperhatikan.',
+      'Jumlah kerja cenderung menurun di bagian akhir. Mudah lelah pada tugas panjang.',
+      'Jumlah kerja relatif bertahan dari awal hingga akhir.',
+      'Jumlah kerja cenderung meningkat di bagian akhir. Daya tahan baik.',
+      'Jumlah kerja meningkat jelas di bagian akhir. Daya tahan sangat baik.'
+    ]
+  }
+};
+
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function seedBaru() {
+  try { const a = new Uint32Array(1); crypto.getRandomValues(a); return (a[0] % 2147483646) + 1; }
+  catch (e) { return Math.floor(Math.random() * 2147483646) + 1; }
+}
+function lembarKraepelin(seed, jumlahLajur, angkaPerLajur) {
+  const r = mulberry32(seed), L = [];
+  for (let c = 0; c < jumlahLajur; c++) {
+    const col = [];
+    for (let i = 0; i < angkaPerLajur; i++) col.push(1 + Math.floor(r() * 9));
+    L.push(col);
+  }
+  return L;
+}
+function deretPauli(seed) {
+  const r = mulberry32(seed), d = [];
+  return function (i) { while (d.length <= i) d.push(1 + Math.floor(r() * 9)); return d[i]; };
+}
+const kunci = (a, b) => (a + b) % 10;
+const jumlahPeriode = c => Math.max(1, Math.round(c.durasiMenit / c.menitPerPeriode));
+const durasiMs = t => t.tes === 'kraepelin' ? t.cfg.jumlahLajur * t.cfg.detikPerLajur * 1000 : Math.round(t.cfg.durasiMenit * 60000);
+const bulat = (x, d = 2) => Math.round(x * Math.pow(10, d)) / Math.pow(10, d);
+const rata = a => a.length ? a.reduce((s, x) => s + x, 0) / a.length : 0;
+function regresi(ys) {
+  const n = ys.length;
+  if (n < 2) return { a: ys[0] || 0, b: 0 };
+  let sx = 0, sy = 0, sxx = 0, sxy = 0;
+  for (let i = 0; i < n; i++) { const x = i + 1; sx += x; sy += ys[i]; sxx += x * x; sxy += x * ys[i]; }
+  const b = (n * sxy - sx * sy) / (n * sxx - sx * sx);
+  return { a: (sy - b * sx) / n, b };
+}
+
+// Kraepelin: tinggi lajur = jumlah penjumlahan yang dikerjakan pada lajur itu.
+function skorKraepelin(seed, cfg, jawaban, pembetulan) {
+  const L = lembarKraepelin(seed, cfg.jumlahLajur, cfg.angkaPerLajur);
+  const lajur = L.map((col, c) => {
+    const ans = jawaban[c] || [];
+    let s = 0;
+    for (let j = 0; j < ans.length; j++) if (ans[j] !== kunci(col[j], col[j + 1])) s++;
+    return { t: ans.length, s, p: (pembetulan && pembetulan[c]) || 0 };
+  });
+  const T = lajur.map(x => x.t), n = T.length;
+  const reg = regresi(T);
+  const total = T.reduce((a, b) => a + b, 0);
+  const salah = lajur.reduce((a, x) => a + x.s, 0);
+  return {
+    panker: bulat(total / n),                 // kecepatan: rata-rata tinggi lajur
+    tianker: salah,                           // ketelitian: jumlah salah (tidak ada lompatan di versi online)
+    janker: Math.max(...T) - Math.min(...T),  // keajegan: selisih lajur tertinggi dan terendah
+    hanker: bulat(reg.b * (n - 1)),           // ketahanan: perubahan garis regresi dari lajur pertama ke terakhir
+    totalDikerjakan: total, totalSalah: salah,
+    pembetulan: lajur.reduce((a, x) => a + x.p, 0), lajur
+  };
+}
+
+// Pauli: batas[p] = jumlah jawaban kumulatif saat periode p berakhir (tanda garis).
+function skorPauli(seed, cfg, jawaban, batas, pembetulan) {
+  const get = deretPauli(seed), P = jumlahPeriode(cfg), periode = [];
+  let awal = 0;
+  for (let p = 0; p < P; p++) {
+    const akhir = batas[p] == null ? awal : batas[p];
+    let s = 0;
+    for (let i = awal; i < akhir; i++) if (jawaban[i] !== kunci(get(i), get(i + 1))) s++;
+    periode.push({ n: akhir - awal, s, p: (pembetulan && pembetulan[p]) || 0 });
+    awal = akhir;
+  }
+  const N = periode.map(x => x.n);
+  const total = N.reduce((a, b) => a + b, 0);
+  const rr = total / P;
+  const totalSalah = periode.reduce((a, x) => a + x.s, 0);
+  const penyimpangan = rata(N.map(x => Math.abs(x - rr)));
+  const k = Math.max(1, Math.floor(P / 3));
+  const awalM = rata(N.slice(0, k)), akhirM = rata(N.slice(P - k));
+  return {
+    total, rataRata: bulat(rr), totalSalah,
+    persenSalah: total ? bulat(totalSalah / total * 100) : 0,
+    pembetulan: periode.reduce((a, x) => a + x.p, 0),
+    penyimpangan: bulat(penyimpangan),
+    persenPenyimpangan: rr ? bulat(penyimpangan / rr * 100) : 0,
+    tren: awalM ? bulat((akhirM - awalM) / awalM * 100) : 0, // % perubahan sepertiga akhir terhadap sepertiga awal
+    periode
+  };
+}
+
+// Nilai yang dibandingkan dengan norma; hasil uji coba disetarakan ke durasi penuh.
+function nilaiNorma(tes, h, mode, penuh) {
+  if (tes === 'kraepelin') {
+    const n = +h.jumlahLajur || penuh.kraepelin.jumlahLajur;
+    const sk = mode === 'Penuh' ? 1 : penuh.kraepelin.jumlahLajur / n;
+    return { panker: +h.panker, tianker: (+h.tianker) * sk, janker: +h.janker, hanker: +h.hanker };
+  }
+  const dur = +h.durasiMenit || penuh.pauli.durasiMenit;
+  return { total: (+h.total) * penuh.pauli.durasiMenit / dur, persenSalah: +h.persenSalah, persenPenyimpangan: +h.persenPenyimpangan, tren: +h.tren };
+}
+function levelDari(v, n) {
+  const b = n.batas.map(Number);
+  if (isNaN(v) || b.some(isNaN)) return null;
+  if (n.arah === 'turun') return v <= b[0] ? 4 : v <= b[1] ? 3 : v <= b[2] ? 2 : v <= b[3] ? 1 : 0;
+  return v < b[0] ? 0 : v < b[1] ? 1 : v < b[2] ? 2 : v < b[3] ? 3 : 4;
+}
+function hitungKategori(tes, h, mode, norma, penuh) {
+  const nilai = nilaiNorma(tes, h, mode, penuh);
+  return ASPEK[tes].map(a => {
+    const n = norma.find(r => r.tes === tes && r.aspek === a.key);
+    const level = n ? levelDari(nilai[a.key], n) : null;
+    return { aspek: a.key, nama: a.nama, nilai: nilai[a.key], level, label: level === null ? 'Norma belum diisi' : LEVEL[level] };
+  });
+}
+// ==/LOGIKA==
+
+/* ================= Status aplikasi ================= */
+const S = {
+  token: null, user: null, pengaturan: PENGATURAN_AWAL, selesai: [], norma: null, hasil: null, users: null,
+  tabAdmin: 'hasil', filterTes: 'semua', cari: '', singkat: DEMO
+};
+const bolehSingkat = () => DEMO || (S.user && S.user.role === 'admin');
+const jenisTes = () => (S.singkat && bolehSingkat()) ? 'singkat' : 'penuh';
+function cfgUntuk(tes, jenis) {
+  const src = jenis === 'latihan' ? CFG_LATIHAN : jenis === 'singkat' ? CFG_SINGKAT : S.pengaturan;
+  return Object.assign({}, src[tes]);
+}
+function normalPengaturan(p) {
+  p = p || {};
+  return {
+    kraepelin: Object.assign({}, PENGATURAN_AWAL.kraepelin, p.kraepelin),
+    pauli: Object.assign({}, PENGATURAN_AWAL.pauli, p.pauli),
+    izinUlang: !!p.izinUlang, tampilkanHasilKePeserta: !!p.tampilkanHasilKePeserta
+  };
+}
+function durasiTeks(menit) {
+  if (menit < 1) return Math.round(menit * 60) + ' detik';
+  return fmt(menit, 1) + ' menit';
+}
+
+/* ================= API ================= */
+function api(aksi, data) {
+  const isi = Object.assign({}, data || {}, { token: S.token });
+  return DEMO ? demoApi(aksi, isi) : apiRemote(aksi, isi);
+}
+async function apiRemote(aksi, isi) {
+  let res;
+  try {
+    res = await fetch(CFG.API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.assign({ action: aksi }, isi)), redirect: 'follow' });
+  } catch (e) { throw galat('Tidak bisa terhubung ke server. Periksa koneksi internet lalu coba lagi.', 'JARINGAN'); }
+  let j;
+  try { j = await res.json(); } catch (e) { throw galat('Server tidak memberi jawaban yang valid. Pastikan API_URL di config.js benar dan Web App sudah di-deploy untuk "Anyone".', 'JARINGAN'); }
+  if (!j.ok) throw galat(j.error || 'Terjadi kesalahan di server.', j.kode);
+  return j;
+}
+async function panggil(aksi, data) {
+  try { return await api(aksi, data); }
+  catch (e) {
+    if (e.kode === 'SESI') keluarLokal({ teks: 'Sesi Anda berakhir. Silakan masuk lagi.', jenis: 'peringatan' });
+    throw e;
+  }
+}
+
+/* ---------- Mode demo: data di browser ---------- */
+const PENGATURAN_DEMO = Object.assign({}, PENGATURAN_AWAL, { izinUlang: true, tampilkanHasilKePeserta: true });
+const Demo = {
+  kunci: 'psikotes_demo_v1', db: null,
+  muat() { if (!this.db) { this.db = bacaLokal(this.kunci) || isiDemo(); this.simpan(); } return this.db; },
+  simpan() { simpanLokal(this.kunci, this.db); }
+};
+function stempel(d) { const p = n => String(n).padStart(2, '0'); return String(d.getFullYear()).slice(2) + p(d.getMonth() + 1) + p(d.getDate()) + '-' + p(d.getHours()) + p(d.getMinutes()) + p(d.getSeconds()); }
+function buatRekam(tes, h, s, mode, norma, peng) {
+  const kat = hitungKategori(tes, h, mode, norma, peng);
+  return Object.assign({}, h, {
+    id: (tes === 'kraepelin' ? 'KR-' : 'PA-') + stempel(new Date()) + '-' + Math.random().toString(36).slice(2, 6).toUpperCase(),
+    username: s.username, nama: s.nama, mode,
+    kategoriTeks: kat.map(k => k.nama + ': ' + k.label).join('; '),
+    status: 'Draf', catatan: '', reviewer: '', waktuReview: ''
+  });
+}
+function cekAkun(username, nama, password) {
+  if (!/^[a-z0-9._-]{3,30}$/.test(username)) return 'Username 3–30 karakter: huruf kecil, angka, titik, minus, atau garis bawah.';
+  if (!nama) return 'Nama wajib diisi.';
+  if (password.length < 6) return 'Password minimal 6 karakter.';
+  return '';
+}
+function simulasiKraepelin(seed, cfg, r) {
+  const L = lembarKraepelin(seed, cfg.jumlahLajur, cfg.angkaPerLajur), jaw = [], pem = [];
+  for (let c = 0; c < cfg.jumlahLajur; c++) {
+    let h = Math.round(13 + 1.6 * Math.sin(c / 3.5) + (r() - 0.5) * 2.6 - c * 0.04);
+    h = Math.max(4, Math.min(cfg.angkaPerLajur - 1, h));
+    const a = [];
+    for (let j = 0; j < h; j++) { const k = kunci(L[c][j], L[c][j + 1]); a.push(r() < 0.99 ? k : (k + 1 + Math.floor(r() * 8)) % 10); }
+    jaw.push(a); pem.push(r() < 0.12 ? 1 : 0);
+  }
+  return { jawaban: jaw, pembetulan: pem };
+}
+function simulasiPauli(seed, cfg, r) {
+  const get = deretPauli(seed), P = jumlahPeriode(cfg), jaw = [], batas = [], pem = [];
+  for (let p = 0; p < P; p++) {
+    const n = Math.round(128 + 9 * Math.sin(p / 2.6) + (r() - 0.5) * 14 - p * 0.9);
+    for (let j = 0; j < n; j++) { const i = jaw.length, k = kunci(get(i), get(i + 1)); jaw.push(r() < 0.988 ? k : (k + 1 + Math.floor(r() * 8)) % 10); }
+    batas.push(jaw.length); pem.push(r() < 0.3 ? 1 : 0);
+  }
+  return { jawaban: jaw, batas, pembetulan: pem };
+}
+function isiDemo() {
+  const kini = new Date().toISOString();
+  const db = {
+    users: [
+      { username: 'admin', nama: 'Administrator', role: 'admin', aktif: true, password: 'admin123', dibuat: kini },
+      { username: 'peserta', nama: 'Budi Santoso', role: 'peserta', aktif: true, password: 'peserta123', dibuat: kini },
+      { username: 'rina', nama: 'Rina Putri (contoh)', role: 'peserta', aktif: true, password: 'rina1234', dibuat: kini }
+    ],
+    hasil: { kraepelin: [], pauli: [] }, sesi: {}
+  };
+  const r = mulberry32(4242), s = { username: 'rina', nama: 'Rina Putri (contoh)' };
+  const mulaiK = Date.now() - 26 * 3600e3;
+  const ck = PENGATURAN_DEMO.kraepelin, sk = simulasiKraepelin(20481, ck, r);
+  const tk = { tes: 'kraepelin', jenis: 'penuh', cfg: ck, seed: 20481, mulai: mulaiK, persetujuan: mulaiK - 60e3, jawaban: sk.jawaban };
+  db.hasil.kraepelin.push(buatRekam('kraepelin', payloadHasil(tk, skorKraepelin(20481, ck, sk.jawaban, sk.pembetulan)), s, 'Penuh', NORMA_AWAL, PENGATURAN_DEMO));
+  const cp = PENGATURAN_DEMO.pauli, sp = simulasiPauli(31337, cp, r);
+  const mulaiP = mulaiK + 20 * 60e3;
+  const tp = { tes: 'pauli', jenis: 'penuh', cfg: cp, seed: 31337, mulai: mulaiP, persetujuan: mulaiP - 60e3, jawaban: sp.jawaban };
+  db.hasil.pauli.push(buatRekam('pauli', payloadHasil(tp, skorPauli(31337, cp, sp.jawaban, sp.batas, sp.pembetulan)), s, 'Penuh', NORMA_AWAL, PENGATURAN_DEMO));
+  return db;
+}
+async function demoApi(aksi, d) {
+  await new Promise(r => setTimeout(r, 120));
+  const db = Demo.muat();
+  const sesi = () => { const s = db.sesi[d.token]; if (!s) throw galat('Sesi berakhir. Silakan masuk lagi.', 'SESI'); return s; };
+  const admin = () => { const s = sesi(); if (s.role !== 'admin') throw galat('Hanya admin yang boleh melakukan ini.'); return s; };
+  const cari = u => db.users.find(x => x.username === String(u || '').trim().toLowerCase());
+  const publik = u => ({ username: u.username, nama: u.nama, role: u.role });
+  const selesai = u => ['kraepelin', 'pauli'].filter(t => db.hasil[t].some(h => h.username === u && h.mode === 'Penuh'));
+  switch (aksi) {
+    case 'login': {
+      const u = cari(d.username);
+      if (!u || u.password !== String(d.password || '')) throw galat('Username atau password salah.');
+      if (!u.aktif) throw galat('Akun ini dinonaktifkan. Hubungi admin.');
+      const token = 'demo-' + seedBaru() + '-' + Date.now();
+      db.sesi[token] = publik(u); Demo.simpan();
+      return { token, user: publik(u), pengaturan: PENGATURAN_DEMO, selesai: selesai(u.username) };
+    }
+    case 'sesi': { const s = sesi(); return { user: s, pengaturan: PENGATURAN_DEMO, selesai: selesai(s.username) }; }
+    case 'logout': { delete db.sesi[d.token]; Demo.simpan(); return {}; }
+    case 'gantiPassword': {
+      const u = cari(sesi().username);
+      if (u.password !== String(d.lama || '')) throw galat('Password lama tidak cocok.');
+      if (String(d.baru || '').length < 6) throw galat('Password baru minimal 6 karakter.');
+      u.password = String(d.baru); Demo.simpan(); return {};
+    }
+    case 'simpanHasil': {
+      const s = sesi(), tes = d.tes, h = d.hasil || {};
+      if (!db.hasil[tes]) throw galat('Jenis tes tidak dikenal.');
+      const mode = h.mode === 'Uji coba' ? 'Uji coba' : 'Penuh';
+      if (mode === 'Penuh' && s.role !== 'admin' && !PENGATURAN_DEMO.izinUlang && selesai(s.username).includes(tes)) throw galat('Anda sudah menyelesaikan tes ini.', 'DUPLIKAT');
+      const rek = buatRekam(tes, h, s, mode, NORMA_AWAL, PENGATURAN_DEMO);
+      db.hasil[tes].push(rek); Demo.simpan();
+      const tampil = PENGATURAN_DEMO.tampilkanHasilKePeserta || s.role === 'admin';
+      return { id: rek.id, kategori: tampil ? hitungKategori(tes, rek, mode, NORMA_AWAL, PENGATURAN_DEMO) : null };
+    }
+    case 'daftarHasil': {
+      admin();
+      const out = [];
+      for (const t of ['kraepelin', 'pauli']) for (const h of db.hasil[t]) { const o = Object.assign({ tes: t }, h); delete o.data; delete o.jawaban; out.push(o); }
+      return { hasil: out };
+    }
+    case 'detailHasil': {
+      admin();
+      const h = (db.hasil[d.tes] || []).find(x => x.id === d.id);
+      if (!h) throw galat('Hasil tidak ditemukan.');
+      return { hasil: Object.assign({ tes: d.tes }, h) };
+    }
+    case 'simpanReview': {
+      const s = admin(), h = (db.hasil[d.tes] || []).find(x => x.id === d.id);
+      if (!h) throw galat('Hasil tidak ditemukan.');
+      h.status = d.status === 'Sudah direview' ? 'Sudah direview' : 'Draf';
+      h.catatan = String(d.catatan || ''); h.reviewer = s.nama; h.waktuReview = new Date().toISOString();
+      Demo.simpan();
+      return { reviewer: h.reviewer, waktuReview: h.waktuReview };
+    }
+    case 'daftarUser': { admin(); return { users: db.users.map(u => ({ username: u.username, nama: u.nama, role: u.role, aktif: u.aktif, dibuat: u.dibuat })) }; }
+    case 'tambahUser': {
+      admin();
+      const username = String(d.username || '').trim().toLowerCase(), nama = String(d.nama || '').trim(), password = String(d.password || '');
+      const salah = cekAkun(username, nama, password); if (salah) throw galat(salah);
+      if (cari(username)) throw galat('Username sudah dipakai.');
+      db.users.push({ username, nama, role: d.role === 'admin' ? 'admin' : 'peserta', aktif: true, password, dibuat: new Date().toISOString() });
+      Demo.simpan(); return {};
+    }
+    case 'ubahUser': {
+      const s = admin(), u = cari(d.username);
+      if (!u) throw galat('Akun tidak ditemukan.');
+      if (typeof d.aktif === 'boolean') {
+        if (u.username === s.username && !d.aktif) throw galat('Anda tidak bisa menonaktifkan akun sendiri.');
+        u.aktif = d.aktif;
+      }
+      if (d.passwordBaru) { if (String(d.passwordBaru).length < 6) throw galat('Password minimal 6 karakter.'); u.password = String(d.passwordBaru); }
+      Demo.simpan(); return {};
+    }
+    case 'norma': { admin(); return { norma: NORMA_AWAL }; }
+  }
+  throw galat('Aksi tidak dikenal.');
+}
+
+/* ================= Tampilan umum ================= */
+function render(html) { $('#app').innerHTML = html; window.scrollTo(0, 0); }
+const TANDA = '<svg width="22" height="26" viewBox="0 0 22 26" aria-hidden="true"><rect x="1" y="1" width="20" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 8h4M6 13h4M6 18h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M13 10.5h3M13 15.5h3" stroke="var(--biru)" stroke-width="2" stroke-linecap="round"/></svg>';
+function kepala() {
+  return `<div class="pita"><header class="kepala">
+    <div class="merek">${TANDA}<span>${esc(CFG.NAMA_LEMBAGA)}</span>${DEMO ? '<span class="chip biru">Mode demo</span>' : ''}</div>
+    ${S.user ? `<nav class="kepala-aksi" aria-label="Akun"><span class="siapa">${esc(S.user.nama)}</span>
+      <button class="tombol teks" data-aksi="beranda">Beranda</button>
+      <button class="tombol teks" data-aksi="akun">Akun</button>
+      <button class="tombol teks" data-aksi="keluar">Keluar</button></nav>` : ''}
+  </header></div>`;
+}
+const notis = (teks, jenis) => `<p class="notis ${jenis || ''}">${esc(teks)}</p>`;
+function potonganLembar() {
+  const r = mulberry32(97), tinggi = [6, 4, 5, 3];
+  let html = '<div class="potongan" aria-hidden="true">';
+  for (let c = 0; c < 4; c++) {
+    const d = []; for (let i = 0; i < 9; i++) d.push(1 + Math.floor(r() * 9));
+    html += '<div class="pot-lajur">';
+    for (let i = 8; i >= 0; i--) {
+      html += `<span class="pa">${d[i]}</span>`;
+      if (i > 0) { const j = i - 1; html += `<span class="pj">${j < tinggi[c] ? kunci(d[j], d[j + 1]) : ''}</span>`; }
+    }
+    html += '</div>';
+  }
+  return html + '</div>';
+}
+
+/* ================= Masuk ================= */
+function vLogin(pesan) {
+  render(kepala() + `<main class="wrap masuk">
+    <section class="masuk-intro">
+      <p class="eyebrow">Tes kurva kerja</p>
+      <h1>Kraepelin &amp; Pauli</h1>
+      <p class="lead">Kerjakan tes penjumlahan berwaktu dari ponsel atau komputer. Jawaban tersimpan otomatis, lalu dihitung menjadi kurva kerja untuk ditinjau psikolog.</p>
+      ${potonganLembar()}
+    </section>
+    <section class="lembar masuk-form">
+      <h2>Masuk</h2>
+      ${pesan ? notis(pesan.teks, pesan.jenis) : ''}
+      <form data-form="masuk" novalidate>
+        <label class="isian"><span>Username</span><input id="f-user" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
+        <label class="isian"><span>Password</span><input id="f-pass" name="password" type="password" autocomplete="current-password" required></label>
+        <button class="tombol utama lebar" type="submit">Masuk</button>
+      </form>
+      ${DEMO ? `<div class="notis">
+        <b>Mode demo.</b> Data hanya tersimpan di browser ini. Masuk dengan salah satu akun contoh:
+        <div class="akun-demo">
+          <button class="tombol sekunder" data-aksi="masuk-demo" data-u="peserta" data-p="peserta123">Sebagai peserta <span>peserta / peserta123</span></button>
+          <button class="tombol sekunder" data-aksi="masuk-demo" data-u="admin" data-p="admin123">Sebagai admin <span>admin / admin123</span></button>
+        </div></div>` : ''}
+    </section>
+  </main>`);
+}
+async function masuk(username, password) {
+  const btn = $('form[data-form="masuk"] button[type="submit"]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Memeriksa…'; }
+  try {
+    const r = await api('login', { username, password });
+    terimaSesi(r);
+    keBeranda();
+  } catch (e) {
+    vLogin({ teks: e.message, jenis: 'galat' });
+    const f = $('#f-user'); if (f) f.value = username;
+  }
+}
+function terimaSesi(r) {
+  S.user = r.user; S.pengaturan = normalPengaturan(r.pengaturan); S.selesai = r.selesai || [];
+  if (r.token) { S.token = r.token; simpanLokal('psikotes_token', r.token); }
+}
+function keluarLokal(pesan) {
+  S.token = null; S.user = null; S.hasil = null; S.users = null; S.norma = null;
+  simpanLokal('psikotes_token', null);
+  vLogin(pesan);
+}
+function keBeranda() { if (S.user.role === 'admin') vAdmin(); else vBeranda(); }
+
+/* ================= Peserta ================= */
+function bannerLanjutan() {
+  if (!S.user) return '';
+  const u = S.user.username; let html = '';
+  const td = bacaLokal('psikotes_tertunda');
+  if (td && td.user === u) {
+    html += `<div class="notis peringatan banner"><div><b>Hasil tes ${NAMA_TES[td.tes]} belum terkirim.</b> Jawaban Anda aman tersimpan di perangkat ini.</div>
+      <button class="tombol utama kecil" data-aksi="kirim-ulang">Kirim sekarang</button></div>`;
+  }
+  const pg = bacaLokal('psikotes_progres');
+  if (pg && pg.user === u) {
+    const habis = Date.now() >= pg.mulai + durasiMs(pg);
+    html += `<div class="notis peringatan banner"><div><b>Tes ${NAMA_TES[pg.tes]} terhenti di tengah jalan.</b> ${habis ? 'Waktunya sudah habis. Kirim jawaban yang sempat tersimpan.' : 'Waktu tes tetap berjalan sejak dimulai, jadi lanjutkan secepatnya.'}</div>
+      <button class="tombol utama kecil" data-aksi="lanjutkan-tes">${habis ? 'Kirim hasil' : 'Lanjutkan tes'}</button></div>`;
+  }
+  return html;
+}
+function saklarSingkat() {
+  if (!bolehSingkat()) return '';
+  return `<label class="saklar"><input type="checkbox" id="f-singkat" data-ubah="singkat" ${S.singkat ? 'checked' : ''}>
+    <span><b>Durasi singkat untuk mencoba</b><small>Kraepelin 8 lajur (2 menit), Pauli 3 menit. Hasil ditandai “Uji coba” dan skornya disetarakan ke durasi penuh.</small></span></label>`;
+}
+function kartuTes(tes) {
+  const c = cfgUntuk(tes, jenisTes());
+  const sudah = S.selesai.includes(tes);
+  const terkunci = sudah && !S.pengaturan.izinUlang && S.user.role !== 'admin';
+  const fakta = tes === 'kraepelin'
+    ? [['Lajur', c.jumlahLajur], ['Per lajur', c.detikPerLajur + ' dtk'], ['Total', durasiTeks(c.jumlahLajur * c.detikPerLajur / 60)]]
+    : [['Total', durasiTeks(c.durasiMenit)], ['Tanda garis', 'tiap ' + durasiTeks(c.menitPerPeriode)], ['Periode', jumlahPeriode(c)]];
+  const desk = tes === 'kraepelin'
+    ? 'Penjumlahan cepat per lajur dengan pergantian lajur berkala. Melihat kecepatan, ketelitian, keajegan, dan ketahanan kerja.'
+    : 'Penjumlahan berkelanjutan dalam waktu panjang. Melihat kapasitas, ketelitian, stabilitas, dan ketahanan kerja.';
+  return `<article class="lembar kartu">
+    <div class="kartu-kepala"><h2>Tes ${NAMA_TES[tes]}</h2>${sudah ? '<span class="chip ok">Selesai</span>' : '<span class="chip">Belum dikerjakan</span>'}</div>
+    <p class="desk">${desk}</p>
+    <dl class="fakta">${fakta.map(([l, v]) => `<div><dt>${l}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
+    ${terkunci ? '<p class="catatan-kecil">Tes ini sudah Anda selesaikan. Terima kasih.</p>'
+      : `<button class="tombol ${sudah ? 'sekunder' : 'utama'}" data-aksi="petunjuk" data-tes="${tes}">${sudah ? 'Kerjakan lagi' : 'Baca petunjuk & mulai'}</button>`}
+  </article>`;
+}
+function vBeranda() {
+  render(kepala() + `<main class="wrap">
+    <div class="tumpuk"><p class="eyebrow">Selamat datang</p><h1>${esc(S.user.nama)}</h1>
+    <p class="lead">Kerjakan tes yang diminta. Siapkan waktu tanpa gangguan, karena tes tidak bisa dijeda setelah dimulai.</p></div>
+    ${bannerLanjutan()}
+    ${saklarSingkat()}
+    <div class="kartu-tes">${['kraepelin', 'pauli'].map(kartuTes).join('')}</div>
+  </main>`);
+}
+
+/* ================= Instruksi ================= */
+function stripContoh(tes) {
+  if (tes === 'kraepelin') {
+    return `<div class="strip mini" aria-hidden="true">
+      <div class="r angka"><span class="d">4</span><span></span></div>
+      <div class="pasang"><div class="r angka"><span class="d">3</span><span></span></div>
+      <div class="r slot"><span></span><span class="j"><i class="kursor"></i></span></div>
+      <div class="r angka"><span class="d">7</span><span></span></div></div>
+      <div class="r slot"><span></span><span class="j">5</span></div>
+      <div class="r angka lalu"><span class="d">8</span><span></span></div>
+    </div><p class="catatan-kecil">8 + 7 = 15 → ketik 5.<br>Berikutnya 7 + 3 = 10 → ketik 0.</p>`;
+  }
+  return `<div class="strip mini" aria-hidden="true">
+    <div class="r angka lalu"><span class="d">6</span><span></span></div>
+    <div class="r slot"><span></span><span class="j">5</span></div>
+    <div class="pasang"><div class="r angka"><span class="d">9</span><span></span></div>
+    <div class="r slot"><span></span><span class="j"><i class="kursor"></i></span></div>
+    <div class="r angka"><span class="d">4</span><span></span></div></div>
+    <div class="r angka"><span class="d">2</span><span></span></div>
+  </div><p class="catatan-kecil">6 + 9 = 15 → ketik 5.<br>Berikutnya 9 + 4 = 13 → ketik 3.</p>`;
+}
+function panelKonfirmasi(tes) {
+  const jenis = jenisTes(), c = cfgUntuk(tes, jenis);
+  const lama = tes === 'kraepelin' ? durasiTeks(c.jumlahLajur * c.detikPerLajur / 60) : durasiTeks(c.durasiMenit);
+  return `<div class="lembar konfirmasi" id="konfirmasi" hidden>
+    <h3>Mulai tes sekarang?</h3>
+    <p>Tes berlangsung ${lama} dan tidak bisa dijeda. Pastikan baterai cukup dan Anda tidak akan terganggu.</p>
+    <label class="setuju"><input type="checkbox" id="f-setuju" data-ubah="setuju"><span>Saya setuju jawaban dan hasil tes ini diproses untuk keperluan asesmen oleh lembaga penyelenggara.</span></label>
+    <div class="aksi"><button class="tombol sekunder" data-aksi="batal-mulai">Batal</button>
+    <button class="tombol utama" id="tombol-mulai" data-aksi="mulai" data-tes="${tes}" disabled>Ya, mulai tes</button></div>
+  </div>`;
+}
+function vInstruksi(tes) {
+  const jenis = jenisTes(), c = cfgUntuk(tes, jenis), K = tes === 'kraepelin';
+  const langkah = K ? [
+    'Layar menampilkan satu lajur angka. Kerjakan <b>dari bawah ke atas</b>.',
+    'Jumlahkan dua angka yang bersebelahan, lalu ketik <b>angka terakhir</b> dari hasilnya. Contoh: 8 + 7 = 15, ketik <b>5</b>.',
+    `Setiap ${c.detikPerLajur} detik muncul aba-aba <b>PINDAH</b>. Lajur langsung berganti walaupun lajur sebelumnya belum selesai.`,
+    'Salah ketik? Tekan <b>Koreksi</b> untuk menghapus jawaban terakhir, lalu ketik ulang.',
+    `Kerjakan secepat dan seteliti mungkin. Tes berakhir sendiri setelah ${c.jumlahLajur} lajur.`
+  ] : [
+    'Angka tersusun memanjang. Kerjakan <b>dari atas ke bawah</b>.',
+    'Jumlahkan dua angka yang bersebelahan, lalu ketik <b>angka terakhir</b> dari hasilnya. Contoh: 6 + 9 = 15, ketik <b>5</b>.',
+    `Setiap ${durasiTeks(c.menitPerPeriode)} muncul tanda <b>GARIS</b>. Itu hanya penanda waktu; teruskan bekerja tanpa berhenti.`,
+    'Salah ketik? Tekan <b>Koreksi</b> untuk menghapus jawaban terakhir, lalu ketik ulang.',
+    `Bekerjalah dengan tempo yang bisa Anda pertahankan selama ${durasiTeks(c.durasiMenit)}. Tes berakhir sendiri.`
+  ];
+  render(kepala() + `<main class="wrap">
+    <button class="tombol teks" data-aksi="beranda" style="align-self:flex-start">← Kembali</button>
+    <div class="tumpuk"><p class="eyebrow">Petunjuk</p><h1>Tes ${NAMA_TES[tes]}</h1></div>
+    ${jenis === 'singkat' ? notis('Durasi singkat aktif. Hasil ditandai “Uji coba”.', 'peringatan') : ''}
+    <div class="instruksi">
+      <section class="lembar tumpuk" style="gap:18px">
+        <h2>Cara mengerjakan</h2>
+        <ol class="langkah">${langkah.map(l => `<li><span>${l}</span></li>`).join('')}</ol>
+        <h3>Sebelum mulai</h3>
+        <ul class="siap">
+          <li>Di ponsel, pegang tegak dan pakai tombol angka di layar. Di komputer, pakai tombol angka dan Backspace untuk koreksi.</li>
+          <li>Jangan menutup atau memuat ulang halaman selama tes. Bila terpaksa, buka lagi lalu pilih “Lanjutkan tes”.</li>
+          <li>Internet hanya dibutuhkan saat mengirim hasil di akhir.</li>
+        </ul>
+      </section>
+      <aside class="sisi">
+        <div class="lembar contoh"><p class="eyebrow">Contoh</p>${stripContoh(tes)}</div>
+        <div class="aksi" style="flex-direction:column;align-items:stretch">
+          <button class="tombol sekunder" data-aksi="latihan" data-tes="${tes}">Latihan dulu (30 detik)</button>
+          <button class="tombol utama" data-aksi="tanya-mulai">Mulai tes</button>
+        </div>
+        ${panelKonfirmasi(tes)}
+      </aside>
+    </div>
+  </main>`);
+}
+function vLatihanSelesai(t, skor) {
+  const K = t.tes === 'kraepelin';
+  const dikerjakan = K ? skor.totalDikerjakan : skor.total, salah = skor.totalSalah;
+  render(kepala() + `<main class="wrap sempit">
+    <div class="tumpuk"><p class="eyebrow">Latihan ${NAMA_TES[t.tes]}</p><h1>Latihan selesai</h1>
+    <p class="lead">Anda mengerjakan <b>${dikerjakan}</b> penjumlahan dengan <b>${salah}</b> jawaban salah. Hasil latihan tidak disimpan.</p></div>
+    <div class="aksi"><button class="tombol sekunder" data-aksi="latihan" data-tes="${t.tes}">Ulangi latihan</button>
+    <button class="tombol utama" data-aksi="tanya-mulai">Mulai tes sesungguhnya</button></div>
+    ${panelKonfirmasi(t.tes)}
+  </main>`);
+}
+
+/* ================= Mesin tes ================= */
+let T = null, ticker = null, kunciLayar = null, audio = null, terakhirSimpan = 0, abaTimer = null;
+
+function mulaiTes(tes, jenis, lanjut) {
+  try {
+    if (!audio) audio = new (window.AudioContext || window.webkitAudioContext)();
+    if (audio.resume) audio.resume();
+  } catch (e) { audio = null; }
+  if (lanjut) T = Object.assign({}, lanjut);
+  else T = { tes, jenis, user: S.user.username, cfg: cfgUntuk(tes, jenis), seed: seedBaru(), mulai: Date.now() + 3200, persetujuan: jenis === 'latihan' ? null : Date.now(), jawaban: [], pembetulan: [], batas: [], aktif: 0, dihapus: {} };
+  T.jawaban = T.jawaban || []; T.pembetulan = T.pembetulan || []; T.batas = T.batas || []; T.dihapus = T.dihapus || {};
+  T.berhenti = false; T.hitung = null; T.mulaiDitandai = Date.now() >= T.mulai;
+  if (T.tes === 'kraepelin') T.lembar = lembarKraepelin(T.seed, T.cfg.jumlahLajur, T.cfg.angkaPerLajur);
+  else T.get = deretPauli(T.seed);
+  bangunLayarTes(); gambarStrip(); simpanProgres(true); mintaWakeLock();
+  clearInterval(ticker); ticker = setInterval(tick, 100); tick();
+}
+function bangunLayarTes() {
+  const L = $('#layar-tes'), K = T.tes === 'kraepelin';
+  const label = T.jenis === 'latihan' ? 'Latihan' : T.jenis === 'singkat' ? 'Uji coba' : '';
+  L.innerHTML = `<div class="tes-kepala">
+      <div class="tes-judul">${K ? 'KRAEPELIN' : 'PAULI'}${label ? `<span class="chip biru">${label}</span>` : ''}</div>
+      <div class="tes-kanan"><span class="tes-posisi" id="t-posisi"></span>${T.jenis === 'latihan' ? '<button class="tombol teks kecil" data-aksi="hentikan-latihan">Hentikan</button>' : ''}</div>
+    </div>
+    <div class="bar" aria-hidden="true"><i id="t-total"></i></div>
+    <div class="bar bagian" aria-hidden="true"><i id="t-bagian"></i></div>
+    <div class="strip-wadah"><div class="strip" id="t-strip"></div>
+      <p class="penuh" id="t-penuh" hidden>Lajur ini sudah habis. Tunggu aba-aba PINDAH.</p>
+      <div class="aba" id="t-aba" hidden></div></div>
+    <p class="arah">${K ? 'Kerjakan dari bawah ke atas ↑' : 'Kerjakan dari atas ke bawah ↓'}</p>
+    <div class="papan" id="t-papan">
+      ${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(d => `<button type="button" data-k="${d}">${d}</button>`).join('')}
+      <button type="button" data-k="koreksi" class="koreksi">Koreksi</button>
+      <button type="button" data-k="0" class="nol">0</button>
+    </div>`;
+  L.hidden = false;
+  document.documentElement.classList.add('tes-aktif');
+  T.el = { total: $('#t-total'), bagian: $('#t-bagian'), posisi: $('#t-posisi') };
+}
+function tutupLayarTes() {
+  const L = $('#layar-tes'); L.hidden = true; L.innerHTML = '';
+  document.documentElement.classList.remove('tes-aktif');
+}
+function gambarStrip() {
+  const el = $('#t-strip'); if (!el || !T) return;
+  const K = T.tes === 'kraepelin';
+  let digit, jawab, pos, maxIdx, penuh = false, garis = null;
+  if (K) {
+    const col = T.lembar[Math.min(T.aktif, T.lembar.length - 1)], arr = T.jawaban[T.aktif] || [];
+    pos = arr.length; maxIdx = col.length - 1; penuh = pos >= maxIdx;
+    digit = i => col[i]; jawab = i => arr[i];
+  } else {
+    pos = T.jawaban.length; maxIdx = Infinity;
+    digit = i => T.get(i); jawab = i => T.jawaban[i]; garis = new Set(T.batas);
+  }
+  const p = penuh ? pos - 1 : pos, SISI = 3, idx = [];
+  if (K) for (let i = p + 1 + SISI; i >= p - SISI; i--) idx.push(i);
+  else for (let i = p - SISI; i <= p + 1 + SISI; i++) idx.push(i);
+  const baris = [];
+  for (let k = 0; k < idx.length; k++) {
+    const i = idx[k], ada = i >= 0 && i <= maxIdx;
+    baris.push({ html: ada ? `<div class="r angka${i < p ? ' lalu' : ''}"><span class="d">${digit(i)}</span><span></span></div>` : '<div class="r angka kosong"></div>', pasang: ada && (i === p || i === p + 1) });
+    if (k < idx.length - 1) {
+      const a = Math.min(i, idx[k + 1]), sah = a >= 0 && a + 1 <= maxIdx;
+      let isi = '<span class="j"></span>', kls = '';
+      if (sah) {
+        if (a < pos) isi = `<span class="j">${jawab(a)}</span>`;
+        else if (a === pos && !penuh) isi = '<span class="j"><i class="kursor"></i></span>';
+        if (garis && a < pos && garis.has(a + 1)) kls = ' garis';
+      }
+      baris.push({ html: `<div class="r slot${kls}"><span></span>${isi}</div>`, pasang: sah && a === p });
+    }
+  }
+  let out = '', buka = false;
+  for (const b of baris) {
+    if (b.pasang && !buka) { out += '<div class="pasang">'; buka = true; }
+    if (!b.pasang && buka) { out += '</div>'; buka = false; }
+    out += b.html;
+  }
+  if (buka) out += '</div>';
+  el.innerHTML = out;
+  const pn = $('#t-penuh'); if (pn) pn.hidden = !penuh;
+}
+function tick() {
+  if (!T || T.berhenti) return;
+  const el = Date.now() - T.mulai;
+  if (el < 0) {
+    const s = Math.ceil(-el / 1000);
+    if (s !== T.hitung) { T.hitung = s; aba(String(s), 'hitung', 0, false); }
+    setBar(0, 0); return;
+  }
+  if (!T.mulaiDitandai) { T.mulaiDitandai = true; const a = $('#t-aba'); if (a) a.hidden = true; bunyi(880, 0.15); }
+  const total = durasiMs(T);
+  if (el >= total) { akhiriTes(); return; }
+  if (T.tes === 'kraepelin') {
+    const per = T.cfg.detikPerLajur * 1000, n = T.cfg.jumlahLajur, c = Math.floor(el / per);
+    if (c !== T.aktif) { T.aktif = c; T.dihapus = {}; gambarStrip(); aba('PINDAH', 'pindah', 650); simpanProgres(true); }
+    setBar(el / total, (el % per) / per);
+    teksPosisi(`Lajur ${c + 1} / ${n}`);
+  } else {
+    const per = Math.round(T.cfg.menitPerPeriode * 60000), P = jumlahPeriode(T.cfg), p = Math.min(P - 1, Math.floor(el / per));
+    if (p !== T.aktif) {
+      for (let q = T.aktif; q < p; q++) T.batas[q] = T.jawaban.length;
+      T.aktif = p; T.dihapus = {}; gambarStrip(); aba('<span>GARIS</span>', 'garis', 1100); simpanProgres(true);
+    }
+    setBar(el / total, (el - p * per) / per);
+    teksPosisi(`Periode ${p + 1} / ${P}`);
+  }
+}
+function setBar(a, b) { if (!T || !T.el) return; T.el.total.style.width = (a * 100).toFixed(2) + '%'; T.el.bagian.style.width = (b * 100).toFixed(2) + '%'; }
+function teksPosisi(t) { if (T && T.el && T.el.posisi.textContent !== t) T.el.posisi.textContent = t; }
+function aba(html, kelas, lama, suara = true) {
+  const el = $('#t-aba'); if (!el) return;
+  el.innerHTML = html; el.className = 'aba ' + (kelas || ''); el.hidden = false;
+  void el.offsetWidth; el.classList.add('muncul');
+  clearTimeout(abaTimer);
+  if (lama) abaTimer = setTimeout(() => { el.hidden = true; }, lama);
+  if (suara) bunyi(kelas === 'garis' ? 520 : 760, 0.14);
+}
+function bunyi(f, dur) {
+  if (!audio) return;
+  try {
+    const o = audio.createOscillator(), g = audio.createGain(), t0 = audio.currentTime;
+    o.type = 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(0.22, t0 + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(audio.destination); o.start(t0); o.stop(t0 + dur + 0.02);
+  } catch (e) { /* suara opsional */ }
+}
+function tekan(k) {
+  if (!T || T.berhenti || Date.now() < T.mulai) return;
+  if (k === 'koreksi') { koreksi(); return; }
+  const d = +k; if (!(d >= 0 && d <= 9)) return;
+  if (T.tes === 'kraepelin') {
+    const c = T.aktif, arr = T.jawaban[c] || (T.jawaban[c] = []);
+    if (arr.length >= T.cfg.angkaPerLajur - 1) return;
+    catatUlang(arr.length, d, c); arr.push(d);
+  } else {
+    catatUlang(T.jawaban.length, d, T.aktif); T.jawaban.push(d);
+  }
+  gambarStrip(); simpanProgres();
+}
+// Pembetulan dihitung saat jawaban yang dihapus diganti dengan angka berbeda.
+function catatUlang(pos, d, bagian) {
+  if (pos in T.dihapus) {
+    if (T.dihapus[pos] !== d) T.pembetulan[bagian] = (T.pembetulan[bagian] || 0) + 1;
+    delete T.dihapus[pos];
+  }
+}
+function koreksi() {
+  if (T.tes === 'kraepelin') {
+    const arr = T.jawaban[T.aktif]; if (!arr || !arr.length) return;
+    T.dihapus[arr.length - 1] = arr.pop();
+  } else {
+    const min = T.aktif > 0 ? (T.batas[T.aktif - 1] || 0) : 0;
+    if (T.jawaban.length <= min) return;
+    T.dihapus[T.jawaban.length - 1] = T.jawaban.pop();
+  }
+  gambarStrip(); simpanProgres();
+}
+function tekanTombol(b) { tekan(b.dataset.k); b.classList.add('ditekan'); setTimeout(() => b.classList.remove('ditekan'), 90); }
+function simpanProgres(paksa) {
+  if (!T || T.jenis === 'latihan' || T.berhenti) return;
+  const kini = Date.now(); if (!paksa && kini - terakhirSimpan < 1500) return;
+  terakhirSimpan = kini;
+  simpanLokal('psikotes_progres', { tes: T.tes, jenis: T.jenis, user: T.user, cfg: T.cfg, seed: T.seed, mulai: T.mulai, persetujuan: T.persetujuan, jawaban: T.jawaban, pembetulan: T.pembetulan, batas: T.batas, aktif: T.aktif, dihapus: T.dihapus });
+}
+async function mintaWakeLock() { try { kunciLayar = navigator.wakeLock ? await navigator.wakeLock.request('screen') : null; } catch (e) { kunciLayar = null; } }
+function lepasWakeLock() { try { if (kunciLayar) kunciLayar.release(); } catch (e) { /* abaikan */ } kunciLayar = null; }
+function hitungSkor(t) { return t.tes === 'kraepelin' ? skorKraepelin(t.seed, t.cfg, t.jawaban, t.pembetulan) : skorPauli(t.seed, t.cfg, t.jawaban, t.batas, t.pembetulan); }
+function payloadHasil(t, skor) {
+  const mode = t.jenis === 'singkat' ? 'Uji coba' : 'Penuh';
+  const umum = { mode, mulai: new Date(t.mulai).toISOString(), selesai: new Date(t.mulai + durasiMs(t)).toISOString(), persetujuan: t.persetujuan ? new Date(t.persetujuan).toISOString() : '', seed: t.seed };
+  if (t.tes === 'kraepelin') {
+    return Object.assign(umum, {
+      jumlahLajur: t.cfg.jumlahLajur, angkaPerLajur: t.cfg.angkaPerLajur, detikPerLajur: t.cfg.detikPerLajur,
+      panker: skor.panker, tianker: skor.tianker, janker: skor.janker, hanker: skor.hanker,
+      totalDikerjakan: skor.totalDikerjakan, totalSalah: skor.totalSalah, pembetulan: skor.pembetulan, data: skor.lajur,
+      jawaban: Array.from({ length: t.cfg.jumlahLajur }, (_, c) => (t.jawaban[c] || []).join('')).join('|')
+    });
+  }
+  return Object.assign(umum, {
+    durasiMenit: t.cfg.durasiMenit, menitPerPeriode: t.cfg.menitPerPeriode,
+    total: skor.total, rataRata: skor.rataRata, totalSalah: skor.totalSalah, persenSalah: skor.persenSalah, pembetulan: skor.pembetulan,
+    penyimpangan: skor.penyimpangan, persenPenyimpangan: skor.persenPenyimpangan, tren: skor.tren, data: skor.periode,
+    jawaban: t.jawaban.join('')
+  });
+}
+function akhiriTes() {
+  clearInterval(ticker); ticker = null;
+  const t = T; t.berhenti = true; lepasWakeLock();
+  if (t.tes === 'pauli') { const P = jumlahPeriode(t.cfg); for (let q = t.aktif; q < P; q++) t.batas[q] = t.jawaban.length; }
+  const skor = hitungSkor(t);
+  let kiriman = null;
+  if (t.jenis !== 'latihan') {
+    kiriman = { user: t.user, tes: t.tes, hasil: payloadHasil(t, skor) };
+    simpanLokal('psikotes_tertunda', kiriman); simpanLokal('psikotes_progres', null);
+  }
+  aba('SELESAI', 'selesai', 0, false); bunyi(660, 0.35);
+  setTimeout(() => {
+    tutupLayarTes(); T = null;
+    if (t.jenis === 'latihan') vLatihanSelesai(t, skor); else kirimHasil(kiriman);
+  }, 1100);
+}
+function hentikanLatihan() {
+  if (!T) return;
+  const tes = T.tes; clearInterval(ticker); ticker = null; T.berhenti = true; lepasWakeLock();
+  tutupLayarTes(); T = null; vInstruksi(tes);
+}
+
+/* ================= Kirim hasil ================= */
+async function kirimHasil(kiriman) {
+  if (!kiriman) return keBeranda();
+  simpanLokal('psikotes_tertunda', kiriman);
+  render(kepala() + `<main class="wrap sempit"><div class="tumpuk"><p class="eyebrow">Tes ${NAMA_TES[kiriman.tes]}</p><h1>Menyimpan jawaban…</h1><p class="lead">Jangan tutup halaman ini.</p></div></main>`);
+  try {
+    const r = await api('simpanHasil', { tes: kiriman.tes, hasil: kiriman.hasil });
+    simpanLokal('psikotes_tertunda', null);
+    if (kiriman.hasil.mode === 'Penuh' && !S.selesai.includes(kiriman.tes)) S.selesai.push(kiriman.tes);
+    S.hasil = null;
+    vSelesaiTes(kiriman, r);
+  } catch (e) {
+    if (e.kode === 'DUPLIKAT') simpanLokal('psikotes_tertunda', null);
+    vGagalKirim(kiriman, e);
+  }
+}
+function vGagalKirim(kiriman, e) {
+  const sesi = e.kode === 'SESI', dup = e.kode === 'DUPLIKAT';
+  render(kepala() + `<main class="wrap sempit">
+    <div class="tumpuk"><p class="eyebrow">Tes ${NAMA_TES[kiriman.tes]}</p><h1>${dup ? 'Tes sudah pernah diselesaikan' : 'Jawaban belum terkirim'}</h1></div>
+    ${notis(sesi ? 'Sesi login Anda berakhir. Masuk lagi untuk mengirim; jawaban tetap tersimpan di perangkat ini.' : e.message, dup ? 'peringatan' : 'galat')}
+    ${dup ? '' : '<p class="lead">Jawaban Anda tersimpan aman di perangkat ini sampai berhasil terkirim.</p>'}
+    <div class="aksi">
+      ${sesi ? '<button class="tombol utama" data-aksi="masuk-ulang">Masuk lagi</button>'
+      : dup ? '' : '<button class="tombol utama" data-aksi="kirim-ulang">Kirim ulang</button>'}
+      ${sesi ? '' : '<button class="tombol sekunder" data-aksi="beranda">Kembali ke beranda</button>'}
+    </div></main>`);
+}
+function vSelesaiTes(kiriman, r) {
+  const tes = kiriman.tes, h = kiriman.hasil;
+  render(kepala() + `<main class="wrap sempit">
+    <div class="tumpuk"><p class="eyebrow">Tes ${NAMA_TES[tes]} selesai${h.mode !== 'Penuh' ? ' · Uji coba' : ''}</p>
+    <h1>Terima kasih, jawaban Anda sudah tersimpan.</h1>
+    ${r.kategori ? '<p class="lead">Berikut gambaran awal hasil tes Anda.</p>' : '<p class="lead">Hasil akan ditinjau oleh psikolog. Anda bisa menutup halaman ini atau lanjut ke tes berikutnya.</p>'}</div>
+    ${r.kategori ? `<section class="lembar">${blokInterpretasi(tes, r.kategori, h.pembetulan)}</section>` : ''}
+    <div class="aksi">
+      ${S.user.role === 'admin' && r.id ? `<button class="tombol sekunder" data-aksi="buka-hasil" data-tes="${tes}" data-id="${esc(r.id)}">Lihat detail hasil</button>` : ''}
+      <button class="tombol utama" data-aksi="beranda">Kembali ke beranda</button>
+    </div></main>`);
+}
+function blokInterpretasi(tes, kat, pembetulan) {
+  return `<div class="interp">
+    ${kat.map(k => `<div class="interp-baris"><div class="interp-kepala"><h3>${esc(k.nama)}</h3><span class="chip ${k.level == null ? '' : 'l' + k.level}">${esc(k.label)}</span></div>
+      <p>${k.level == null ? 'Batas norma untuk aspek ini belum diisi di sheet Norma.' : esc(TEKS[tes][k.aspek][k.level])}</p></div>`).join('')}
+    ${pembetulan != null ? `<p class="catatan-kecil">Pembetulan: ${fmt(pembetulan, 0)} kali. Pembetulan menunjukkan peserta memeriksa ulang dan memperbaiki jawabannya sendiri.</p>` : ''}
+    <p class="catatan-kecil">Draf otomatis berdasarkan norma yang terpasang. Bukan diagnosis; wajib ditinjau psikolog sebelum dipakai untuk keputusan apa pun.</p>
+  </div>`;
+}
+
+/* ================= Admin ================= */
+const TAB = [['hasil', 'Hasil tes'], ['peserta', 'Peserta'], ['norma', 'Norma'], ['coba', 'Coba tes']];
+function vAdmin(tab) {
+  if (tab) S.tabAdmin = tab;
+  const t = S.tabAdmin;
+  render(kepala() + `<main class="wrap">
+    <div class="tumpuk"><p class="eyebrow">Panel admin</p><h1>${TAB.find(x => x[0] === t)[1]}</h1></div>
+    ${bannerLanjutan()}
+    <nav class="tab" role="tablist">${TAB.map(([k, l]) => `<button role="tab" aria-selected="${k === t}" data-aksi="tab" data-tab="${k}">${l}</button>`).join('')}</nav>
+    <section id="isi-tab"><p class="memuat">Memuat…</p></section>
+  </main>`);
+  if (t === 'hasil') tabHasil(); else if (t === 'peserta') tabPeserta(); else if (t === 'norma') tabNorma(); else tabCoba();
+}
+const isiTab = html => { const b = $('#isi-tab'); if (b) b.innerHTML = html; };
+async function tabHasil() {
+  try {
+    if (!S.hasil) { const r = await panggil('daftarHasil'); S.hasil = (r.hasil || []).sort((a, b) => new Date(b.selesai) - new Date(a.selesai)); }
+  } catch (e) { if (e.kode !== 'SESI') isiTab(notis(e.message, 'galat')); return; }
+  isiTab(`<div class="saring">
+      <div class="seg" role="group" aria-label="Jenis tes">${[['semua', 'Semua'], ['kraepelin', 'Kraepelin'], ['pauli', 'Pauli']].map(([k, l]) => `<button data-aksi="saring-tes" data-v="${k}" aria-pressed="${S.filterTes === k}">${l}</button>`).join('')}</div>
+      <label class="cari"><span class="sr">Cari nama</span><input id="f-cari" type="search" placeholder="Cari nama atau username" value="${esc(S.cari)}" data-input="cari"></label>
+      <button class="tombol teks" data-aksi="muat-ulang">Muat ulang</button>
+    </div>
+    <p class="hitung" id="hitung-hasil"></p>
+    <div id="daftar-hasil"></div>`);
+  gambarDaftarHasil();
+}
+function ringkasMetrik(h) {
+  return h.tes === 'kraepelin' ? `Panker ${fmt(h.panker)} · Tianker ${fmt(h.tianker, 0)}` : `Total ${fmt(h.total, 0)} · Salah ${fmt(h.persenSalah, 1)}%`;
+}
+function gambarDaftarHasil() {
+  const box = $('#daftar-hasil'); if (!box) return;
+  const q = S.cari.trim().toLowerCase();
+  const arr = S.hasil.filter(h => (S.filterTes === 'semua' || h.tes === S.filterTes) && (!q || String(h.nama).toLowerCase().includes(q) || String(h.username).toLowerCase().includes(q)));
+  $('#hitung-hasil').textContent = `${arr.length} hasil · ${arr.filter(h => h.status !== 'Sudah direview').length} menunggu review`;
+  if (!arr.length) {
+    box.innerHTML = `<div class="kosong-isi">${S.hasil.length ? 'Tidak ada hasil yang cocok dengan pencarian.' : 'Belum ada hasil tes. Hasil muncul di sini setelah peserta menyelesaikan tes.'}</div>`;
+    return;
+  }
+  box.innerHTML = `<div class="daftar">${arr.map(h => `<button class="butir" data-aksi="buka-hasil" data-tes="${h.tes}" data-id="${esc(h.id)}">
+      <span class="kiri"><span class="nama">${esc(h.nama)}</span><span class="sub">${NAMA_TES[h.tes]} · ${fmtTgl(h.selesai)}${h.mode !== 'Penuh' ? ' · ' + esc(h.mode) : ''}</span></span>
+      <span class="kanan"><span class="metrik">${ringkasMetrik(h)}</span><span class="chip ${h.status === 'Sudah direview' ? 'ok' : 'draf'}">${esc(h.status || 'Draf')}</span></span>
+    </button>`).join('')}</div>`;
+}
+async function muatNorma() { if (!S.norma) { const r = await panggil('norma'); S.norma = r.norma || []; } return S.norma; }
+
+function langkahRapi(maks) {
+  const raw = maks / 4, p = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / p;
+  return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p;
+}
+function grafikKurva(nilai, o) {
+  const n = nilai.length; if (!n) return '<p class="catatan-kecil">Tidak ada data.</p>';
+  const W = 640, H = 250, m = { l: 40, r: 14, t: 16, b: 32 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const maks = Math.max(1, ...nilai), st = Math.max(1, langkahRapi(maks)), ymax = Math.ceil(maks / st) * st;
+  const batang = o.jenis === 'batang';
+  const x = i => batang ? m.l + (i + 0.5) * iw / n : (n === 1 ? m.l + iw / 2 : m.l + i * iw / (n - 1));
+  const y = v => m.t + ih - Math.max(0, Math.min(ymax, v)) / ymax * ih;
+  const f1 = v => v.toFixed(1);
+  let g = '';
+  for (let v = 0; v <= ymax + 1e-9; v += st) g += `<line class="g-grid" x1="${m.l}" x2="${W - m.r}" y1="${f1(y(v))}" y2="${f1(y(v))}"/><text class="g-label" x="${m.l - 8}" y="${f1(y(v) + 4)}" text-anchor="end">${fmt(v, 0)}</text>`;
+  const tiap = n > 40 ? 10 : n > 20 ? 5 : n > 10 ? 2 : 1;
+  for (let i = 0; i < n; i++) if (i === 0 || (i + 1) % tiap === 0) g += `<text class="g-label" x="${f1(x(i))}" y="${H - m.b + 18}" text-anchor="middle">${i + 1}</text>`;
+  if (batang) {
+    const bw = Math.max(2, iw / n * 0.62);
+    nilai.forEach((v, i) => { g += `<rect class="g-batang" x="${f1(x(i) - bw / 2)}" y="${f1(y(v))}" width="${f1(bw)}" height="${f1(m.t + ih - y(v))}" rx="2"><title>${o.satuan} ${i + 1}: ${v}</title></rect>`; });
+  } else {
+    const d = nilai.map((v, i) => (i ? 'L' : 'M') + f1(x(i)) + ' ' + f1(y(v))).join(' ');
+    g += `<path class="g-area" d="${d} L${f1(x(n - 1))} ${m.t + ih} L${f1(x(0))} ${m.t + ih} Z"/><path class="g-garis" d="${d}"/>`;
+    const r = n > 30 ? 2.6 : 3.4;
+    nilai.forEach((v, i) => { g += `<circle class="g-titik" cx="${f1(x(i))}" cy="${f1(y(v))}" r="${r}"><title>${o.satuan} ${i + 1}: ${v}</title></circle>`; });
+    if (o.ekstrem) {
+      const iMax = nilai.indexOf(Math.max(...nilai)), iMin = nilai.indexOf(Math.min(...nilai));
+      [iMax, iMin].forEach(i => { g += `<circle class="g-ekstrem" cx="${f1(x(i))}" cy="${f1(y(nilai[i]))}" r="7"/>`; });
+    }
+  }
+  const rr = rata(nilai), reg = regresi(nilai);
+  g += `<line class="g-rata" x1="${m.l}" x2="${W - m.r}" y1="${f1(y(rr))}" y2="${f1(y(rr))}"/>`;
+  g += `<line class="g-tren" x1="${f1(x(0))}" x2="${f1(x(n - 1))}" y1="${f1(y(reg.a + reg.b))}" y2="${f1(y(reg.a + reg.b * n))}"/>`;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.aria)}">${g}</svg>`;
+}
+async function vDetail(tes, id) {
+  render(kepala() + `<main class="wrap"><button class="tombol teks" data-aksi="tab" data-tab="hasil" style="align-self:flex-start">← Semua hasil</button><p class="memuat">Memuat hasil…</p></main>`);
+  let h;
+  try { const hasil = await Promise.all([panggil('detailHasil', { tes, id }), muatNorma()]); h = hasil[0].hasil; }
+  catch (e) { if (e.kode !== 'SESI') render(kepala() + `<main class="wrap"><button class="tombol teks" data-aksi="tab" data-tab="hasil" style="align-self:flex-start">← Semua hasil</button>${notis(e.message, 'galat')}</main>`); return; }
+  const K = tes === 'kraepelin';
+  const kat = hitungKategori(tes, h, h.mode, S.norma, S.pengaturan);
+  const data = Array.isArray(h.data) ? h.data : [];
+  const nilai = data.map(x => K ? x.t : x.n);
+  const satuan = K ? 'Lajur' : 'Periode';
+  const ringkas = K
+    ? [['Total dikerjakan', fmt(h.totalDikerjakan, 0)], ['Total salah', fmt(h.totalSalah, 0)], ['Pembetulan', fmt(h.pembetulan, 0)], ['Lajur', `${fmt(h.jumlahLajur, 0)} × ${fmt(h.detikPerLajur, 0)} dtk`]]
+    : [['Rata-rata per periode', fmt(h.rataRata, 1)], ['Total salah', fmt(h.totalSalah, 0)], ['Pembetulan', fmt(h.pembetulan, 0)], ['Durasi', `${durasiTeks(+h.durasiMenit)} · garis tiap ${durasiTeks(+h.menitPerPeriode)}`]];
+  const reviewed = h.status === 'Sudah direview';
+  render(kepala() + `<main class="wrap">
+    <button class="tombol teks" data-aksi="tab" data-tab="hasil" style="align-self:flex-start">← Semua hasil</button>
+    <div class="detail-kepala">
+      <p class="eyebrow">Hasil ${NAMA_TES[tes]} · ${esc(h.id)}</p>
+      <h1>${esc(h.nama)}</h1>
+      <div class="meta"><span>${esc(h.username)}</span><span>Selesai ${fmtTgl(h.selesai)}</span>
+        ${h.mode !== 'Penuh' ? `<span class="chip draf">${esc(h.mode)}</span>` : ''}
+        <span class="chip ${reviewed ? 'ok' : 'draf'}" id="chip-status">${esc(h.status || 'Draf')}</span></div>
+    </div>
+    ${h.mode !== 'Penuh' ? notis('Hasil uji coba berdurasi singkat. Skor disetarakan ke durasi penuh dan tidak untuk penilaian.', 'peringatan') : ''}
+    <div class="dua-kolom">
+      <div class="sisi">
+        <div class="tabel-wadah"><table class="tabel">
+          <thead><tr><th>Aspek</th><th>Nilai</th><th>Kategori</th></tr></thead>
+          <tbody>${ASPEK[tes].map((a, i) => `<tr><td>${a.nama}<span class="sub-skor">${a.skor}</span></td><td class="angka">${fmt(h[a.field], a.d)} <span class="satuan">${a.satuan}</span></td><td><span class="chip ${kat[i].level == null ? '' : 'l' + kat[i].level}">${esc(kat[i].label)}</span></td></tr>`).join('')}</tbody>
+        </table></div>
+        <div class="angka-ringkas">${ringkas.map(([l, v]) => `<span>${l} <b>${v}</b></span>`).join('')}</div>
+        <section class="lembar">
+          <h2>Kurva kerja</h2>
+          <p class="catatan-kecil" style="margin:4px 0 10px">Jumlah jawaban per ${satuan.toLowerCase()}.</p>
+          <div class="grafik">${grafikKurva(nilai, { jenis: K ? 'garis' : 'batang', ekstrem: K, satuan, aria: `Kurva kerja ${NAMA_TES[tes]} ${h.nama}` })}</div>
+          <div class="legenda">
+            <span><i></i>Jawaban per ${satuan.toLowerCase()}</span>
+            <span><i class="rata"></i>Rata-rata${K ? ' (Panker)' : ''}</span>
+            <span><i class="tren"></i>Garis tren${K ? ' (Hanker)' : ''}</span>
+            ${K ? '<span><i class="lingkar"></i>Tertinggi & terendah (Janker)</span>' : ''}
+          </div>
+        </section>
+        <section class="lembar tumpuk" style="gap:14px">
+          <h2>Interpretasi (draf)</h2>
+          ${blokInterpretasi(tes, kat, h.pembetulan)}
+          <p class="catatan-kecil">Kategori dihitung dengan norma yang terpasang saat ini.</p>
+        </section>
+        <details class="lembar">
+          <summary>Data per ${satuan.toLowerCase()}</summary>
+          <div class="tabel-wadah" style="margin-top:12px"><table class="tabel">
+            <thead><tr><th>${satuan}</th><th>Dikerjakan</th><th>Salah</th><th>Pembetulan</th></tr></thead>
+            <tbody>${data.map((x, i) => `<tr><td class="angka">${i + 1}</td><td class="angka">${K ? x.t : x.n}</td><td class="angka">${x.s}</td><td class="angka">${x.p}</td></tr>`).join('')}</tbody>
+          </table></div>
+        </details>
+      </div>
+      <form class="lembar" data-form="review" data-tes="${tes}" data-id="${esc(h.id)}">
+        <h2>Review psikolog</h2>
+        <label class="isian"><span>Status</span><select id="f-status" name="status">
+          <option ${!reviewed ? 'selected' : ''}>Draf</option><option ${reviewed ? 'selected' : ''}>Sudah direview</option></select></label>
+        <label class="isian"><span>Catatan psikolog</span><textarea id="f-catatan" name="catatan" placeholder="Kesimpulan, konteks, atau rekomendasi">${esc(h.catatan || '')}</textarea></label>
+        <p class="catatan-kecil" id="review-info">${h.reviewer ? `Terakhir disimpan oleh ${esc(h.reviewer)} · ${fmtTgl(h.waktuReview)}` : 'Belum pernah direview.'}</p>
+        <button class="tombol utama" type="submit">Simpan review</button>
+        <p class="notis" id="review-pesan" hidden></p>
+      </form>
+    </div>
+  </main>`);
+}
+async function simpanReview(form) {
+  const btn = form.querySelector('button[type="submit"]'), p = $('#review-pesan');
+  const tes = form.dataset.tes, id = form.dataset.id, status = form.elements.status.value, catatan = form.elements.catatan.value;
+  btn.disabled = true;
+  try {
+    const r = await panggil('simpanReview', { tes, id, status, catatan });
+    p.className = 'notis ok'; p.textContent = 'Review tersimpan.'; p.hidden = false;
+    $('#review-info').textContent = `Terakhir disimpan oleh ${r.reviewer} · ${fmtTgl(r.waktuReview)}`;
+    const chip = $('#chip-status'); if (chip) { chip.textContent = status; chip.className = 'chip ' + (status === 'Sudah direview' ? 'ok' : 'draf'); }
+    const x = S.hasil && S.hasil.find(h => h.id === id); if (x) x.status = status;
+  } catch (e) {
+    if (e.kode === 'SESI') return;
+    p.className = 'notis galat'; p.textContent = e.message; p.hidden = false;
+  } finally { btn.disabled = false; }
+}
+
+/* ---------- Tab peserta ---------- */
+function passwordAcak() {
+  const huruf = 'abcdefghjkmnpqrstuvwxyz23456789';
+  let s = ''; const a = new Uint32Array(8);
+  try { crypto.getRandomValues(a); } catch (e) { for (let i = 0; i < 8; i++) a[i] = Math.floor(Math.random() * 1e9); }
+  for (let i = 0; i < 8; i++) s += huruf[a[i] % huruf.length];
+  return s;
+}
+function kotakSalin(judul, teks) {
+  return `<div class="notis ok"><b>${esc(judul)}</b><div class="salin-kotak"><code>${esc(teks)}</code><button class="tombol sekunder kecil" data-aksi="salin" data-teks="${esc(teks)}">Salin</button></div></div>`;
+}
+async function tabPeserta(pesan) {
+  try { const r = await panggil('daftarUser'); S.users = r.users || []; }
+  catch (e) { if (e.kode !== 'SESI') isiTab(notis(e.message, 'galat')); return; }
+  const peserta = S.users.filter(u => u.role !== 'admin').length;
+  isiTab(`${pesan || ''}<div class="dua-kolom">
+    <div class="tumpuk">
+      <p class="hitung">${peserta} peserta · ${S.users.length - peserta} admin</p>
+      <div class="daftar">${S.users.map(u => `<div class="butir">
+        <span class="kiri"><span class="nama">${esc(u.nama)}</span><span class="sub">${esc(u.username)} · ${u.role === 'admin' ? 'Admin' : 'Peserta'}</span></span>
+        <span class="kanan"><span class="chip ${u.aktif ? 'ok' : ''}">${u.aktif ? 'Aktif' : 'Nonaktif'}</span>
+          <span class="aksi-kecil" id="aksi-${esc(u.username)}">
+            ${u.username !== S.user.username ? `<button class="tombol teks kecil" data-aksi="ubah-aktif" data-u="${esc(u.username)}" data-v="${u.aktif ? '0' : '1'}">${u.aktif ? 'Nonaktifkan' : 'Aktifkan'}</button>` : ''}
+            <button class="tombol teks kecil" data-aksi="reset-tanya" data-u="${esc(u.username)}">Reset password</button>
+          </span></span>
+      </div>`).join('')}</div>
+    </div>
+    <form class="lembar" data-form="tambah-user" novalidate>
+      <h2>Tambah akun</h2>
+      <label class="isian"><span>Nama lengkap</span><input id="u-nama" name="nama" required></label>
+      <label class="isian"><span>Username</span><input id="u-username" name="username" autocapitalize="none" spellcheck="false" required><small>3–30 karakter: huruf kecil, angka, titik, minus, atau garis bawah.</small></label>
+      <label class="isian"><span>Password</span><span class="gabung"><input id="u-password" name="password" required><button type="button" class="tombol sekunder kecil" data-aksi="buat-password">Buat acak</button></span></label>
+      <label class="isian"><span>Peran</span><select id="u-role" name="role"><option value="peserta">Peserta</option><option value="admin">Admin</option></select></label>
+      <button class="tombol utama" type="submit">Tambah akun</button>
+      ${DEMO ? '' : '<p class="catatan-kecil">Banyak peserta sekaligus? Isi langsung di sheet Users: kolom Username, Nama, Role, dan Password Baru. Password otomatis diamankan saat tab ini dibuka.</p>'}
+    </form>
+  </div>`);
+}
+async function tambahUser(form) {
+  const E = form.elements, nama = E.nama.value.trim(), username = E.username.value.trim().toLowerCase(), password = E.password.value, role = E.role.value;
+  const salah = cekAkun(username, nama, password);
+  if (salah) { tabPesertaPesan(notis(salah, 'galat'), form); return; }
+  const btn = form.querySelector('button[type="submit"]'); btn.disabled = true;
+  try {
+    await panggil('tambahUser', { nama, username, password, role });
+    await tabPeserta(kotakSalin(`Akun ${nama} dibuat. Sampaikan data masuk ini ke ${role === 'admin' ? 'admin' : 'peserta'}:`, `Username: ${username}  ·  Password: ${password}`));
+  } catch (e) { if (e.kode !== 'SESI') tabPesertaPesan(notis(e.message, 'galat'), form); }
+  finally { btn.disabled = false; }
+}
+function tabPesertaPesan(html, form) {
+  let p = form.querySelector('.pesan-form');
+  if (!p) { p = document.createElement('div'); p.className = 'pesan-form'; form.insertBefore(p, form.children[1]); }
+  p.innerHTML = html;
+}
+async function ubahAktif(username, aktif) {
+  try { await panggil('ubahUser', { username, aktif }); await tabPeserta(); }
+  catch (e) { if (e.kode !== 'SESI') await tabPeserta(notis(e.message, 'galat')); }
+}
+async function resetPassword(username) {
+  const baru = passwordAcak();
+  try { await panggil('ubahUser', { username, passwordBaru: baru }); await tabPeserta(kotakSalin(`Password ${username} direset. Sampaikan password baru ini:`, `Username: ${username}  ·  Password: ${baru}`)); }
+  catch (e) { if (e.kode !== 'SESI') await tabPeserta(notis(e.message, 'galat')); }
+}
+
+/* ---------- Tab norma & coba ---------- */
+function rentang(n) {
+  const b = n.batas.map(v => fmt(v, 2));
+  if (n.arah === 'turun') return [`> ${b[3]}`, `${b[2]} < x ≤ ${b[3]}`, `${b[1]} < x ≤ ${b[2]}`, `${b[0]} < x ≤ ${b[1]}`, `≤ ${b[0]}`];
+  return [`< ${b[0]}`, `${b[0]} – < ${b[1]}`, `${b[1]} – < ${b[2]}`, `${b[2]} – < ${b[3]}`, `≥ ${b[3]}`];
+}
+async function tabNorma() {
+  try { await muatNorma(); } catch (e) { if (e.kode !== 'SESI') isiTab(notis(e.message, 'galat')); return; }
+  const contoh = S.norma.some(n => /contoh/i.test(n.ket));
+  isiTab(`${contoh ? notis('Norma yang terpasang masih norma CONTOH untuk format online, bukan norma resmi. Ganti angka batasnya dengan norma Anda sendiri.', 'peringatan') : ''}
+    <p class="lead">${DEMO ? 'Di mode demo norma memakai nilai contoh bawaan.' : 'Ubah angka batas langsung di sheet <b>Norma</b> pada Google Sheet Anda. Perubahan berlaku untuk hasil baru dan untuk kategori di halaman detail.'}</p>
+    ${['kraepelin', 'pauli'].map(tes => `<div class="norma-tes"><h2>${NAMA_TES[tes]}</h2>
+      <div class="tabel-wadah"><table class="tabel">
+        <thead><tr><th>Aspek</th><th>Skor</th><th>Arah</th>${LEVEL.map(l => `<th>${l}</th>`).join('')}</tr></thead>
+        <tbody>${ASPEK[tes].map(a => { const n = S.norma.find(r => r.tes === tes && r.aspek === a.key);
+          return `<tr><td>${a.nama}</td><td class="angka">${a.skor}</td><td>${n ? (n.arah === 'turun' ? 'Makin rendah makin baik' : 'Makin tinggi makin baik') : '–'}</td>${n ? rentang(n).map(x => `<td class="angka">${esc(x)}</td>`).join('') : '<td colspan="5">Belum diisi</td>'}</tr>`; }).join('')}</tbody>
+      </table></div></div>`).join('')}
+    <p class="catatan-kecil">Kraepelin: Panker dan Hanker memakai nilai apa adanya; Tianker disetarakan ke ${S.pengaturan.kraepelin.jumlahLajur} lajur untuk hasil uji coba. Pauli: Total disetarakan ke ${durasiTeks(S.pengaturan.pauli.durasiMenit)}.</p>`);
+}
+function tabCoba() {
+  isiTab(`<p class="lead">Coba alur tes seperti peserta. Hasil Anda tersimpan atas nama akun admin.</p>
+    ${saklarSingkat()}
+    <div class="kartu-tes">${['kraepelin', 'pauli'].map(kartuTes).join('')}</div>`);
+}
+
+/* ---------- Akun ---------- */
+function vAkun(pesan) {
+  render(kepala() + `<main class="wrap sempit">
+    <button class="tombol teks" data-aksi="beranda" style="align-self:flex-start">← Kembali</button>
+    <div class="tumpuk"><p class="eyebrow">Akun</p><h1>${esc(S.user.nama)}</h1><p class="lead">${esc(S.user.username)} · ${S.user.role === 'admin' ? 'Admin' : 'Peserta'}</p></div>
+    <form class="lembar" data-form="ganti-password" novalidate>
+      <h2>Ganti password</h2>
+      ${pesan || ''}
+      <label class="isian"><span>Password lama</span><input id="p-lama" name="lama" type="password" autocomplete="current-password" required></label>
+      <label class="isian"><span>Password baru</span><input id="p-baru" name="baru" type="password" autocomplete="new-password" required><small>Minimal 6 karakter.</small></label>
+      <label class="isian"><span>Ulangi password baru</span><input id="p-ulang" name="ulang" type="password" autocomplete="new-password" required></label>
+      <button class="tombol utama" type="submit">Simpan password</button>
+    </form>
+  </main>`);
+}
+async function gantiPassword(form) {
+  const E = form.elements, lama = E.lama.value, baru = E.baru.value, ulang = E.ulang.value;
+  if (baru.length < 6) return vAkun(notis('Password baru minimal 6 karakter.', 'galat'));
+  if (baru !== ulang) return vAkun(notis('Ulangan password baru tidak sama.', 'galat'));
+  try { await panggil('gantiPassword', { lama, baru }); vAkun(notis('Password berhasil diganti.', 'ok')); }
+  catch (e) { if (e.kode !== 'SESI') vAkun(notis(e.message, 'galat')); }
+}
+
+/* ================= Peristiwa ================= */
+const AKSI = {
+  'masuk-demo': el => masuk(el.dataset.u, el.dataset.p),
+  'keluar': async () => { try { await api('logout'); } catch (e) { /* tetap keluar */ } keluarLokal(); },
+  'akun': () => vAkun(),
+  'beranda': () => keBeranda(),
+  'tab': el => vAdmin(el.dataset.tab),
+  'saring-tes': el => { S.filterTes = el.dataset.v; document.querySelectorAll('[data-aksi="saring-tes"]').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === S.filterTes)); gambarDaftarHasil(); },
+  'muat-ulang': () => { S.hasil = null; isiTab('<p class="memuat">Memuat…</p>'); tabHasil(); },
+  'buka-hasil': el => vDetail(el.dataset.tes, el.dataset.id),
+  'petunjuk': el => vInstruksi(el.dataset.tes),
+  'latihan': el => mulaiTes(el.dataset.tes, 'latihan'),
+  'tanya-mulai': () => { const k = $('#konfirmasi'); if (k) { k.hidden = false; k.scrollIntoView({ behavior: 'smooth', block: 'center' }); } },
+  'batal-mulai': () => { const k = $('#konfirmasi'); if (k) k.hidden = true; },
+  'mulai': el => { if (!$('#f-setuju') || !$('#f-setuju').checked) return; mulaiTes(el.dataset.tes, jenisTes()); },
+  'hentikan-latihan': () => hentikanLatihan(),
+  'lanjutkan-tes': () => { const pg = bacaLokal('psikotes_progres'); if (pg && S.user && pg.user === S.user.username) mulaiTes(pg.tes, pg.jenis, pg); else keBeranda(); },
+  'kirim-ulang': () => { const td = bacaLokal('psikotes_tertunda'); if (td && S.user && td.user === S.user.username) kirimHasil(td); else keBeranda(); },
+  'masuk-ulang': () => keluarLokal({ teks: 'Masuk lagi untuk mengirim hasil tes yang tersimpan di perangkat ini.', jenis: 'peringatan' }),
+  'buat-password': () => { const f = $('#u-password'); if (f) f.value = passwordAcak(); },
+  'ubah-aktif': el => ubahAktif(el.dataset.u, el.dataset.v === '1'),
+  'reset-tanya': el => { const box = $('#aksi-' + CSS.escape(el.dataset.u)); if (box) box.innerHTML = `<span class="catatan-kecil">Reset password?</span><button class="tombol teks kecil" data-aksi="reset-ya" data-u="${esc(el.dataset.u)}">Ya, reset</button><button class="tombol teks kecil" data-aksi="reset-batal">Batal</button>`; },
+  'reset-ya': el => resetPassword(el.dataset.u),
+  'reset-batal': () => tabPeserta(),
+  'salin': el => {
+    const teks = el.dataset.teks;
+    const pilih = () => { const c = el.parentElement.querySelector('code'); if (c) { const r = document.createRange(); r.selectNodeContents(c); const s = getSelection(); s.removeAllRanges(); s.addRange(r); } el.textContent = 'Tekan salin di perangkat'; };
+    try { navigator.clipboard.writeText(teks).then(() => { el.textContent = 'Tersalin'; }, pilih); } catch (e) { pilih(); }
+  }
+};
+const FORM = {
+  'masuk': f => masuk(f.elements.username.value.trim().toLowerCase(), f.elements.password.value),
+  'review': f => simpanReview(f),
+  'tambah-user': f => tambahUser(f),
+  'ganti-password': f => gantiPassword(f)
+};
+const UBAH = {
+  'singkat': el => { S.singkat = el.checked; if (S.user.role === 'admin') tabCoba(); else vBeranda(); },
+  'setuju': el => { const b = $('#tombol-mulai'); if (b) b.disabled = !el.checked; }
+};
+document.addEventListener('click', e => {
+  const k = e.target.closest('#layar-tes [data-k]');
+  if (k) { if (e.detail === 0) tekanTombol(k); return; } // klik dari keyboard; sentuhan/mouse ditangani pointerdown
+  const el = e.target.closest('[data-aksi]'); if (!el) return;
+  const f = AKSI[el.dataset.aksi]; if (!f) return;
+  e.preventDefault(); f(el, e);
+});
+document.addEventListener('pointerdown', e => {
+  const b = e.target.closest('#layar-tes [data-k]'); if (!b) return;
+  e.preventDefault(); tekanTombol(b);
+});
+document.addEventListener('submit', e => {
+  const f = e.target.closest('form[data-form]'); if (!f) return;
+  e.preventDefault(); const h = FORM[f.dataset.form]; if (h) h(f);
+});
+document.addEventListener('input', e => { if (e.target.dataset && e.target.dataset.input === 'cari') { S.cari = e.target.value; gambarDaftarHasil(); } });
+document.addEventListener('change', e => { const el = e.target.closest('[data-ubah]'); if (el && UBAH[el.dataset.ubah]) UBAH[el.dataset.ubah](el); });
+document.addEventListener('keydown', e => {
+  if (!T || T.berhenti || $('#layar-tes').hidden || e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
+  let k = null;
+  if (/^[0-9]$/.test(e.key)) k = e.key; else if (e.key === 'Backspace' || e.key === 'Delete') k = 'koreksi';
+  if (k === null) return;
+  e.preventDefault();
+  const b = $(`#layar-tes [data-k="${k}"]`); if (b) tekanTombol(b); else tekan(k);
+});
+document.addEventListener('visibilitychange', () => {
+  if (!T || T.berhenti) return;
+  if (document.hidden) simpanProgres(true); else mintaWakeLock();
+});
+window.addEventListener('beforeunload', e => {
+  if (T && !T.berhenti && T.jenis !== 'latihan') { simpanProgres(true); e.preventDefault(); e.returnValue = ''; }
+});
+
+/* ================= Mulai ================= */
+(async function init() {
+  const tok = bacaLokal('psikotes_token');
+  if (tok) {
+    S.token = tok;
+    try { terimaSesi(await api('sesi')); keBeranda(); return; }
+    catch (e) { S.token = null; simpanLokal('psikotes_token', null); }
+  }
+  vLogin();
+})();
+</script>
+</body>
+</html>
