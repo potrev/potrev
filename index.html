@@ -819,6 +819,10 @@ button.papi-opsi:active{transform:scale(.995)}
   .papi-teks{font-size:16px}
 }
 
+/* Selama tes teks soal tidak bisa disorot atau disalin (kotak jawaban tetap bisa diketik). */
+#layar-tes{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#layar-tes input,#layar-tes textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+
 /* ================= Laporan A4 ================= */
 .lap-wadah{--skala:1;background:var(--isi-kuat,#D9DCE5);border-radius:20px;padding:16px 8px;display:flex;flex-direction:column;align-items:center;gap:16px;overflow-x:auto}
 .hal{zoom:var(--skala);width:210mm;height:297mm;flex:none;position:relative;overflow:hidden;background:#fff;color:#1B2433;box-shadow:0 2px 16px rgba(0,0,0,.3);
@@ -1413,6 +1417,7 @@ button.papi-opsi:active{transform:scale(.995)}
 .pm-f b{color:#2240B0}
 .papi-peta .redup{color:#8A94A6;font-size:7.4pt}
 .pm-sk{display:inline-flex;width:5.4mm;height:5.4mm;border-radius:50%;background:#E4EAFB;color:#2240B0;font-weight:800;align-items:center;justify-content:center}
+.linimasa .lm-salin>div::before,.linimasa .lm-tempel>div::before{background:#C77A1A}
 
 </style>
 </head>
@@ -6058,7 +6063,7 @@ async function muatFotoLaporan(L) {
   const kode = L.token.kode, cache = fotoCache[kode] = fotoCache[kode] || {};
   const perlu = L.foto.map(f => f.id).filter(id => !cache[id]);
   const st = $('#status-foto-lap');
-  const pasang = () => document.querySelectorAll('img[data-foto]').forEach(img => { const d = cache[img.dataset.foto]; if (d && !img.src) img.src = d; if (d === '') img.closest('figure').classList.add('hilang'); });
+  const pasang = () => document.querySelectorAll('img[data-foto]').forEach(img => { const d = cache[img.dataset.foto]; if (d && !img.src) img.src = d; if (d === '') { const fg = img.closest('figure'); if (fg) fg.classList.add('hilang'); else img.hidden = true; } });
   pasang();
   for (let i = 0; i < perlu.length; i += 30) {
     if (st) st.textContent = `Memuat foto ${Math.min(i + 30, perlu.length)} dari ${perlu.length}…`;
@@ -6236,7 +6241,7 @@ function peristiwaLog(L) {
   const ev = [], t = L.token, b = L.biodata, nm = tes => 'tes ' + NAMA_TES(tes);
   const LABEL = { mulai: x => 'Memulai ' + nm(x), selesai: x => 'Menyelesaikan ' + nm(x), dihentikan: x => 'Tes ' + NAMA_TES(x) + ' diakhiri otomatis',
     pelanggaran: x => 'Pelanggaran saat ' + nm(x), jeda: x => 'Tes ' + NAMA_TES(x) + ' dijeda', lanjut: x => 'Melanjutkan ' + nm(x),
-    bagian: x => x === 'ist' ? 'Subtes IST' : 'Tes ' + NAMA_TES(x), 'muat-ulang': x => 'Kembali ke ' + nm(x), kamera: x => 'Kamera saat ' + nm(x), sambung: x => 'Masuk kembali ke ' + nm(x) };
+    bagian: x => x === 'ist' ? 'Subtes IST' : 'Tes ' + NAMA_TES(x), 'muat-ulang': x => 'Kembali ke ' + nm(x), salin: x => 'Mencoba menyalin teks saat ' + nm(x), tempel: x => 'Mencoba menempel teks saat ' + nm(x), kamera: x => 'Kamera saat ' + nm(x), sambung: x => 'Masuk kembali ke ' + nm(x) };
   if (t.dibuka) ev.push({ w: t.dibuka, j: 'info', p: 'Membuka kode tes', k: '' });
   if (b && b.persetujuan) ev.push({ w: b.persetujuan, j: 'info', p: 'Menyetujui pernyataan persetujuan', k: perangkatRingkas(b.perangkat) });
   L.hasil.forEach(h => (h.log || []).forEach(x => ev.push({ w: x.w, j: x.e, p: (LABEL[x.e] || (() => x.e))(h.tes), k: x.e === 'mulai' || x.e === 'selesai' ? '' : x.k })));
@@ -7126,6 +7131,31 @@ document.addEventListener('keydown', e => {
   const b = $(`#layar-tes [data-k="${k}"]`); if (b) tekanTombol(b); else tekan(k);
 });
 document.addEventListener('contextmenu', e => { if (e.target.closest('#layar-tes')) e.preventDefault(); });
+// Selama tes: teks soal tidak bisa disalin, dipotong, atau ditempel. Percobaannya dicatat di log pengawasan
+// (bukan pelanggaran; tes tidak dijeda). Catatan dibatasi sekali per 5 detik per jenis agar log tidak penuh.
+const layarTesAktif = () => { const L = $('#layar-tes'); return !!L && !L.hidden; };
+const catatSalin = (jenis, ket) => {
+  if (!T || T.berhenti) return;
+  const kini = Date.now(); T.cegahTerakhir = T.cegahTerakhir || {};
+  if (kini - (T.cegahTerakhir[jenis] || 0) < 5000) return;
+  T.cegahTerakhir[jenis] = kini; logT(jenis, ket); simpanProgres();
+};
+['copy', 'cut'].forEach(ev => document.addEventListener(ev, e => {
+  if (!layarTesAktif()) return;
+  e.preventDefault();
+  try { e.clipboardData.setData('text/plain', 'Soal PotRev tidak boleh disalin.'); } catch (x) { /* abaikan */ }
+  catatSalin('salin', ev === 'cut' ? 'Memotong teks diblok' : 'Menyalin teks diblok');
+}, true));
+document.addEventListener('paste', e => { if (!layarTesAktif()) return; e.preventDefault(); catatSalin('tempel', 'Menempel teks diblok'); }, true);
+document.addEventListener('keydown', e => {
+  if (!layarTesAktif() || !(e.ctrlKey || e.metaKey) || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if (k === 'c' || k === 'x' || k === 'insert') { e.preventDefault(); catatSalin('salin', (k === 'x' ? 'Ctrl+X' : 'Ctrl+C') + ' diblok'); }
+  else if (k === 'v') { e.preventDefault(); catatSalin('tempel', 'Ctrl+V diblok'); }
+  else if (k === 'a' && !/^(INPUT|TEXTAREA)$/.test((e.target || {}).tagName)) e.preventDefault();
+}, true);
+document.addEventListener('selectstart', e => { if (layarTesAktif() && !(e.target.closest && e.target.closest('input, textarea'))) e.preventDefault(); }, true);
+document.addEventListener('dragstart', e => { if (layarTesAktif()) e.preventDefault(); }, true);
 window.addEventListener('online', () => AntreFoto.kirim());
 
 /* ================= Mulai ================= */
