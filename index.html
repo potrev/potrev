@@ -1419,6 +1419,46 @@ button.papi-opsi:active{transform:scale(.995)}
 .pm-sk{display:inline-flex;width:5.4mm;height:5.4mm;border-radius:50%;background:#E4EAFB;color:#2240B0;font-weight:800;align-items:center;justify-content:center}
 .linimasa .lm-salin>div::before,.linimasa .lm-tempel>div::before{background:#C77A1A}
 
+/* ---------- MSDT ---------- */
+.md-hero{display:grid;grid-template-columns:1.05fr 1fr;gap:3.4mm;margin-bottom:2mm}
+.md-gaya{border-radius:4.2mm;padding:3.8mm 4.4mm;display:flex;flex-direction:column;gap:1.4mm}
+.md-gaya.ef{background:#E3F3EC}.md-gaya.ku{background:#FCF1DC}
+.md-gaya .label{color:#3b4556}
+.md-nama{font:800 20pt/1.05 "Plus Jakarta Sans",Arial,sans-serif;color:#132449}
+.md-chip{font:700 7.8pt "Plus Jakarta Sans",Arial,sans-serif;color:#145A40}
+.md-gaya.ku .md-chip{color:#7A4A0B}
+.md-desk{font-size:8.2pt;line-height:1.45;color:#2b3445}
+.md-tiles{display:grid;grid-template-columns:1fr 1fr;gap:2.4mm}
+.md-tile,.md-o{border:.25mm solid #DDE3EE;border-radius:3.4mm;padding:2.4mm 3mm;display:flex;flex-direction:column;gap:1mm}
+.md-k{font-size:7.4pt;color:#556074;display:flex;gap:1.6mm;align-items:baseline}
+.md-k b{font:800 9pt "Plus Jakarta Sans",Arial,sans-serif;color:#2240B0}
+.md-tk{display:inline-block;white-space:nowrap;padding:.4mm 1.8mm;border-radius:10mm;font:700 6.6pt "Plus Jakarta Sans",Arial,sans-serif}
+.md-tk.tg{background:#2240B0;color:#fff}.md-tk.rd{background:#EEF1F6;color:#44506A}
+.md-skala{position:relative;height:1.6mm;border-radius:1mm;background:linear-gradient(90deg,#EEF1F6 50%,#E4EAFB 50%);margin:.8mm 0}
+.md-skala i{position:absolute;top:-.8mm;width:1.1mm;height:3.2mm;margin-left:-.55mm;border-radius:.5mm;background:#132449}
+.md-skala em{position:absolute;top:-.4mm;width:.3mm;height:2.4mm;background:#8A94A6}
+.md-pos{font:800 10.4pt/1.15 "Plus Jakarta Sans",Arial,sans-serif;color:#44506A;white-space:nowrap;margin:.6mm 0 .4mm}
+.md-pos.tg{color:#2240B0}
+.md-ujung{display:flex;justify-content:space-between;font-size:6.4pt;color:#8A94A6}
+.md-posisi{width:30mm}
+.md-o{justify-content:center;background:#F5F7FB;border-color:#E3E8F0}
+.md-o span{font:800 9pt "Plus Jakarta Sans",Arial,sans-serif;color:#556074}
+.md-o b{font:800 16pt/1 "Plus Jakarta Sans",Arial,sans-serif;color:#132449}
+.md-o small{font-size:6.8pt;color:#556074}
+.md-tabel td{font-size:8pt;line-height:1.4;vertical-align:middle;padding:1.8mm 2mm}
+.md-dim b{display:block;font:800 10pt "Plus Jakarta Sans",Arial,sans-serif;color:#2240B0}
+.md-dim span{font-size:7pt;color:#556074}
+.md-g{width:34mm}.md-g b{display:block;font-size:8.6pt}.md-g small{display:block;font-size:6.8pt;color:#8A94A6}
+.md-pola{width:33mm;font-size:7.4pt!important;color:#556074}
+.md-gaya-tabel tr.aktif td{background:#E4EAFB}
+.md-cat{font-size:7.6pt;color:#556074;margin:-1mm 0 2mm;max-width:150mm}
+td.md-rk b{display:block;font:800 13pt/1 "Plus Jakarta Sans",Arial,sans-serif;color:#2240B0}
+td.md-rk small{display:block;margin-top:.8mm;font-size:5.8pt;color:#8A94A6}
+.md-rk{width:13mm!important;text-align:center}
+.md-ef{display:inline-block;margin-top:1mm;padding:.3mm 1.6mm;border-radius:10mm;font:700 6.4pt "Plus Jakarta Sans",Arial,sans-serif}
+.md-ef.ef{background:#E3F3EC;color:#145A40}.md-ef.ku{background:#FCF1DC;color:#7A4A0B}
+.md-gaya-tabel tr.aktif .md-g b{color:#2240B0}
+
 </style>
 </head>
 <body>
@@ -1458,7 +1498,9 @@ var IST_MENIT = [6, 6, 7, 8, 10, 10, 7, 9, 6], IST_HAFAL = 3;
 var DISC_MENIT = 15;
 // PAPI Kostick: 90 nomor, satu batas waktu untuk seluruh tes.
 var PAPI_MENIT = 30;
-var CFG_SINGKAT = { kraepelin: { jumlahLajur: 8, angkaPerLajur: 60, detikPerLajur: 15 }, pauli: { durasiMenit: 3, menitPerPeriode: 0.25 }, ist: { menit: [1, 1, 1, 1, 1, 1, 1, 1, 1], hafalMenit: 0.5 }, disc: { menit: 5 }, papi: { menit: 5 } };
+// MSDT: 64 nomor, satu batas waktu untuk seluruh tes.
+var MSDT_MENIT = 30;
+var CFG_SINGKAT = { kraepelin: { jumlahLajur: 8, angkaPerLajur: 60, detikPerLajur: 15 }, pauli: { durasiMenit: 3, menitPerPeriode: 0.25 }, ist: { menit: [1, 1, 1, 1, 1, 1, 1, 1, 1], hafalMenit: 0.5 }, disc: { menit: 5 }, papi: { menit: 5 }, msdt: { menit: 5 } };
 var CFG_LATIHAN = { kraepelin: { jumlahLajur: 3, angkaPerLajur: 60, detikPerLajur: 10 }, pauli: { durasiMenit: 0.5, menitPerPeriode: 0.25 } };
 
 function cfgPenuh(p) {
@@ -1468,12 +1510,13 @@ function cfgPenuh(p) {
     pauli: { durasiMenit: +p.pauliMenit || 60, menitPerPeriode: +p.pauliGaris || 3 },
     ist: { menit: IST_MENIT.slice(), hafalMenit: IST_HAFAL },
     disc: { menit: DISC_MENIT },
-    papi: { menit: PAPI_MENIT }
+    papi: { menit: PAPI_MENIT },
+    msdt: { menit: MSDT_MENIT }
   };
 }
 function cfgMode(p, mode) {
   var src = mode === 'Uji coba' ? CFG_SINGKAT : cfgPenuh(p);
-  return { kraepelin: Object.assign({}, src.kraepelin), pauli: Object.assign({}, src.pauli), ist: { menit: src.ist.menit.slice(), hafalMenit: src.ist.hafalMenit }, disc: Object.assign({}, src.disc), papi: Object.assign({}, src.papi) };
+  return { kraepelin: Object.assign({}, src.kraepelin), pauli: Object.assign({}, src.pauli), ist: { menit: src.ist.menit.slice(), hafalMenit: src.ist.hafalMenit }, disc: Object.assign({}, src.disc), papi: Object.assign({}, src.papi), msdt: Object.assign({}, src.msdt) };
 }
 
 var LEVEL = ['Sangat Rendah', 'Rendah', 'Cukup', 'Tinggi', 'Sangat Tinggi'];
@@ -1535,7 +1578,15 @@ var TES = {
     nama: 'DISC',
     desk: 'Tes kepribadian: 24 nomor, pilih pernyataan yang paling sesuai dan yang paling tidak sesuai dengan diri Anda.',
     // DISC tidak mengisi psikogram; hasilnya berupa grafik dan interpretasi pola.
-    aspek: []
+    aspek: [],
+    pelengkap: 'Pelengkap: tidak mengisi psikogram dan rekomendasi. Hasil berupa grafik dan interpretasi kepribadian.'
+  },
+  msdt: {
+    nama: 'MSDT',
+    desk: 'Tes gaya kepemimpinan: 64 nomor, pilih satu dari dua pernyataan yang paling sesuai dengan diri Anda.',
+    // MSDT tidak mengisi psikogram; hasilnya gaya kepemimpinan utama dan dua gaya pendukung.
+    aspek: [],
+    pelengkap: 'Pelengkap: tidak mengisi psikogram dan rekomendasi. Hasil berupa gaya kepemimpinan utama, posisi TO, RO, dan E, serta dua gaya pendukung.'
   },
   papi: {
     nama: 'PAPI Kostick',
@@ -1561,7 +1612,26 @@ var TES = {
     ].map(function (a) { a.skor = a.dari.map(function (k) { return k === '-K' ? 'K dibalik' : k; }).join(', '); a.satuan = 'rata-rata 0–9'; a.d = 1; return a; })
   }
 };
-var URUT_TES = ['kraepelin', 'pauli', 'ist', 'disc', 'papi'];
+var URUT_TES = ['kraepelin', 'pauli', 'ist', 'disc', 'papi', 'msdt'];
+// MSDT (Teori Tiga Dimensi, W.J. Reddin): skala A–H = delapan gaya. to/ro: orientasi tugas/hubungan tinggi; efektif: dimensi E tinggi.
+var MSDT_GAYA = [
+  { k: 'A', nama: 'Deserter', efektif: false, to: false, ro: false },
+  { k: 'B', nama: 'Missionary', efektif: false, to: false, ro: true },
+  { k: 'C', nama: 'Autocrat', efektif: false, to: true, ro: false },
+  { k: 'D', nama: 'Compromiser', efektif: false, to: true, ro: true },
+  { k: 'E', nama: 'Bureaucrat', efektif: true, to: false, ro: false },
+  { k: 'F', nama: 'Developer', efektif: true, to: false, ro: true },
+  { k: 'G', nama: 'Benevolent Autocrat', efektif: true, to: true, ro: false },
+  { k: 'H', nama: 'Executive', efektif: true, to: true, ro: true }
+];
+// Dimensi: jumlah skor empat gaya yang tinggi pada dimensi itu. O = skor skala A (Deserter).
+var MSDT_DIMENSI = { TO: ['C', 'D', 'G', 'H'], RO: ['B', 'D', 'F', 'H'], E: ['E', 'F', 'G', 'H'] };
+// Angka konversi di atas 2 berarti dimensi itu di atas rata-rata.
+var MSDT_BATAS = 2;
+function msdtGaya(to, ro, e) {
+  for (var i = 0; i < MSDT_GAYA.length; i++) { var g = MSDT_GAYA[i]; if (g.to === to && g.ro === ro && g.efektif === e) return g.nama; }
+  return '';
+}
 // PAPI: 20 faktor, urutan baku lembar grafik (searah jarum jam mulai N).
 var PAPI_F = ['N', 'G', 'A', 'L', 'P', 'I', 'T', 'V', 'X', 'S', 'B', 'O', 'R', 'D', 'C', 'Z', 'E', 'K', 'F', 'W'];
 // Nilai aspek PAPI: rata-rata skor faktor sumbernya (satu desimal). '-K' memakai 9 − K.
@@ -1722,6 +1792,7 @@ function durasiTesMs(tes, cfg) {
   if (tes === 'ist') return Math.round((cfg.menit.reduce(function (a, x) { return a + (+x || 0); }, 0) + (+cfg.hafalMenit || 0)) * 60000);
   if (tes === 'disc') return Math.round((+cfg.menit || DISC_MENIT) * 60000);
   if (tes === 'papi') return Math.round((+cfg.menit || PAPI_MENIT) * 60000);
+  if (tes === 'msdt') return Math.round((+cfg.menit || MSDT_MENIT) * 60000);
   return tes === 'kraepelin' ? cfg.jumlahLajur * cfg.detikPerLajur * 1000 : Math.round(cfg.durasiMenit * 60000);
 }
 function bulat(x, d) { if (d === undefined) d = 2; var p = Math.pow(10, d); return Math.round(x * p) / p; }
@@ -1806,7 +1877,7 @@ function hitungSkor(tes, seed, cfg, jawaban, batas, pembetulan) {
 
 // Penanda kecepatan yang tidak wajar (kemungkinan bantuan otomatis). Hanya tanda untuk psikolog, bukan keputusan.
 function tandaTidakWajar(tes, cfg, skor) {
-  if (tes === 'ist' || tes === 'disc' || tes === 'papi') return '';
+  if (tes === 'ist' || tes === 'disc' || tes === 'papi' || tes === 'msdt') return '';
   if (tes === 'kraepelin') {
     var maks = cfg.detikPerLajur * 3;
     return skor.lajur.some(function (x) { return x.t > maks; }) ? 'Kecepatan di atas 3 jawaban/detik pada sebagian lajur' : '';
@@ -1818,7 +1889,7 @@ function tandaTidakWajar(tes, cfg, skor) {
 // Nilai yang dibandingkan dengan norma; hasil uji coba disetarakan ke durasi penuh.
 function nilaiNorma(tes, skor, cfg, penuh) {
   if (tes === 'ist') { var o = {}; TES.ist.aspek.forEach(function (a) { o[a.key] = istNilaiAspek(skor, a); }); return o; }
-  if (tes === 'disc') return {};
+  if (tes === 'disc' || tes === 'msdt') return {};
   if (tes === 'papi') { var op = {}; TES.papi.aspek.forEach(function (a) { op[a.key] = papiNilaiAspek(skor, a); }); return op; }
   if (tes === 'kraepelin') {
     var sk = penuh.kraepelin.jumlahLajur / (+cfg.jumlahLajur || penuh.kraepelin.jumlahLajur);
@@ -2341,6 +2412,14 @@ function buatServer(db) {
     adaPAPI();
     return { konten: papiKonten() };
   };
+  // Isi MSDT (pernyataan, tanpa kunci skoring) hanya untuk peserta yang kodenya memuat MSDT.
+  function adaMSDT() { if (typeof MSDT_DATA === 'undefined') throw galat('Data MSDT belum terpasang di server.'); }
+  A.msdtKonten = function (d) {
+    var x = sesiPeserta(d), urutan = Array.isArray(x.t.urutan) && x.t.urutan.length ? x.t.urutan : x.m.tes;
+    if (urutan.indexOf('msdt') < 0) throw galat('Tes ini tidak termasuk dalam kode tes Anda.');
+    adaMSDT();
+    return { konten: msdtKonten() };
+  };
   // Autosave: cuplikan pengerjaan yang sedang berjalan, agar bisa dilanjutkan dari perangkat lain.
   A.simpanProgres = function (d) {
     var x = sesiPeserta(d), tes = String(d.tes || ''), s = d.snap || {};
@@ -2360,6 +2439,10 @@ function buatServer(db) {
     } else if (tes === 'papi') {
       adaPAPI();
       snap = { seed: 1, jawaban: papiBersihkan(s.jawaban), papi: { q: Math.max(0, Math.min(PAPI_DATA.soal.length - 1, Math.floor(+(s.papi && s.papi.q) || 0))) },
+        pelanggaran: lg.pel, log: lg.log, jedaTotal: Math.max(0, +s.jedaTotal || 0), berlalu: Math.max(0, +s.berlalu || 0) };
+    } else if (tes === 'msdt') {
+      adaMSDT();
+      snap = { seed: 1, jawaban: msdtBersihkan(s.jawaban), msdt: { q: Math.max(0, Math.min(MSDT_DATA.soal.length - 1, Math.floor(+(s.msdt && s.msdt.q) || 0))) },
         pelanggaran: lg.pel, log: lg.log, jedaTotal: Math.max(0, +s.jedaTotal || 0), berlalu: Math.max(0, +s.berlalu || 0) };
     } else {
     var jw = bersihkanJawaban(tes, cfg, s);
@@ -2404,6 +2487,12 @@ function buatServer(db) {
       dataHasil = { butir: sPapi.butir }; delete sPapi.butir;
       skor = sPapi; skor.pembetulan = [];
       jw = { kompak: JSON.stringify(jPapi) };
+    } else if (tes === 'msdt') {
+      adaMSDT();
+      var jMsdt = msdtBersihkan(h.jawaban), sMsdt = msdtSkor(jMsdt);
+      dataHasil = { butir: sMsdt.butir }; delete sMsdt.butir;
+      skor = sMsdt; skor.pembetulan = [];
+      jw = { kompak: JSON.stringify(jMsdt) };
     } else {
       jw = bersihkanJawaban(tes, cfg, h);
       var pemb = Array.isArray(h.pembetulan) ? h.pembetulan.map(function (v) { return +v || 0; }) : [];
@@ -2415,7 +2504,7 @@ function buatServer(db) {
     return db.kunciTulis(function () {
       var sudah = db.cari('Hasil', 'token', x.t.token);
       if (sudah.some(function (r) { return r.tes === tes; })) throw galat('Hasil tes ini sudah tersimpan sebelumnya.', 'DUPLIKAT');
-      var id = ({ kraepelin: 'KR-', ist: 'IS-', disc: 'DI-', papi: 'PK-' }[tes] || 'PA-') + stempelWaktu(new Date()) + '-' + acakTeks(4, ALFABET_KODE);
+      var id = ({ kraepelin: 'KR-', ist: 'IS-', disc: 'DI-', papi: 'PK-', msdt: 'MS-' }[tes] || 'PA-') + stempelWaktu(new Date()) + '-' + acakTeks(4, ALFABET_KODE);
       db.tambah('Hasil', {
         id: id, token: x.t.token, batch: x.b.id, klien: x.b.klien, tes: tes, mode: x.b.mode, mulai: isoAtauKini(h.mulai), selesai: isoAtauKini(h.selesai),
         seed: seed, cfg: cfg, skor: ringkasSkor(skor), data: dataHasil, jawaban: jw.kompak,
@@ -2936,7 +3025,7 @@ function istBersihkan(j) {
 
 /* Data DISC MODE DEMO (dibuat oleh test/disc-buat-demo.js). Pernyataan dan tabel grafik karangan, bukan soal dan lembar asli;
    tidak untuk menilai orang. */
-var DISC_DATA_DEMO = {"demo":true,"soal":[[["Tegas mengambil keputusan","D","D"],["Mudah bergaul","I","I"],["Sabar","S","S"],["Teliti","C","C"]],[["Tenang","S","S"],["Sistematis","C","C"],["Suka memimpin kelompok","D","D"],["Antusias","I","I"]],[["Senang berbicara","I","I"],["Berani mengambil risiko","D","D"],["Mengikuti aturan","C","C"],["Pendengar yang baik","S","S"]],[["Hati-hati","C","C"],["Setia","S","S"],["Optimis","I","I"],["Berorientasi pada hasil","D","D"]],[["Pandai meyakinkan orang","I","I"],["Konsisten","S","S"],["Langsung ke pokok masalah","D","D"],["Ingin semuanya sempurna","C","C"]],[["Analitis","C","C"],["Senang tantangan baru","D","D"],["Suka membantu","S","S"],["Ceria","I","I"]],[["Senang bersaing","D","D"],["Senang menjadi pusat perhatian","I","I"],["Menyukai rutinitas yang jelas","S","S"],["Rapi","C","C"]],[["Menghindari pertengkaran","S","S"],["Menyukai data dan fakta","C","C"],["Mandiri dalam bekerja","D","D"],["Ekspresif","I","I"]],[["Cepat akrab dengan orang baru","I","I"],["Cepat bertindak","D","D"],["Berpikir sebelum bertindak","C","C"],["Dapat diandalkan","S","S"]],[["Tepat waktu","C","C"],["Lembut","S","S"],["Penuh semangat","I","I"],["Berani berbeda pendapat","D","D"]],[["Suka bercanda","I","I"],["Mudah memaafkan","S","S"],["Mendorong orang lain bergerak","D","D"],["Memperhatikan detail","C","C"]],[["Logis","C","C"],["Pantang menyerah","D","D"],["Stabil","S","S"],["Senang bekerja dalam kelompok besar","I","I"]],[["Menetapkan target tinggi","D","D"],["Spontan","I","I"],["Menjaga kerukunan","S","S"],["Menjaga standar kualitas","C","C"]],[["Tidak tergesa-gesa","S","S"],["Terencana","C","C"],["Yakin pada diri sendiri","D","D"],["Hangat dan ramah","I","I"]],[["Suka memuji orang lain","I","I"],["Suka mengendalikan situasi","D","D"],["Kritis","C","C"],["Penuh pengertian","S","S"]],[["Disiplin","C","C"],["Rendah hati","S","S"],["Pandai bercerita","I","I"],["Tidak sabar dengan hal yang lambat","D","D"]],[["Senang acara sosial","I","I"],["Senang bekerja di belakang layar","S","S"],["Pemberani","D","D"],["Memeriksa ulang pekerjaan","C","C"]],[["Akurat","C","C"],["Berpendirian keras","D","D"],["Tahan mengerjakan tugas panjang","S","S"],["Mudah memotivasi orang","I","I"]],[["Senang mengambil inisiatif","D","D"],["Penuh ide","I","I"],["Mudah menyesuaikan diri dengan tim","S","S"],["Menyukai prosedur yang jelas","C","C"]],[["Sabar mengajari orang","S","S"],["Objektif","C","C"],["Ingin punya wewenang","D","D"],["Menyenangkan","I","I"]],[["Suka berdiskusi","I","I"],["Ingin selalu menang","D","D"],["Serius","C","C"],["Menghargai kebiasaan lama","S","S"]],[["Terstruktur","C","C"],["Kalem","S","S"],["Ramah kepada siapa saja","I","I"],["Bicara terus terang","D","D"]],[["Mudah tertawa","I","I"],["Murah hati","S","S"],["Berani menghadapi konflik","D","D"],["Mengutamakan ketepatan","C","C"]],[["Waspada terhadap kesalahan","C","C"],["Cepat memutuskan","D","D"],["Tenang saat ditekan","S","S"],["Pandai mencairkan suasana","I","I"]]],"grafik":{"most":{"D":[[0,-6.9],[2,-4.6],[4,-2.3],[6,0],[8,2.3],[10,4.6],[12,6.9],[24,7.4]],"I":[[0,-6.9],[2,-4.6],[4,-2.3],[6,0],[8,2.3],[10,4.6],[12,6.9],[24,7.4]],"S":[[0,-6.9],[2,-4.6],[4,-2.3],[6,0],[8,2.3],[10,4.6],[12,6.9],[24,7.4]],"C":[[0,-6.9],[2,-4.6],[4,-2.3],[6,0],[8,2.3],[10,4.6],[12,6.9],[24,7.4]]},"least":{"D":[[0,6.9],[2,4.6],[4,2.3],[6,0],[8,-2.3],[10,-4.6],[12,-6.9],[24,-7.4]],"I":[[0,6.9],[2,4.6],[4,2.3],[6,0],[8,-2.3],[10,-4.6],[12,-6.9],[24,-7.4]],"S":[[0,6.9],[2,4.6],[4,2.3],[6,0],[8,-2.3],[10,-4.6],[12,-6.9],[24,-7.4]],"C":[[0,6.9],[2,4.6],[4,2.3],[6,0],[8,-2.3],[10,-4.6],[12,-6.9],[24,-7.4]]},"change":{"D":[[-24,-7.4],[-12,-6.9],[-8,-4.6],[-4,-2.3],[0,0],[4,2.3],[8,4.6],[12,6.9],[24,7.4]],"I":[[-24,-7.4],[-12,-6.9],[-8,-4.6],[-4,-2.3],[0,0],[4,2.3],[8,4.6],[12,6.9],[24,7.4]],"S":[[-24,-7.4],[-12,-6.9],[-8,-4.6],[-4,-2.3],[0,0],[4,2.3],[8,4.6],[12,6.9],[24,7.4]],"C":[[-24,-7.4],[-12,-6.9],[-8,-4.6],[-4,-2.3],[0,0],[4,2.3],[8,4.6],[12,6.9],[24,7.4]]}}};
+var DISC_DATA_DEMO = {"demo":true,"soal":[[["Tegas mengambil keputusan","D","D"],["Mudah bergaul","I","I"],["Sabar","S","S"],["Teliti","C","C"]],[["Tenang","S","S"],["Sistematis","C","C"],["Suka memimpin kelompok","D","D"],["Antusias","I","I"]],[["Senang berbicara","I","I"],["Berani mengambil risiko","D","D"],["Mengikuti aturan","C","C"],["Senang mendengarkan orang lain","S","S"]],[["Hati-hati","C","C"],["Setia","S","S"],["Optimis","I","I"],["Berorientasi pada hasil","D","D"]],[["Pandai meyakinkan orang","I","I"],["Konsisten","S","S"],["Langsung ke pokok masalah","D","D"],["Ingin semuanya sempurna","C","C"]],[["Analitis","C","C"],["Senang tantangan baru","D","D"],["Suka membantu","S","S"],["Ceria","I","I"]],[["Senang bersaing","D","D"],["Senang menjadi pusat perhatian","I","I"],["Menyukai rutinitas yang jelas","S","S"],["Rapi","C","C"]],[["Menghindari pertengkaran","S","S"],["Menyukai data dan fakta","C","C"],["Mandiri dalam bekerja","D","D"],["Ekspresif","I","I"]],[["Cepat akrab dengan orang baru","I","I"],["Cepat bertindak","D","D"],["Berpikir sebelum bertindak","C","C"],["Dapat diandalkan","S","S"]],[["Tepat waktu","C","C"],["Lembut","S","S"],["Penuh semangat","I","I"],["Berani berbeda pendapat","D","D"]],[["Suka bercanda","I","I"],["Mudah memaafkan","S","S"],["Mendorong orang lain bergerak","D","D"],["Memperhatikan detail","C","C"]],[["Logis","C","C"],["Pantang menyerah","D","D"],["Stabil","S","S"],["Senang bekerja dalam kelompok besar","I","I"]],[["Menetapkan target tinggi","D","D"],["Spontan","I","I"],["Menjaga kerukunan","S","S"],["Menjaga standar kualitas","C","C"]],[["Tidak tergesa-gesa","S","S"],["Terencana","C","C"],["Yakin pada diri sendiri","D","D"],["Hangat dan ramah","I","I"]],[["Suka memuji orang lain","I","I"],["Suka mengendalikan situasi","D","D"],["Kritis","C","C"],["Penuh pengertian","S","S"]],[["Disiplin","C","C"],["Rendah hati","S","S"],["Pandai bercerita","I","I"],["Tidak sabar dengan hal yang lambat","D","D"]],[["Senang acara sosial","I","I"],["Senang bekerja di belakang layar","S","S"],["Pemberani","D","D"],["Memeriksa ulang pekerjaan","C","C"]],[["Akurat","C","C"],["Berpendirian keras","D","D"],["Tahan mengerjakan tugas panjang","S","S"],["Mudah memotivasi orang","I","I"]],[["Senang mengambil inisiatif","D","D"],["Penuh ide","I","I"],["Mudah menyesuaikan diri dengan tim","S","S"],["Menyukai prosedur yang jelas","C","C"]],[["Sabar mengajari orang","S","S"],["Objektif","C","C"],["Ingin punya wewenang","D","D"],["Menyenangkan","I","I"]],[["Suka berdiskusi","I","I"],["Ingin selalu menang","D","D"],["Serius","C","C"],["Menghargai kebiasaan lama","S","S"]],[["Terstruktur","C","C"],["Kalem","S","S"],["Ramah kepada siapa saja","I","I"],["Bicara terus terang","D","D"]],[["Mudah tertawa","I","I"],["Murah hati","S","S"],["Berani menghadapi konflik","D","D"],["Mengutamakan ketepatan","C","C"]],[["Waspada terhadap kesalahan","C","C"],["Cepat memutuskan","D","D"],["Tenang saat ditekan","S","S"],["Pandai mencairkan suasana","I","I"]]],"grafik":{"most":{"D":[[0,-6.9],[2,-4.6],[4,-2.3],[6,0],[8,2.3],[10,4.6],[12,6.9],[24,7.4]],"I":[[0,-6.9],[2,-4.6],[4,-2.3],[6,0],[8,2.3],[10,4.6],[12,6.9],[24,7.4]],"S":[[0,-6.9],[2,-4.6],[4,-2.3],[6,0],[8,2.3],[10,4.6],[12,6.9],[24,7.4]],"C":[[0,-6.9],[2,-4.6],[4,-2.3],[6,0],[8,2.3],[10,4.6],[12,6.9],[24,7.4]]},"least":{"D":[[0,6.9],[2,4.6],[4,2.3],[6,0],[8,-2.3],[10,-4.6],[12,-6.9],[24,-7.4]],"I":[[0,6.9],[2,4.6],[4,2.3],[6,0],[8,-2.3],[10,-4.6],[12,-6.9],[24,-7.4]],"S":[[0,6.9],[2,4.6],[4,2.3],[6,0],[8,-2.3],[10,-4.6],[12,-6.9],[24,-7.4]],"C":[[0,6.9],[2,4.6],[4,2.3],[6,0],[8,-2.3],[10,-4.6],[12,-6.9],[24,-7.4]]},"change":{"D":[[-24,-7.4],[-12,-6.9],[-8,-4.6],[-4,-2.3],[0,0],[4,2.3],[8,4.6],[12,6.9],[24,7.4]],"I":[[-24,-7.4],[-12,-6.9],[-8,-4.6],[-4,-2.3],[0,0],[4,2.3],[8,4.6],[12,6.9],[24,7.4]],"S":[[-24,-7.4],[-12,-6.9],[-8,-4.6],[-4,-2.3],[0,0],[4,2.3],[8,4.6],[12,6.9],[24,7.4]],"C":[[-24,-7.4],[-12,-6.9],[-8,-4.6],[-4,-2.3],[0,0],[4,2.3],[8,4.6],[12,6.9],[24,7.4]]}}};
 // ==DISC== skoring DISC. DISC_DATA disediakan disc-data.js (Code.gs) atau disc-demo.js (mode demo).
 // Isi untuk peserta: hanya teks pernyataan, tanpa kunci.
 function discKonten() {
@@ -3013,6 +3102,46 @@ function papiSkor(j) {
   return { f: f, lengkap: lengkap, nSoal: PAPI_DATA.soal.length, demo: !!PAPI_DATA.demo, butir: butir };
 }
 
+/* Data MSDT MODE DEMO (dibuat oleh test/msdt-buat-demo.js). Pernyataan, pasangan, kunci, dan tabel konversi karangan;
+   bukan soal maupun kunci asli, tidak untuk menilai orang. */
+var MSDT_DATA_DEMO = {"demo":true,"soal":[["Saya memastikan setiap pekerjaan mengikuti prosedur yang berlaku","Saya memberi arahan yang jelas tentang apa yang harus dicapai"],["Saya cepat memutuskan saat tim menghadapi masalah mendesak","Saya mencari jalan tengah agar semua pihak merasa puas"],["Saya menetapkan cara kerja dan meminta tim mengikutinya tanpa banyak diskusi","Saya membiarkan anggota tim menyelesaikan masalahnya sendiri tanpa campur tangan"],["Saya memberi kesempatan anggota tim untuk mencoba tugas baru","Saya menetapkan target dan memantau kemajuannya setiap minggu"],["Saya mengajak tim menetapkan target bersama","Saya menjelaskan alasan di balik keputusan yang saya ambil"],["Saya menjaga agar suasana tim selalu menyenangkan","Saya menuntut standar kerja tinggi sambil tetap memperhatikan kebutuhan tim"],["Saya lebih suka menunggu sampai masalah reda dengan sendirinya","Saya mendorong anggota tim bekerja sama untuk mencapai hasil terbaik"],["Saya menegur keras anggota tim yang tidak memenuhi target","Saya membahas hasil kerja bersama tim untuk perbaikan berikutnya"],["Saya mengajak tim menetapkan target bersama","Saya mengubah keputusan bila banyak anggota tim yang keberatan"],["Saya menghindari teguran yang bisa membuat anggota tim tersinggung","Saya mencatat dan mengarsipkan setiap keputusan tim dengan rapi"],["Saya menuntut standar kerja tinggi sambil tetap memperhatikan kebutuhan tim","Saya mendengarkan ide anggota tim sebelum menetapkan rencana"],["Saya melibatkan semua orang sebelum memutuskan hal kecil sekalipun","Saya memberi arahan yang jelas tentang apa yang harus dicapai"],["Saya cepat memutuskan saat tim menghadapi masalah mendesak","Saya mengerjakan bagian saya sesuai aturan dan tidak lebih dari itu"],["Saya meluangkan waktu untuk membimbing anggota tim yang baru","Saya mengutamakan hubungan baik walaupun target sedikit tertunda"],["Saya jarang mengadakan rapat dengan tim","Saya mencoba memenuhi permintaan atasan dan bawahan sekaligus"],["Saya mempercayakan tanggung jawab penting kepada anggota tim","Saya membiarkan anggota tim menyelesaikan masalahnya sendiri tanpa campur tangan"],["Saya menetapkan target dan memantau kemajuannya setiap minggu","Saya lebih suka menunggu sampai masalah reda dengan sendirinya"],["Saya mendorong anggota tim bekerja sama untuk mencapai hasil terbaik","Saya memberi kesempatan anggota tim untuk mencoba tugas baru"],["Saya mendengarkan ide anggota tim sebelum menetapkan rencana","Saya mengalah agar tidak terjadi perselisihan di tim"],["Saya mencari jalan tengah agar semua pihak merasa puas","Saya mengambil keputusan sendiri karena saya paling tahu apa yang harus dilakukan"],["Saya mengerjakan bagian saya sesuai aturan dan tidak lebih dari itu","Saya meluangkan waktu untuk membimbing anggota tim yang baru"],["Saya membahas hasil kerja bersama tim untuk perbaikan berikutnya","Saya menjelaskan alasan di balik keputusan yang saya ambil"],["Saya menjaga agar suasana tim selalu menyenangkan","Saya memberi arahan yang jelas tentang apa yang harus dicapai"],["Saya menghindari teguran yang bisa membuat anggota tim tersinggung","Saya mengubah keputusan bila banyak anggota tim yang keberatan"],["Saya mengawasi pekerjaan bawahan dengan ketat","Saya mempercayakan tanggung jawab penting kepada anggota tim"],["Saya melibatkan semua orang sebelum memutuskan hal kecil sekalipun","Saya memperlakukan semua anggota tim dengan aturan yang sama"],["Saya cepat memutuskan saat tim menghadapi masalah mendesak","Saya memberi kesempatan anggota tim untuk mencoba tugas baru"],["Saya mencoba memenuhi permintaan atasan dan bawahan sekaligus","Saya mengajak tim menetapkan target bersama"],["Saya merujuk pada peraturan perusahaan saat ada perbedaan pendapat","Saya mengutamakan hubungan baik walaupun target sedikit tertunda"],["Saya menetapkan cara kerja dan meminta tim mengikutinya tanpa banyak diskusi","Saya memastikan setiap pekerjaan mengikuti prosedur yang berlaku"],["Saya menegur keras anggota tim yang tidak memenuhi target","Saya menetapkan target dan memantau kemajuannya setiap minggu"],["Saya mencatat dan mengarsipkan setiap keputusan tim dengan rapi","Saya mengambil keputusan sendiri karena saya paling tahu apa yang harus dilakukan"],["Saya mengawasi pekerjaan bawahan dengan ketat","Saya mencari jalan tengah agar semua pihak merasa puas"],["Saya mengalah agar tidak terjadi perselisihan di tim","Saya mendengarkan ide anggota tim sebelum menetapkan rencana"],["Saya jarang mengadakan rapat dengan tim","Saya menuntut standar kerja tinggi sambil tetap memperhatikan kebutuhan tim"],["Saya menjaga agar suasana tim selalu menyenangkan","Saya menetapkan cara kerja dan meminta tim mengikutinya tanpa banyak diskusi"],["Saya membiarkan anggota tim menyelesaikan masalahnya sendiri tanpa campur tangan","Saya menghindari teguran yang bisa membuat anggota tim tersinggung"],["Saya menegur keras anggota tim yang tidak memenuhi target","Saya mendorong anggota tim bekerja sama untuk mencapai hasil terbaik"],["Saya meluangkan waktu untuk membimbing anggota tim yang baru","Saya membahas hasil kerja bersama tim untuk perbaikan berikutnya"],["Saya mempercayakan tanggung jawab penting kepada anggota tim","Saya lebih suka menunggu sampai masalah reda dengan sendirinya"],["Saya memperlakukan semua anggota tim dengan aturan yang sama","Saya mengerjakan bagian saya sesuai aturan dan tidak lebih dari itu"],["Saya mengubah keputusan bila banyak anggota tim yang keberatan","Saya mengutamakan hubungan baik walaupun target sedikit tertunda"],["Saya melibatkan semua orang sebelum memutuskan hal kecil sekalipun","Saya merujuk pada peraturan perusahaan saat ada perbedaan pendapat"],["Saya jarang mengadakan rapat dengan tim","Saya memastikan setiap pekerjaan mengikuti prosedur yang berlaku"],["Saya mengajak tim menetapkan target bersama","Saya mencoba memenuhi permintaan atasan dan bawahan sekaligus"],["Saya mencatat dan mengarsipkan setiap keputusan tim dengan rapi","Saya mengambil keputusan sendiri karena saya paling tahu apa yang harus dilakukan"],["Saya memberi kesempatan anggota tim untuk mencoba tugas baru","Saya mengalah agar tidak terjadi perselisihan di tim"],["Saya memperlakukan semua anggota tim dengan aturan yang sama","Saya mencari jalan tengah agar semua pihak merasa puas"],["Saya mengubah keputusan bila banyak anggota tim yang keberatan","Saya menjaga agar suasana tim selalu menyenangkan"],["Saya menjelaskan alasan di balik keputusan yang saya ambil","Saya membiarkan anggota tim menyelesaikan masalahnya sendiri tanpa campur tangan"],["Saya lebih suka menunggu sampai masalah reda dengan sendirinya","Saya melibatkan semua orang sebelum memutuskan hal kecil sekalipun"],["Saya menghindari teguran yang bisa membuat anggota tim tersinggung","Saya merujuk pada peraturan perusahaan saat ada perbedaan pendapat"],["Saya memberi arahan yang jelas tentang apa yang harus dicapai","Saya mendengarkan ide anggota tim sebelum menetapkan rencana"],["Saya mengerjakan bagian saya sesuai aturan dan tidak lebih dari itu","Saya memastikan setiap pekerjaan mengikuti prosedur yang berlaku"],["Saya mencatat dan mengarsipkan setiap keputusan tim dengan rapi","Saya mengutamakan hubungan baik walaupun target sedikit tertunda"],["Saya menuntut standar kerja tinggi sambil tetap memperhatikan kebutuhan tim","Saya mengawasi pekerjaan bawahan dengan ketat"],["Saya cepat memutuskan saat tim menghadapi masalah mendesak","Saya menetapkan cara kerja dan meminta tim mengikutinya tanpa banyak diskusi"],["Saya meluangkan waktu untuk membimbing anggota tim yang baru","Saya jarang mengadakan rapat dengan tim"],["Saya mendorong anggota tim bekerja sama untuk mencapai hasil terbaik","Saya mempercayakan tanggung jawab penting kepada anggota tim"],["Saya memperlakukan semua anggota tim dengan aturan yang sama","Saya menegur keras anggota tim yang tidak memenuhi target"],["Saya mencoba memenuhi permintaan atasan dan bawahan sekaligus","Saya mengambil keputusan sendiri karena saya paling tahu apa yang harus dilakukan"],["Saya mengalah agar tidak terjadi perselisihan di tim","Saya membahas hasil kerja bersama tim untuk perbaikan berikutnya"],["Saya mengawasi pekerjaan bawahan dengan ketat","Saya menetapkan target dan memantau kemajuannya setiap minggu"],["Saya menjelaskan alasan di balik keputusan yang saya ambil","Saya merujuk pada peraturan perusahaan saat ada perbedaan pendapat"]],"kunci":["EG","GD","CA","FG","HG","BH","AH","CH","HD","BE","HF","DG","GA","FB","AD","FA","GA","HF","FB","DC","AF","HG","BG","BD","CF","DE","GF","DH","EB","CE","CG","EC","CD","BF","AH","BC","AB","CH","FH","FA","EA","DB","DE","AE","HD","EC","FB","ED","DB","GA","AD","BE","GF","AE","EB","HC","GC","FA","HF","EC","DC","BH","CG","GE"],"koreksi":{},"konversi":[[0,0],[28,0.8],[30,1.4],[32,2.2],[34,2.8],[36,3.4],[38,4]]};
+// ==MSDT== skoring MSDT. MSDT_DATA disediakan msdt-data.js (Code.gs) atau msdt-demo.js (mode demo).
+// Isi untuk peserta: hanya teks pernyataan, tanpa kunci skoring.
+function msdtKonten() {
+  return { soal: MSDT_DATA.soal.map(function (s) { return [s[0], s[1]]; }), demo: !!MSDT_DATA.demo };
+}
+// Jawaban: { nomor: 0 (pernyataan A) | 1 (pernyataan B) }.
+function msdtBersihkan(j) {
+  var o = {}, N = MSDT_DATA.soal.length;
+  if (!j || typeof j !== 'object') return o;
+  for (var n = 1; n <= N; n++) { var v = j[n]; if (v === 0 || v === 1 || v === '0' || v === '1') o[n] = +v; }
+  return o;
+}
+function msdtKonversi(v) {
+  var k = MSDT_DATA.konversi, o = 0;
+  for (var i = 0; i < k.length; i++) if (v >= k[i][0]) o = k[i][1];
+  return o;
+}
+// Skor skala A–H = pilihan yang jatuh pada skala itu + koreksi. TO, RO, E = jumlah empat skala, lalu dikonversi.
+// Gaya utama ditentukan dari posisi konversi TO, RO, dan E terhadap 2. butir: A/B per nomor ('-' = kosong).
+function msdtSkor(j) {
+  var s = {}, lengkap = 0, butir = '';
+  MSDT_GAYA.forEach(function (g) { s[g.k] = 0; });
+  MSDT_DATA.soal.forEach(function (x, i) {
+    var v = j[i + 1];
+    if (v === 0 || v === 1) { s[MSDT_DATA.kunci[i].charAt(v)]++; lengkap++; butir += 'AB'.charAt(v); } else butir += '-';
+  });
+  MSDT_GAYA.forEach(function (g) { s[g.k] += +(MSDT_DATA.koreksi[g.k] || 0); });
+  var dim = {};
+  Object.keys(MSDT_DIMENSI).forEach(function (d) {
+    var v = MSDT_DIMENSI[d].reduce(function (a, k) { return a + s[k]; }, 0);
+    dim[d] = { skor: v, konv: msdtKonversi(v) };
+  });
+  dim.O = { skor: s.A };
+  var gaya = msdtGaya(dim.TO.konv > MSDT_BATAS, dim.RO.konv > MSDT_BATAS, dim.E.konv > MSDT_BATAS);
+  return { s: s, dim: dim, gaya: gaya, lengkap: lengkap, nSoal: MSDT_DATA.soal.length, demo: !!MSDT_DATA.demo, butir: butir };
+}
+
 const IST_UKURAN = {"117":[564,443],"118":[564,443],"119":[564,443],"120":[564,443],"121":[564,443],"122":[564,443],"123":[564,443],"124":[564,443],"125":[564,443],"126":[564,443],"127":[564,443],"128":[564,443],"129":[564,443],"130":[564,443],"131":[564,443],"132":[564,443],"133":[564,443],"134":[564,443],"135":[564,443],"136":[564,443],"137":[299,335],"138":[319,335],"139":[314,335],"140":[323,322],"141":[337,335],"142":[301,329],"143":[320,329],"144":[311,317],"145":[322,317],"146":[337,327],"147":[305,322],"148":[321,319],"149":[316,313],"150":[323,305],"151":[338,309],"152":[304,329],"153":[321,326],"154":[316,316],"155":[323,314],"156":[331,331],"demo-fa-1":[623,470],"demo-fa-2":[590,454],"demo-fa-3":[592,443],"demo-fa-4":[573,447],"demo-fa-p-a":[370,363],"demo-fa-p-b":[505,363],"demo-fa-p-c":[321,363],"demo-fa-p-d":[457,363],"demo-fa-p-e":[471,363],"demo-wu-1":[340,324],"demo-wu-2":[336,327],"demo-wu-3":[320,319],"demo-wu-4":[324,306],"demo-wu-5":[329,313],"demo-wu-p-a":[335,362],"demo-wu-p-b":[334,340],"demo-wu-p-c":[320,329],"demo-wu-p-d":[324,319],"demo-wu-p-e":[330,314],"fa-contoh-pilihan":[1968,392],"fa-contoh-soal":[1996,468],"fa-p1-a":[468,347],"fa-p1-b":[328,347],"fa-p1-c":[386,347],"fa-p1-d":[410,347],"fa-p1-e":[461,347],"fa-p2-a":[415,335],"fa-p2-b":[436,335],"fa-p2-c":[367,335],"fa-p2-d":[285,335],"fa-p2-e":[532,335],"wu-contoh":[2104,878],"wu-p-a":[301,317],"wu-p-b":[322,326],"wu-p-c":[318,322],"wu-p-d":[326,317],"wu-p-e":[335,320]};
 'use strict';
 /* =================================================================
@@ -3074,7 +3203,7 @@ function hashDemo(s) { // hanya untuk demo; versi Google Sheets memakai SHA-256
   return ((h1 >>> 0).toString(16) + (h2 >>> 0).toString(16)).padStart(16, '0');
 }
 function buatDbDemo() {
-  const KUNCI = 'potrev_demo_v9';
+  const KUNCI = 'potrev_demo_v10';
   let data = bacaLokal(KUNCI) || { tabel: {}, cache: {}, foto: [] };
   const salin = o => JSON.parse(JSON.stringify(o));
   const simpan = () => { if (!simpanLokal(KUNCI, data)) console.warn('Penyimpanan demo penuh'); };
@@ -3587,7 +3716,7 @@ function vDaftarTes(pesan) {
 }
 function kartuTes(tes, i, berikut) {
   const c = P.state.cfg[tes], sudah = P.state.selesai.includes(tes), cup = cuplikanLanjut(), jalan = !sudah && cup && cup.tes === tes, giliran = jalan || (tes === berikut && !(cup && cup.tes !== tes));
-  const fakta = tes === 'ist' ? [['Subtes', c.menit.length], ['Soal', istJumlahSoal()], ['Total waktu', durasiTes(tes, c)]] : tes === 'disc' ? [['Nomor', 24], ['Pilihan', 'P dan K'], ['Total waktu', durasiTes(tes, c)]] : tes === 'papi' ? [['Nomor', 90], ['Pilihan', 'A atau B'], ['Total waktu', durasiTes(tes, c)]] : tes === 'kraepelin'
+  const fakta = tes === 'ist' ? [['Subtes', c.menit.length], ['Soal', istJumlahSoal()], ['Total waktu', durasiTes(tes, c)]] : tes === 'disc' ? [['Nomor', 24], ['Pilihan', 'P dan K'], ['Total waktu', durasiTes(tes, c)]] : tes === 'papi' ? [['Nomor', 90], ['Pilihan', 'A atau B'], ['Total waktu', durasiTes(tes, c)]] : tes === 'msdt' ? [['Nomor', 64], ['Pilihan', 'A atau B'], ['Total waktu', durasiTes(tes, c)]] : tes === 'kraepelin'
     ? [['Lajur', c.jumlahLajur], ['Per lajur', c.detikPerLajur + ' dtk'], ['Total', durasiTes(tes, c)]]
     : [['Total', durasiTes(tes, c)], ['Tanda garis', 'tiap ' + durasiTeks(c.menitPerPeriode)], ['Periode', jumlahPeriode(c)]];
   return `<article class="lembar kartu${giliran ? ' giliran' : ''}">
@@ -3662,6 +3791,7 @@ function vInstruksi(tes) {
   if (tes === 'ist') return vInstruksiIST();
   if (tes === 'disc') return vInstruksiDISC();
   if (tes === 'papi') return vInstruksiPAPI();
+  if (tes === 'msdt') return vInstruksiMSDT();
   const c = P.state.cfg[tes], K = tes === 'kraepelin';
   const langkah = K ? [
     'Layar menampilkan satu lajur angka. Kerjakan <b>dari bawah ke atas</b>.',
@@ -3804,6 +3934,7 @@ async function mulaiTes(tes, jenis, lanjut) {
     if (tes === 'ist') { T.jawaban = Array.isArray(s.jawaban) || !s.jawaban ? {} : s.jawaban; T.ist = Object.assign({ i: 0, fase: 'petunjuk', mulai: 0 }, s.ist || {}); }
     if (tes === 'disc') { T.jawaban = Array.isArray(s.jawaban) || !s.jawaban ? {} : s.jawaban; T.disc = Object.assign({ q: 0 }, s.disc || {}); }
     if (tes === 'papi') { T.jawaban = Array.isArray(s.jawaban) || !s.jawaban ? {} : s.jawaban; T.papi = Object.assign({ q: 0 }, s.papi || {}); }
+    if (tes === 'msdt') { T.jawaban = Array.isArray(s.jawaban) || !s.jawaban ? {} : s.jawaban; T.msdt = Object.assign({ q: 0 }, s.msdt || {}); }
   } else {
     const cfg = Object.assign({}, jenis === 'latihan' ? CFG_LATIHAN[tes] : st.cfg[tes]);
     T = { tes, jenis, kode: P.kode, sesi: P.sesi, cfg, seed: seedBaru(), mulai: now + 3000, jawaban: [], pembetulan: [], batas: [], aktif: 0, dihapus: {},
@@ -3811,6 +3942,7 @@ async function mulaiTes(tes, jenis, lanjut) {
     if (tes === 'ist') { T.mulai = now; T.jawaban = {}; T.ist = { i: 0, fase: 'petunjuk', mulai: 0 }; }
     if (tes === 'disc') { T.mulai = now; T.jawaban = {}; T.disc = { q: 0 }; }
     if (tes === 'papi') { T.mulai = now; T.jawaban = {}; T.papi = { q: 0 }; }
+    if (tes === 'msdt') { T.mulai = now; T.jawaban = {}; T.msdt = { q: 0 }; }
   }
   T.proktor = proktor; T.berhenti = false; T.hitung = null;
   T.batasPeringatan = st.batch.batasPeringatan;
@@ -3819,10 +3951,11 @@ async function mulaiTes(tes, jenis, lanjut) {
   if (T.tes === 'ist') T.konten = IST.konten;
   else if (T.tes === 'disc') T.konten = DISC.konten;
   else if (T.tes === 'papi') T.konten = PAPI.konten;
+  else if (T.tes === 'msdt') T.konten = MSDT.konten;
   else if (T.tes === 'kraepelin') T.lembar = lembarKraepelin(T.seed, T.cfg.jumlahLajur, T.cfg.angkaPerLajur);
   else T.get = deretPauli(T.seed);
   T.fsWajib = await masukLayarPenuh();
-  if (T.tes === 'ist') bangunLayarIST(); else if (T.tes === 'disc') bangunLayarDISC(); else if (T.tes === 'papi') bangunLayarPAPI(); else { bangunLayarTes(); gambarStrip(); }
+  if (T.tes === 'ist') bangunLayarIST(); else if (T.tes === 'disc') bangunLayarDISC(); else if (T.tes === 'papi') bangunLayarPAPI(); else if (T.tes === 'msdt') bangunLayarMSDT(); else { bangunLayarTes(); gambarStrip(); }
   mintaWakeLock();
   if (proktor) {
     Kamera.tampil(st.batch.kamera);
@@ -3868,8 +4001,8 @@ function perbaruiPeringatan() {
   T.el.peringatan.textContent = n ? `⚠ ${Math.min(n, T.batasPeringatan)}/${T.batasPeringatan}` : '';
 }
 function tutupLayarTes() {
-  const L = $('#layar-tes'); L.hidden = true; L.innerHTML = ''; L.classList.remove('dijeda', 'ist', 'disc', 'papi');
-  document.documentElement.classList.remove('tes-aktif', 'tes-ist', 'tes-disc', 'tes-papi');
+  const L = $('#layar-tes'); L.hidden = true; L.innerHTML = ''; L.classList.remove('dijeda', 'ist', 'disc', 'papi', 'msdt');
+  document.documentElement.classList.remove('tes-aktif', 'tes-ist', 'tes-disc', 'tes-papi', 'tes-msdt');
   Kamera.tampil(false);
 }
 function gambarStrip() {
@@ -3917,6 +4050,7 @@ function tick() {
   if (T.tes === 'ist') return tickIST();
   if (T.tes === 'disc') return tickDISC();
   if (T.tes === 'papi') return tickPAPI();
+  if (T.tes === 'msdt') return tickMSDT();
   const el = berlalu(T, Date.now());
   if (el < 0) {
     const s = Math.min(3, Math.ceil(-el / 1000));
@@ -3962,7 +4096,7 @@ function bunyi(f, dur) {
   } catch (e) { /* suara opsional */ }
 }
 function tekan(k) {
-  if (!T || T.berhenti || T.jedaSejak || T.tes === 'ist' || T.tes === 'disc' || T.tes === 'papi' || berlalu(T, Date.now()) < 0) return;
+  if (!T || T.berhenti || T.jedaSejak || T.tes === 'ist' || T.tes === 'disc' || T.tes === 'papi' || T.tes === 'msdt' || berlalu(T, Date.now()) < 0) return;
   if (k === 'koreksi') { koreksi(); return; }
   const d = +k; if (!(d >= 0 && d <= 9)) return;
   if (T.tes === 'kraepelin') {
@@ -3997,7 +4131,7 @@ const AUTOSAVE_MS = 30000;
 let autosaveTerakhir = 0, autosaveSibuk = false;
 function cuplikanT() {
   const now = Date.now();
-  return { tes: T.tes, jenis: T.jenis, kode: T.kode, sesi: T.sesi, cfg: T.cfg, seed: T.seed, jawaban: T.jawaban, pembetulan: T.pembetulan, batas: T.batas, aktif: T.aktif, ist: T.ist, disc: T.disc, papi: T.papi,
+  return { tes: T.tes, jenis: T.jenis, kode: T.kode, sesi: T.sesi, cfg: T.cfg, seed: T.seed, jawaban: T.jawaban, pembetulan: T.pembetulan, batas: T.batas, aktif: T.aktif, ist: T.ist, disc: T.disc, papi: T.papi, msdt: T.msdt,
     pelanggaran: T.pelanggaran, log: T.log, jedaTotal: T.jedaTotal + (T.jedaSejak ? now - T.jedaSejak : 0), berlalu: Math.max(0, berlalu(T, now)), tersimpan: now };
 }
 function simpanProgres(paksa) {
@@ -4595,7 +4729,7 @@ const DISC_POLA = {
   'I': { nama: 'Pemengaruh', ringkas: 'Hangat, antusias, dan mudah bergaul.',
     desk: 'Membangun hubungan dengan cepat, senang tampil, dan mampu menciptakan suasana yang positif. Lebih terdorong oleh pengakuan dan hubungan baik daripada oleh rincian tugas.',
     kuat: ['Membangun jejaring dengan cepat', 'Menyampaikan gagasan dengan meyakinkan', 'Optimis dan menyemangati orang lain'],
-    awas: ['Kurang teliti dan mudah teralihkan', 'Cenderung terlalu banyak berjanji'],
+    awas: ['Kurang teliti dan mudah teralihkan', 'Mudah menjanjikan lebih dari yang sanggup dipenuhi'],
     ling: 'Pekerjaan yang banyak berinteraksi, bervariasi, dan menghargai pencapaian secara terbuka.' },
   'I-D': { nama: 'Pembujuk', ringkas: 'Persuasif, percaya diri, dan nyaman memimpin dari depan.',
     desk: 'Memakai kemampuan bergaul untuk mencapai tujuan. Pandai meyakinkan orang, nyaman tampil di depan, dan cepat menyesuaikan pendekatan dengan lawan bicara. Menyukai tantangan yang melibatkan banyak orang.',
@@ -4604,7 +4738,7 @@ const DISC_POLA = {
     ling: 'Peran yang menuntut negosiasi, presentasi, atau penggalangan kerja sama.' },
   'I-S': { nama: 'Pendamping', ringkas: 'Ramah, sabar, dan mudah dipercaya.',
     desk: 'Senang membantu dan menjadi tempat bertanya. Menciptakan suasana kerja yang hangat dan harmonis, serta peka terhadap kebutuhan orang lain. Cenderung menghindari konflik terbuka.',
-    kuat: ['Pendengar yang baik dan mudah didekati', 'Membangun kerja sama dan kekompakan tim', 'Sabar membimbing orang lain'],
+    kuat: ['Mau mendengarkan dan mudah didekati', 'Membangun kerja sama dan kekompakan tim', 'Sabar membimbing orang lain'],
     awas: ['Sulit menyampaikan teguran atau penolakan', 'Cenderung menunda keputusan yang tidak populer'],
     ling: 'Lingkungan yang suportif dan stabil, berorientasi pada pelayanan atau pengembangan orang.' },
   'I-C': { nama: 'Komunikator Cermat', ringkas: 'Ekspresif, namun tetap memperhatikan kualitas.',
@@ -5015,6 +5149,241 @@ function halPAPI(H, L, h, no, klien) {
   H.push({ isi });
 }
 
+/* ================= MSDT: 64 nomor, pilih satu dari dua pernyataan =================
+   Layar kerja memakai tampilan pilihan A/B yang sama dengan PAPI Kostick (kelas papi-*). */
+const MSDT = { konten: null };
+async function muatMSDT(el) {
+  if (MSDT.konten) return true;
+  try {
+    if (el) el.disabled = true;
+    MSDT.konten = (await apiP('msdtKonten')).konten;
+    return true;
+  } catch (e) { vDaftarTes({ teks: 'Pernyataan MSDT belum bisa dimuat. ' + e.message, jenis: 'galat' }); return false; }
+  finally { if (el) el.disabled = false; }
+}
+const msdtN = () => T.konten.soal.length;
+const msdtSah = v => v === 0 || v === 1;
+const msdtTerjawab = () => Object.keys(T.jawaban).filter(n => msdtSah(T.jawaban[n])).length;
+// Satu pilihan pernyataan. Pada contoh di halaman petunjuk hanya tampilan.
+function msdtOpsi(teks, i, pilih, n) {
+  const isi = `<span class="papi-huruf">${'AB'[i]}</span><span class="papi-teks">${esc(teks)}</span><span class="papi-centang" aria-hidden="true">${ik('cek')}</span>`;
+  return n
+    ? `<button type="button" class="papi-opsi${pilih === i ? ' pilih' : ''}" data-aksi="msdt-pilih" data-n="${n}" data-i="${i}" aria-pressed="${pilih === i}">${isi}</button>`
+    : `<div class="papi-opsi${pilih === i ? ' pilih' : ''}" aria-hidden="true">${isi}</div>`;
+}
+
+/* ---------- Petunjuk ---------- */
+function vInstruksiMSDT() {
+  const c = P.state.cfg.msdt, contoh = ['Saya membagi tugas sesuai kemampuan setiap anggota tim', 'Saya meminta pendapat tim sebelum menetapkan target'];
+  const langkah = [
+    'Tes terdiri dari <b>64 nomor</b>. Setiap nomor berisi <b>dua pernyataan</b> (A dan B) tentang cara memimpin dan bekerja dengan orang lain.',
+    'Pilih <b>satu</b> pernyataan yang <b>paling sesuai dengan diri Anda</b>. Bila keduanya sesuai, atau keduanya kurang sesuai, tetap pilih yang paling mendekati.',
+    'Bila Anda belum pernah memimpin, bayangkan apa yang akan Anda lakukan bila menjadi pemimpin. Tidak ada jawaban benar atau salah.',
+    `Waktu pengerjaan <b>${durasiTes('msdt', c)}</b>. Jawablah dengan spontan; setelah memilih, layar pindah sendiri ke nomor berikutnya. Tes berakhir sendiri saat waktu habis.`,
+    'Anda bisa kembali ke nomor sebelumnya dan mengganti jawaban sebelum menekan <b>Selesai tes</b>. Di papan ketik, tekan <b>A</b> atau <b>B</b> untuk memilih.'
+  ];
+  render(kepala() + `<main class="wrap">
+    ${tKembali('Daftar tes', 'data-aksi="daftar-tes"')}
+    <div class="tumpuk"><h1>Petunjuk tes MSDT</h1></div>
+    ${P.state.batch.mode === 'Uji coba' ? notis('Durasi singkat (uji coba). Hasil ditandai "Uji coba".', 'peringatan') : ''}
+    <div class="instruksi">
+      <section class="lembar tumpuk" style="gap:18px">
+        <h2>Cara mengerjakan</h2>
+        <ol class="langkah">${langkah.map(l => `<li><span>${l}</span></li>`).join('')}</ol>
+        <h3>Pengawasan</h3>
+        ${aturanPengawasan(P.state.batch)}
+      </section>
+      <aside class="sisi">
+        <div class="lembar contoh"><h3>Contoh</h3>
+          <p class="disc-contoh-ket">Orang ini merasa pernyataan B lebih sesuai dengan dirinya, jadi ia memilih B.</p>
+          <div class="papi-contoh">${contoh.map((t, i) => msdtOpsi(t, i, 1)).join('')}</div>
+        </div>
+        <div class="aksi" style="flex-direction:column;align-items:stretch"><button class="tombol utama" data-aksi="tanya-mulai">Mulai tes</button></div>
+        ${panelKonfirmasi('msdt')}
+      </aside>
+    </div>
+  </main>`);
+}
+
+/* ---------- Layar kerja ---------- */
+function bangunLayarMSDT() {
+  const L = $('#layar-tes'), label = P.state.batch.mode === 'Uji coba' ? 'Uji coba' : '';
+  L.innerHTML = `<div class="tes-kepala">
+      <div class="tes-judul">MSDT${label ? `<span class="chip biru">${label}</span>` : ''}<span class="ist-sub" id="msdt-sub"></span></div>
+      <div class="tes-kanan"><span class="tes-peringatan" id="t-peringatan"></span><span class="tes-posisi ist-waktu" id="t-posisi"></span></div>
+    </div>
+    <div class="bar" aria-hidden="true"><i id="t-total"></i></div>
+    <div class="bar bagian" aria-hidden="true"><i id="t-bagian"></i></div>
+    <div class="ist-badan" id="ist-badan"><div class="ist-kerja"><section class="ist-soal" id="msdt-soal" aria-live="polite"></section>${msdtPanel()}</div></div>
+    <div class="aba" id="t-aba" hidden></div>
+    <div class="jeda-layar" id="t-jeda" hidden></div>`;
+  L.hidden = false; L.classList.add('ist', 'papi', 'msdt');
+  document.documentElement.classList.add('tes-aktif', 'tes-ist', 'tes-msdt');
+  T.el = { total: $('#t-total'), bagian: $('#t-bagian'), posisi: $('#t-posisi'), peringatan: $('#t-peringatan') };
+  perbaruiPeringatan(); msdtTampil();
+}
+// Panel nomor. Di ponsel daftar 1–64 dilipat agar soal tetap terlihat.
+function msdtPanel() {
+  const N = msdtN(), buka = window.innerWidth > 860;
+  return `<aside class="ist-panel papi-panel" aria-label="Nomor soal">
+    <details class="papi-nav"${buka ? ' open' : ''}><summary><b>Nomor 1–${N}</b><span id="msdt-terisi"></span></summary>
+      <div class="ist-nomor" id="msdt-nomor">${Array.from({ length: N }, (_, q) => `<button type="button" data-aksi="msdt-nomor" data-q="${q}">${q + 1}</button>`).join('')}</div>
+      <div class="ist-legenda-nav"><span><i class="isi"></i>Terjawab</span><span><i></i>Belum</span></div>
+    </details>
+    <button type="button" class="tombol sekunder lebar" data-aksi="msdt-selesai">Selesai tes</button>
+    <div class="ist-tanya" id="msdt-tanya" hidden><p id="msdt-tanya-teks"></p><div class="aksi"><button type="button" class="tombol sekunder" data-aksi="msdt-selesai-batal">Kembali</button><button type="button" class="tombol utama" data-aksi="msdt-selesai-ya">Ya, selesai</button></div></div>
+  </aside>`;
+}
+function msdtPerbaruiPanel() {
+  const q = T.msdt.q || 0, N = msdtN();
+  document.querySelectorAll('#msdt-nomor button').forEach(b => {
+    const i = +b.dataset.q, isi = msdtSah(T.jawaban[i + 1]);
+    b.className = ((isi ? 'isi' : '') + (i === q ? ' kini' : '')).trim();
+    b.setAttribute('aria-label', `Nomor ${i + 1}, ${isi ? 'terjawab' : 'belum dijawab'}`);
+    b.setAttribute('aria-current', i === q ? 'true' : 'false');
+  });
+  const t = $('#msdt-terisi'); if (t) t.textContent = `${msdtTerjawab()} dari ${N} terjawab`;
+}
+function msdtTampil() {
+  const w = $('#msdt-soal'); if (!w) return;
+  const N = msdtN(), q = Math.max(0, Math.min(N - 1, T.msdt.q || 0)), s = T.konten.soal[q], pilih = T.jawaban[q + 1], akhir = q === N - 1;
+  T.msdt.q = q;
+  $('#msdt-sub').textContent = `Nomor ${q + 1} dari ${N}`;
+  w.innerHTML = `<div class="ist-kartu papi-kartu-tes">
+    <div class="ist-kartu-kepala"><span class="ist-no-besar">Nomor ${q + 1}</span><span class="ist-pos">${q + 1} dari ${N}</span></div>
+    <div class="ist-kartu-isi">
+      <p class="disc-tanya">Pilih satu pernyataan yang <b>paling sesuai dengan diri Anda</b>.</p>
+      <div class="papi-pilihan" role="group" aria-label="Pernyataan nomor ${q + 1}">${s.map((t, i) => msdtOpsi(t, i, pilih, q + 1)).join('')}</div>
+    </div>
+    <div class="ist-kartu-kaki">
+      <button type="button" class="tombol sekunder" data-aksi="msdt-prev" ${q === 0 ? 'disabled' : ''}>${ik('kiri')}Sebelumnya</button>
+      <button type="button" class="tombol ${akhir ? 'sekunder' : 'utama'}" data-aksi="${akhir ? 'msdt-selesai' : 'msdt-next'}">${akhir ? 'Selesai tes' : 'Berikutnya'}${akhir ? '' : ik('kanan')}</button>
+    </div></div>`;
+  msdtPerbaruiPanel();
+  $('#ist-badan').scrollTop = 0;
+}
+function msdtBolehJawab() { return T && !T.berhenti && T.tes === 'msdt' && !T.jedaSejak; }
+// Memilih: tandai pilihan, simpan, lalu pindah sendiri ke nomor berikutnya setelah jeda singkat.
+function msdtPilih(el) {
+  if (!msdtBolehJawab()) return;
+  const n = +el.dataset.n, i = +el.dataset.i;
+  T.jawaban[n] = i;
+  document.querySelectorAll('#msdt-soal .papi-opsi').forEach(b => { const on = +b.dataset.i === i; b.classList.toggle('pilih', on); b.setAttribute('aria-pressed', on); });
+  msdtPerbaruiPanel(); simpanProgres();
+  clearTimeout(T.msdtMaju);
+  if (n < msdtN()) T.msdtMaju = setTimeout(() => { if (msdtBolehJawab() && T.msdt.q === n - 1) msdtKe(n); }, 320);
+  else msdtTanyaSelesai(true);
+}
+function msdtKe(q) {
+  if (!msdtBolehJawab() || q < 0 || q >= msdtN()) return;
+  clearTimeout(T.msdtMaju);
+  T.msdt.q = q; msdtTanyaSelesai(false); msdtTampil(); simpanProgres();
+}
+function msdtTanyaSelesai(tampil) {
+  const k = $('#msdt-tanya'); if (!k || !msdtBolehJawab()) return;
+  if (tampil) {
+    const kurang = msdtN() - msdtTerjawab();
+    $('#msdt-tanya-teks').innerHTML = `${kurang ? `<b>${kurang} nomor belum dijawab.</b> Nomor yang kosong tidak ikut dihitung. ` : 'Semua nomor sudah dijawab. '}Setelah selesai, jawaban tidak bisa diubah lagi.`;
+  }
+  k.hidden = !tampil;
+  if (tampil) k.scrollIntoView({ block: 'nearest' });
+}
+function msdtAkhiri(ket) {
+  if (!T || T.berhenti || T.tes !== 'msdt') return;
+  clearTimeout(T.msdtMaju);
+  logT('bagian', `${ket}; ${msdtTerjawab()} dari ${msdtN()} nomor terjawab`);
+  akhiriTes();
+}
+function tickMSDT() {
+  const el = berlalu(T, Date.now()), total = durasiTesMs('msdt', T.cfg);
+  if (T.proktor && Date.now() - autosaveTerakhir > AUTOSAVE_MS) autosaveServer();
+  if (el >= total) { msdtAkhiri('Waktu habis'); return; }
+  setBar(Math.max(0, el) / total, msdtTerjawab() / msdtN());
+  teksPosisi(istJam(total - el));
+  if (total - el <= 60000 && total > 90000 && !T.msdtKritis) { T.msdtKritis = true; T.el.posisi.classList.add('kritis'); bunyi(520, 0.2); }
+}
+// Papan ketik: A/B (atau 1/2) memilih, panah kiri/kanan berpindah nomor.
+function msdtTombol(e) {
+  if (!msdtBolehJawab() || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+  const k = e.key.toLowerCase(), q = T.msdt.q || 0;
+  if (k === 'arrowright') { e.preventDefault(); msdtKe(q + 1); }
+  else if (k === 'arrowleft') { e.preventDefault(); msdtKe(q - 1); }
+  else if (k === 'a' || k === '1' || k === 'b' || k === '2') {
+    e.preventDefault();
+    const el = document.querySelector(`#msdt-soal .papi-opsi[data-i="${k === 'a' || k === '1' ? 0 : 1}"]`); if (el) msdtPilih(el);
+  }
+}
+
+/* ================= Laporan MSDT: satu halaman ================= */
+// Deskripsi gaya dari panduan MSDT (kartu gaya utama) dan gambaran perilakunya dalam pekerjaan (tabel tiga gaya).
+const MSDT_TEKS = {
+  A: { pola: 'TO rendah · RO rendah', desk: 'Menggunakan TO rendah dan RO rendah dalam situasi yang tidak tepat. Pemimpin yang pasif serta tidak mau terlibat dalam pekerjaannya.',
+    kerja: 'Cenderung menarik diri dari tanggung jawab: bekerja sebatas aturan, jarang mengambil keputusan, dan kurang hadir saat tim membutuhkan arahan.' },
+  B: { pola: 'TO rendah · RO tinggi', desk: 'Menggunakan TO rendah dan RO tinggi; lebih mementingkan keharmonisan organisasi daripada pelaksanaan tugas.',
+    kerja: 'Berusaha disukai dan menghindari konflik; cenderung mengalah atau menunda keputusan yang tidak populer demi menjaga suasana tetap nyaman.' },
+  C: { pola: 'TO tinggi · RO rendah', desk: 'Menggunakan TO tinggi dan RO rendah dalam situasi yang tidak sejalan dengan perilaku bawahannya. Tidak mempercayai orang lain, kurang menyenangkan, dan hanya tertarik pada tugas yang mendadak dan sesaat.',
+    kerja: 'Memberi perintah satu arah dan menuntut kepatuhan; jarang meminta pendapat, sehingga bawahan cenderung bekerja karena terpaksa.' },
+  D: { pola: 'TO tinggi · RO tinggi', desk: 'Menggunakan TO dan RO tinggi dalam situasi tertentu bagi orang tertentu. Pengambil keputusan yang kurang baik dan mudah dipengaruhi berbagai pihak; mampu meredakan tekanan secara minimal, tetapi kurang mampu menyusun dan menerapkan program jangka panjang.',
+    kerja: 'Banyak melibatkan orang dan mencari jalan tengah, termasuk saat situasi menuntut keputusan tegas; keputusannya mudah berubah mengikuti tekanan.' },
+  E: { pola: 'TO rendah · RO rendah', desk: 'Menggunakan TO rendah dan RO rendah pada situasi yang tepat. Menekankan aturan dan prosedur, menjalankan pengaturan dan pengawasan dengan caranya sendiri, serta berhati-hati dalam bertindak.',
+    kerja: 'Menjaga pekerjaan tetap tertib lewat aturan, prosedur, dan sistem; adil dan konsisten, cocok untuk pekerjaan yang menuntut ketelitian dan kepatuhan.' },
+  F: { pola: 'TO rendah · RO tinggi', desk: 'Menggunakan TO rendah dan RO tinggi dalam situasi yang tepat. Mempercayai orang lain dalam rangka mengembangkan bawahannya secara pribadi.',
+    kerja: 'Mendelegasikan, mendengarkan, dan memberi ruang bawahan untuk belajar; membangun kerja sama dan komitmen tim lewat kepercayaan.' },
+  G: { pola: 'TO tinggi · RO rendah', desk: 'Menggunakan TO tinggi dan RO rendah dalam situasi yang tepat. Mengetahui apa yang diinginkan dan bagaimana mencapainya tanpa menimbulkan keresahan bawahan.',
+    kerja: 'Tegas dan cepat memutuskan; memberi arahan dan target yang jelas, lalu memantau pelaksanaannya tanpa membuat bawahan tertekan.' },
+  H: { pola: 'TO tinggi · RO tinggi', desk: 'Menggunakan TO dan RO tinggi pada situasi yang tepat. Motivator yang baik, menetapkan standar kerja tinggi, dan memperlakukan setiap orang sesuai bidang tugasnya; mampu mengelola dan mengembangkan kelompok karena menekankan kerja sama.',
+    kerja: 'Melibatkan tim dalam menetapkan tujuan dan mengambil keputusan, sambil menjaga standar kerja yang tinggi; mendorong kerja sama untuk mencapai target.' }
+};
+const MSDT_DIM_INFO = [
+  { k: 'TO', nama: 'Task oriented', id: 'Orientasi tugas', desk: 'Pemimpin mengarahkan bawahan dalam usaha mencapai tujuan organisasi, meliputi perencanaan, pengorganisasian, dan pengendalian.' },
+  { k: 'RO', nama: 'Relationship oriented', id: 'Orientasi hubungan', desk: 'Hubungan kerja yang bersifat pribadi, ditandai saling percaya, menghargai ide bawahan, dan tenggang rasa terhadap perasaan bawahan.' },
+  { k: 'E', nama: 'Effectiveness', id: 'Efektivitas', desk: 'Pemimpin berhasil mencapai tujuan organisasi sesuai dengan persyaratan kedudukannya.' }
+];
+// Posisi TO/RO/E dibanding titik tengah skala konversi (2), ditulis tanpa angka.
+const msdtPosisi = tinggi => tinggi ? 'Di atas rata-rata' : 'Di bawah rata-rata';
+// Nomor 1 = gaya utama (dari TO, RO, E). Nomor 2–3 = dua skor tertinggi di antara gaya lain;
+// bila skor sama: gaya efektif dulu, lalu urutan skala dari H ke A.
+function msdtTigaGaya(s) {
+  const utama = MSDT_GAYA.find(g => g.nama === s.gaya), skala = s.s || {};
+  const lain = MSDT_GAYA.filter(g => g !== utama).sort((x, y) => (skala[y.k] || 0) - (skala[x.k] || 0) || y.efektif - x.efektif || y.k.localeCompare(x.k));
+  return (utama ? [utama] : []).concat(lain).slice(0, 3);
+}
+function halMSDT(H, L, h, no, klien, akhir) {
+  const s = h.skor || {}, dim = s.dim || {}, N = s.nSoal || 64, kurang = N - (s.lengkap == null ? N : s.lengkap);
+  const dur = (new Date(h.selesai) - new Date(h.mulai)) / 1000 - (+h.jedaDetik || 0);
+  const G = MSDT_GAYA.find(g => g.nama === s.gaya) || MSDT_GAYA[0], tg = G.k, T3 = msdtTigaGaya(s);
+  const tinggi = k => (dim[k] && dim[k].konv) > MSDT_BATAS;
+  const demo = s.demo ? '<p class="ist-demo"><b>Data demo.</b> Pernyataan dan kunci karangan. Hasil ini bukan hasil sebenarnya.</p>' : '';
+  const catKurang = kurang ? `<p class="disc-kurang">${ikon('peringatan')}<span>${kurang} dari ${N} nomor tidak dijawab. Nomor yang kosong tidak ikut dihitung; tafsirkan hasil dengan hati-hati.</span></p>` : '';
+  const kotak = d => { const t = tinggi(d.k), v = (dim[d.k] && dim[d.k].konv) || 0;
+    return `<div class="md-tile"><p class="md-k"><b>${d.k}</b>${d.id}</p><p class="md-pos ${t ? 'tg' : 'rd'}">${msdtPosisi(t)}</p>
+      <div class="md-skala"><i style="left:${Math.max(0, Math.min(100, v / 4 * 100))}%"></i><em style="left:50%"></em></div><p class="md-ujung"><span>Rendah</span><span>Rata-rata</span><span>Tinggi</span></p></div>`; };
+  let isi = sek(no, 'Kepemimpinan · Tes MSDT', 'Hasil Tes MSDT', `Management Style Diagnostic Test. ${N} pasang pernyataan; peserta memilih satu yang paling sesuai dengan dirinya. Mengukur gaya kepemimpinan berdasarkan Teori Tiga Dimensi (W.J. Reddin). Dikerjakan ${esc(fmtTgl(h.mulai))}, selama ${esc(durasiRingkas(dur))}${h.mode === 'Uji coba' ? ' (uji coba, durasi singkat)' : ''}.`) + demo + catKurang + `
+    <div class="md-hero">
+      <div class="md-gaya ${G.efektif ? 'ef' : 'ku'}"><p class="label">Gaya kepemimpinan utama</p><p class="md-nama">${esc(G.nama)}</p>
+        <p class="md-chip">${G.efektif ? 'Gaya efektif' : 'Gaya kurang efektif'} · ${MSDT_TEKS[tg].pola}</p><p class="md-desk">${esc(MSDT_TEKS[tg].desk)}</p></div>
+      <div class="md-tiles">${MSDT_DIM_INFO.map(kotak).join('')}<div class="md-o"><span>O</span><b>${dim.O ? dim.O.skor : '–'}</b><small>skor skala A (Deserter)</small></div></div>
+    </div>
+    <div class="blok-alir"><h3 class="sub-judul">Tiga pola dasar</h3><table class="t-lap md-tabel"><thead><tr><th>Dimensi</th><th>Pengertian</th><th>Posisi</th></tr></thead><tbody>
+      ${MSDT_DIM_INFO.map(d => `<tr><td class="md-dim"><b>${d.k}</b><span>${d.nama}</span></td><td>${esc(d.desk)}</td><td class="md-posisi"><span class="md-tk ${tinggi(d.k) ? 'tg' : 'rd'}">${msdtPosisi(tinggi(d.k))}</span></td></tr>`).join('')}
+    </tbody></table></div>
+    <div class="blok-alir"><h3 class="sub-judul">Tiga gaya kepemimpinan peserta</h3>
+      <p class="md-cat">Nomor 1 adalah gaya kepemimpinan utama, ditentukan dari gabungan TO, RO, dan E. Nomor 2 dan 3 adalah dua gaya lain yang paling sering muncul dalam pilihan peserta.</p>
+      <table class="t-lap md-tabel md-gaya-tabel"><thead><tr><th class="md-rk">#</th><th>Gaya</th><th>Pola</th><th>Gambaran dalam pekerjaan</th></tr></thead><tbody>
+      ${T3.map((g, i) => `<tr class="${i === 0 ? 'aktif' : ''}"><td class="md-rk"><b>${i + 1}</b><small>${i === 0 ? 'Utama' : 'Pendukung'}</small></td>
+        <td class="md-g"><b>${esc(g.nama)}</b><small>Skala ${g.k}</small><span class="md-ef ${g.efektif ? 'ef' : 'ku'}">${g.efektif ? 'Efektif' : 'Kurang efektif'}</span></td>
+        <td class="md-pola">${MSDT_TEKS[g.k].pola}</td><td>${esc(MSDT_TEKS[g.k].kerja)}</td></tr>`).join('')}
+    </tbody></table></div>
+    ${klien ? '' : catatanTes(h)}`;
+  // Modul tanpa psikogram: kesimpulan dan tanda tangan psikolog menyusul di bawah hasil MSDT
+  // (rapikanLaporan memindahkannya ke halaman lanjutan bila tidak muat). Kesimpulan sangat panjang: halaman sendiri.
+  if (!akhir) { H.push({ isi }); return; }
+  if (!akhir.panjang) { H.push({ isi: isi + akhir.blok }); return; }
+  H.push({ isi: isi + akhir.pindah });
+  H.push({ isi: sek(no, 'Kepemimpinan · Tes MSDT', 'Kesimpulan Psikolog') + akhir.blok });
+}
+
 /* ================= Staf: superadmin, psikolog klien, admin klien ================= */
 const KUNCI_STAF = 'potrev_staf';
 function vLoginStaf(pesan) {
@@ -5390,7 +5759,7 @@ function langkahAlat(m, boleh) {
         <span><b>${esc(BIODATA[k].nama)}</b><small>${BIODATA[k].field.length} isian: ${esc(ringkasBiodata(k))}</small></span></label>${tombolLihat('pratinjau-biodata', `data-k="${k}"`)}</div>`).join('')}</div></section>
     <section class="lembar tumpuk"><div class="judul-baris"><h2>Alat tes</h2><small>Aspek psikogram terisi otomatis dari alat tes yang dipilih</small></div>
       <div class="opsi-daftar">${URUT_TES.map(t => `<div class="opsi"><label><input type="checkbox" value="${t}" data-ubah="tes-modul" ${m.tes.includes(t) ? 'checked' : ''}>
-        <span><b>${TES[t].nama} <span class="durasi">${durasiTes(t, cfg[t])}</span></b><small>${TES[t].aspek.length ? `${TES[t].aspek.length} aspek: ${TES[t].aspek.map(a => esc(a.nama)).join(', ')}` : 'Pelengkap: tidak mengisi psikogram dan rekomendasi. Hasil berupa grafik dan interpretasi kepribadian.'}</small></span></label>${TES[t].aspek.length ? tombolLihat('pratinjau-tes', `data-tes="${t}"`, 'Lihat aspek') : ''}</div>`).join('')}</div>
+        <span><b>${TES[t].nama} <span class="durasi">${durasiTes(t, cfg[t])}</span></b><small>${TES[t].aspek.length ? `${TES[t].aspek.length} aspek: ${TES[t].aspek.map(a => esc(a.nama)).join(', ')}` : esc(TES[t].pelengkap || 'Pelengkap: tidak mengisi psikogram dan rekomendasi.')}</small></span></label>${TES[t].aspek.length ? tombolLihat('pratinjau-tes', `data-tes="${t}"`, 'Lihat aspek') : ''}</div>`).join('')}</div>
       ${m.tes.length > 1 ? `<div class="tumpuk-kecil"><h3 class="sub-h">Urutan pengerjaan</h3><div class="urutan">${m.tes.map((t, i) => `<div class="urutan-baris"><span class="no">${i + 1}</span><span>${TES[t].nama}</span>
         ${boleh ? `<span class="aksi-kecil"><button type="button" class="tombol teks kecil" data-aksi="tes-geser" data-i="${i}" data-d="-1" ${i ? '' : 'disabled'} aria-label="Naikkan ${TES[t].nama}">↑</button><button type="button" class="tombol teks kecil" data-aksi="tes-geser" data-i="${i}" data-d="1" ${i < m.tes.length - 1 ? '' : 'disabled'} aria-label="Turunkan ${TES[t].nama}">↓</button></span>` : ''}</div>`).join('')}</div>
         <label class="cek"><input type="checkbox" data-mf="acak" ${m.acak ? 'checked' : ''}> Acak urutan tes untuk setiap peserta</label></div>` : ''}</section>
@@ -5423,7 +5792,7 @@ function langkahPsikogram(m, boleh) {
   return `<section class="lembar tumpuk">
       <div class="judul-baris"><h2>Psikogram</h2><small>Skala 1–${skala}, ${m.aspek.length} aspek</small></div>
       <p class="catatan-kecil">${boleh ? 'Aspek terisi otomatis dari alat tes yang dipilih. <b>Klik kolom angka</b> untuk menetapkan standar (kolom berwarna). Hapus aspek yang tidak ingin dinilai; aspek yang dihapus tidak muncul di laporan.' : 'Kolom berwarna adalah standar setiap aspek.'}</p>
-      ${!daftarSumber(m.tes).length ? '<div class="kosong-isi">Alat tes yang dipilih tidak mengisi psikogram. DISC bersifat pelengkap: laporan berisi grafik dan interpretasinya, tanpa rekomendasi disarankan atau tidak disarankan. Biasanya DISC dipakai bersama alat tes lain.</div>' : m.aspek.length ? `<div class="tabel-wadah"><table class="psg-ui s${skala}">
+      ${!daftarSumber(m.tes).length ? `<div class="kosong-isi">${m.tes.length ? `Alat tes yang dipilih tidak mengisi psikogram. ${esc(m.tes.map(NAMA_TES).join(' dan '))} bersifat pelengkap: laporan berisi hasil dan interpretasinya, tanpa rekomendasi disarankan atau tidak disarankan. Biasanya dipakai bersama alat tes lain.` : 'Pilih alat tes terlebih dahulu.'}</div>` : m.aspek.length ? `<div class="tabel-wadah"><table class="psg-ui s${skala}">
         <thead><tr><th class="no" rowspan="2">No</th><th class="aspek" rowspan="2">Aspek psikologis</th>
           ${skala === 5 ? LEVEL.map(l => `<th class="lab">${l}</th>`).join('') : LEVEL.map(l => `<th class="lab" colspan="2">${l}</th>`).join('')}</tr>
           <tr class="angka">${angka.map(k => `<th>${k}</th>`).join('')}</tr></thead>
@@ -6046,6 +6415,10 @@ async function rapikanLaporan() {
       if (!bawa.length) break;
       const baru = lanjutan(kini, judul), bi = baru.querySelector('.hal-isi');
       baru.classList.remove('hal-alir');
+      // Yang pindah hanya kesimpulan dan tanda tangan: halaman lanjutan diberi judul Kesimpulan Psikolog.
+      if (bawa.every(x => x.classList.contains('akhir'))) {
+        const sk = baru.querySelector('.sek'); if (sk) { sk.querySelector('h2').textContent = 'Kesimpulan Psikolog'; const eb = sk.querySelector('.sek-eyebrow'); if (eb) eb.textContent = 'Kesimpulan'; }
+      }
       [...bi.children].forEach(x => { if (!x.classList.contains('sek')) x.remove(); });
       bawa.forEach(x => bi.appendChild(x)); kini.after(baru); kini = baru;
     }
@@ -6388,7 +6761,7 @@ function halamanLaporan(L, versi) {
   const kesimpulan = `<div class="kesimpulan${t.kesimpulan ? '' : ' belum'}"><h3>Kesimpulan psikolog</h3>${t.kesimpulan ? t.kesimpulan.split(/\n+/).map(x => `<p>${esc(x)}</p>`).join('') : `<p>${reviewed ? '–' : 'Diisi psikolog saat meninjau laporan.'}</p>`}</div>`;
   const si = statusIntegritas(L);
   // Modul tanpa aspek psikogram (mis. hanya DISC): ringkasan memakai gambaran DISC, halaman psikogram dilewati.
-  const adaPsg = ps.baris.length > 0, hDisc = L.hasil.find(h => h.tes === 'disc'), adaIST = bt.tes.indexOf('ist') >= 0;
+  const adaPsg = ps.baris.length > 0, adaIST = bt.tes.indexOf('ist') >= 0;
   const intMini = `<div class="int-mini ${si.kelas}">${ikon(si.ikon)}<div><b>${esc(si.judul)}</b><span>${klien ? esc(si.desk) : 'Rincian di bagian Integritas pelaksanaan.'}</span></div></div>`;
   const blokAkhir = `<div class="akhir"><div class="akhir-kiri">${kesimpulan}${intMini}</div>${ttd}</div>`;
   // Modul DISC saja: tanpa halaman Ringkasan; kesimpulan dan tanda tangan ada di bawah Interpretasi DISC.
@@ -6419,11 +6792,13 @@ function halamanLaporan(L, versi) {
       : '<p class="kosong-lap">Belum ada hasil tes.</p>'}` }));
 
   /* Detail tes: satu halaman per tes (versi lengkap saja) */
-  // DISC: versi klien tetap memuat halaman interpretasinya.
-  const akhirDisc = adaPsg ? null : { blok: blokAkhir, panjang: (t.kesimpulan || '').length > 2000,
+  // DISC, PAPI, dan MSDT: versi klien tetap memuat halamannya.
+  // Modul tanpa psikogram (hanya DISC dan/atau MSDT): kesimpulan dan tanda tangan ada di bawah hasil pelengkap terakhir.
+  const PELENGKAP = ['disc', 'msdt'], hPel = L.hasil.filter(h => PELENGKAP.indexOf(h.tes) >= 0), hAkhir = adaPsg ? null : hPel[hPel.length - 1];
+  const akhirPel = adaPsg ? null : { blok: blokAkhir, panjang: (t.kesimpulan || '').length > 2000,
     pindah: `<div class="akhir"><div class="akhir-bawah"><div class="int-mini ${si.kelas}">${ikon(si.ikon)}<div><b>${esc(si.judul)}</b><span>Kesimpulan & tanda tangan di halaman berikutnya.</span></div></div></div></div>` };
-  L.hasil.forEach(h => { if (h.tes === 'disc') halDISC(H, L, h, nomor(), klien, akhirDisc); else if (h.tes === 'papi') halPAPI(H, L, h, nomor(), klien); else if (!klien) (h.tes === 'ist' ? halIST : h.tes === 'kraepelin' ? halKraepelin : halPauli)(H, L, h, nomor()); });
-  if (akhirDisc && !hDisc) H.push({ isi: sek(nomor(), 'Kesimpulan', 'Kesimpulan Psikolog') + '<p class="kosong-lap">Tes DISC belum dikerjakan.</p>' + blokAkhir });
+  L.hasil.forEach(h => { const ak = h === hAkhir ? akhirPel : null; if (h.tes === 'disc') halDISC(H, L, h, nomor(), klien, ak); else if (h.tes === 'msdt') halMSDT(H, L, h, nomor(), klien, ak); else if (h.tes === 'papi') halPAPI(H, L, h, nomor(), klien); else if (!klien) (h.tes === 'ist' ? halIST : h.tes === 'kraepelin' ? halKraepelin : halPauli)(H, L, h, nomor()); });
+  if (akhirPel && !hAkhir) H.push({ isi: sek(nomor(), 'Kesimpulan', 'Kesimpulan Psikolog') + `<p class="kosong-lap">Tes ${esc(bt.tes.filter(x => PELENGKAP.indexOf(x) >= 0).map(NAMA_TES).join(' dan ') || 'pelengkap')} belum dikerjakan.</p>` + blokAkhir });
 
   /* Integritas (versi lengkap saja) */
   if (!klien) {
@@ -6519,6 +6894,12 @@ const CARA_BACA = {
     ['Rendah, sedang, tinggi', 'Skor 0–3 rendah, 4–6 sedang, 7–9 tinggi. Bukan penilaian baik atau buruk; kesesuaiannya bergantung pada tuntutan posisi.'],
     ['Kelompok', 'Tujuh kelompok peran dan kebutuhan pada pita luar grafik: arah kerja, kepemimpinan, aktivitas, pergaulan, gaya kerja, temperamen, kepatuhan.'],
     ['Skor aspek', 'Rata-rata skor faktor sumber aspek psikogram; K pada Stabilitas Emosi dibalik (9 − K).']],
+  msdt: [['TO, RO, E', 'Orientasi tugas, orientasi hubungan, dan efektivitas. Masing-masing dijumlahkan dari empat gaya, lalu dikonversi ke skala 0–4.'],
+    ['Di atas / di bawah rata-rata', 'Posisi angka konversi TO, RO, atau E terhadap titik tengah skala (2).'],
+    ['Gaya utama', 'Gaya kepemimpinan yang ditentukan dari gabungan posisi TO, RO, dan E. Bukan selalu gaya dengan skor tertinggi.'],
+    ['Gaya pendukung', 'Dua gaya lain dengan skor tertinggi: gaya yang paling sering muncul dalam pilihan peserta.'],
+    ['Efektif, kurang efektif', 'Empat gaya efektif (E tinggi) dan empat gaya kurang efektif (E rendah) menurut Teori Tiga Dimensi Reddin.'],
+    ['O', 'Skor skala A (Deserter), seperti pada lembar jawaban MSDT.']],
   ist: [['RW', 'Raw score: jumlah jawaban benar tiap subtes, paling tinggi 20.'], ['SW', 'Standard score: RW yang disetarakan dengan norma kelompok usia. Rata-rata 100.'],
     ['IQ', 'Jumlah RW sembilan subtes diubah menjadi SW total menurut norma usia, lalu menjadi IQ.'], ['Norma usia', 'Usia di bawah 21 memakai norma 21–25 tahun; usia di atas 40 memakai norma 36–40 tahun.']],
   kraepelin: [['Panker', 'Kecepatan kerja: rata-rata jumlah penjumlahan per lajur.'], ['Tianker', 'Ketelitian kerja: jumlah jawaban salah. Makin sedikit, makin teliti.'],
@@ -6782,17 +7163,35 @@ function demoPesertaPAPI(srv, db, kode, bio, seed, mundurJam) {
   db.ubah('Token', kode, { dibuka: iso(t0 - 6 * 60e3), mulai: iso(t0 - 3 * 60e3), selesai: iso(t + 20e3), sesi: '' });
   db.ubah('Peserta', kode, { persetujuan: iso(t0 - 3 * 60e3) });
 }
-// Mode demo: data asli IST, DISC, dan PAPI (soal + kunci) hanya ada di uji lokal (ist-data.js, disc-data.js, papi-data.js; tidak ikut di dist/).
-// Bila tidak ada, atau alamat memuat ?istdemo / ?discdemo / ?papidemo / ?datademo, dipakai data demo karangan.
+function demoPesertaMSDT(srv, db, kode, bio, seed, mundurJam) {
+  const o = srv.tangani('bukaToken', { kode }), ps = { kode, sesi: o.sesi }, r = mulberry32(seed), iso = ms => new Date(ms).toISOString();
+  srv.tangani('simpanBiodata', Object.assign({ biodata: bio }, ps));
+  srv.tangani('setuju', Object.assign({ perangkat: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15' }, ps));
+  // Kecenderungan memilih: mempercayai dan mengembangkan tim, tegas memberi arahan; jarang memilih gaya pasif atau otoriter.
+  const w = { F: 1.6, G: 1.4, H: 1.2, B: 1.2, E: 1.0, D: 0.9, C: 0.6, A: 0.5 }, jw = {};
+  MSDT_DATA.soal.forEach((s2, i) => { const k = MSDT_DATA.kunci[i], a = (w[k[0]] || 1) * r(), b = (w[k[1]] || 1) * r(); jw[i + 1] = a >= b ? 0 : 1; });
+  const t0 = Date.now() - mundurJam * 3600e3, t = t0 + 21 * 60e3 + 40e3, N = MSDT_DATA.soal.length;
+  const log = [{ w: iso(t0), e: 'mulai', k: '' }, { w: iso(t - 1e3), e: 'bagian', k: `Diselesaikan peserta sebelum waktu habis; ${N} dari ${N} nomor terjawab` }, { w: iso(t), e: 'selesai', k: '' }];
+  srv.tangani('simpanHasil', Object.assign({ tes: 'msdt', hasil: { seed, mulai: iso(t0), selesai: iso(t), jawaban: jw, pelanggaran: [], jedaDetik: 0, log } }, ps));
+  [['Foto awal (cek kamera)', t0 - 120e3, ''], ['Awal tes', t0 + 3e3, 'msdt'], ['Foto berkala', t0 + 5 * 60e3, 'msdt'], ['Foto berkala', t0 + 13 * 60e3, 'msdt'], ['Akhir tes', t, 'msdt']].forEach(([k2, w2, tes], i) => {
+    const d = fotoContoh(i); if (d) srv.tangani('unggahFoto', Object.assign({ waktu: iso(w2), tes, ket: k2, data: d }, ps));
+  });
+  db.ubah('Token', kode, { dibuka: iso(t0 - 6 * 60e3), mulai: iso(t0 - 3 * 60e3), selesai: iso(t + 20e3), sesi: '' });
+  db.ubah('Peserta', kode, { persetujuan: iso(t0 - 3 * 60e3) });
+}
+// Mode demo: data asli IST, DISC, PAPI, dan MSDT (soal + kunci) hanya ada di uji lokal (ist-data.js, disc-data.js, papi-data.js, msdt-data.js; tidak ikut di dist/).
+// Bila tidak ada, atau alamat memuat ?istdemo / ?discdemo / ?papidemo / ?msdtdemo / ?datademo, dipakai data demo karangan.
 const muatSkrip = src => new Promise(r => { const s = document.createElement('script'); s.src = src; s.onload = s.onerror = () => r(); document.head.appendChild(s); });
 async function muatDataTes() {
   const paksa = k => new RegExp('[?&](' + k + '|datademo)\\b').test(location.search);
   if (typeof IST_DATA === 'undefined' && !paksa('istdemo')) await muatSkrip('ist-data.js');
   if (typeof DISC_DATA === 'undefined' && !paksa('discdemo')) await muatSkrip('disc-data.js');
   if (typeof PAPI_DATA === 'undefined' && !paksa('papidemo')) await muatSkrip('papi-data.js');
+  if (typeof MSDT_DATA === 'undefined' && !paksa('msdtdemo')) await muatSkrip('msdt-data.js');
   if (typeof IST_DATA === 'undefined' && typeof IST_DATA_DEMO !== 'undefined') window.IST_DATA = IST_DATA_DEMO;
   if (typeof DISC_DATA === 'undefined' && typeof DISC_DATA_DEMO !== 'undefined') window.DISC_DATA = DISC_DATA_DEMO;
   if (typeof PAPI_DATA === 'undefined' && typeof PAPI_DATA_DEMO !== 'undefined') window.PAPI_DATA = PAPI_DATA_DEMO;
+  if (typeof MSDT_DATA === 'undefined' && typeof MSDT_DATA_DEMO !== 'undefined') window.MSDT_DATA = MSDT_DATA_DEMO;
 }
 async function siapkanDemo() {
   if (demoServer) return;
@@ -6851,7 +7250,17 @@ async function siapkanDemo() {
     b6 = q('buatBatch', { modul: idP, judul: 'Rekrutmen 2026 - Supervisor Operasional', posisi: 'Supervisor Operasional', jumlah: 3, mode: 'Penuh' }).batch.id;
     q('buatBatch', { modul: idP, judul: 'Coba PAPI (durasi singkat)', jumlah: 4, mode: 'Uji coba' });
   }
+  // Modul MSDT (hanya bila data MSDT tersedia). MSDT tidak mengisi psikogram.
+  let b7 = null;
+  if (typeof MSDT_DATA !== 'undefined') {
+    const mM = Object.assign(modulBaru(['msdt'], 5), { nama: 'Asesmen Gaya Kepemimpinan (MSDT)', status: 'Terbit', klien: kA.id, biodata: 'rekrutmen' });
+    const idM = q('simpanModul', { modul: mM }).modul.id;
+    b7 = q('buatBatch', { modul: idM, judul: 'Rekrutmen 2026 - Manager Operasional', posisi: 'Manager Operasional', jumlah: 3, mode: 'Penuh' }).batch.id;
+    q('buatBatch', { modul: idM, judul: 'Coba MSDT (durasi singkat)', jumlah: 4, mode: 'Uji coba' });
+  }
   srv.tangani('logout', s);
+  if (b7) demoPesertaMSDT(srv, db, db.cari('Token', 'batch', b7)[0].token, { nama: 'Dimas Saputra (contoh)', jk: 'Laki-laki', tempatLahir: 'Medan', tglLahir: '1988-07-25', pendidikan: 'S1',
+    sekolah: 'Universitas Contoh', jurusan: 'Manajemen', posisi: 'Manager Operasional', kotaPenempatan: 'Jakarta', kotaTinggal: 'Jakarta Timur', telepon: '081277778888', email: 'dimas.contoh@example.com' }, 7307, 3);
   if (b6) demoPesertaPAPI(srv, db, db.cari('Token', 'batch', b6)[0].token, { nama: 'Bima Prasetyo (contoh)', jk: 'Laki-laki', tempatLahir: 'Malang', tglLahir: '1993-02-14', pendidikan: 'S1',
     sekolah: 'Universitas Contoh', jurusan: 'Teknik Industri', posisi: 'Supervisor Operasional', kotaPenempatan: 'Jakarta', kotaTinggal: 'Bekasi', telepon: '081255556666', email: 'bima.contoh@example.com' }, 6203, 4);
   if (b4) demoPesertaIST(srv, db, db.cari('Token', 'batch', b4)[0].token, { nama: 'Dewi Lestari (contoh)', jk: 'Perempuan', tempatLahir: 'Yogyakarta', tglLahir: '1999-11-08', pendidikan: 'S1',
@@ -6874,7 +7283,7 @@ function demoKodeContoh() {
     demoDb.cari('Token', 'batch', b.id).filter(t => t.status === 'Baru' && t.aktif).slice(0, 1)
       .forEach(t => out.push({ kode: t.token, label: `${tes.map(NAMA_TES).join(' + ')}, ${b.mode === 'Uji coba' ? 'uji coba' : 'durasi penuh'} ± ${menit} menit` }));
   });
-  return out.slice(0, 9);
+  return out.slice(0, 11);
 }
 
 /* ================= Peristiwa ================= */
@@ -6885,6 +7294,7 @@ async function lanjutkanTesTersimpan() {
   if (c.tes === 'ist' && !(await muatIST())) return;
   if (c.tes === 'disc' && !(await muatDISC())) return;
   if (c.tes === 'papi' && !(await muatPAPI())) return;
+  if (c.tes === 'msdt' && !(await muatMSDT())) return;
   mulaiTes(c.tes, 'tes', c);
 }
 function salinTeks(el, teks) {
@@ -6911,6 +7321,7 @@ const AKSI = {
     if (tes === 'ist' && !(await muatIST(el))) return;
     if (tes === 'disc' && !(await muatDISC(el))) return;
     if (tes === 'papi' && !(await muatPAPI(el))) return;
+    if (tes === 'msdt' && !(await muatMSDT(el))) return;
     mulaiTes(tes, 'tes');
   },
   'ist-mulai-sub': () => istMulaiSub(),
@@ -6929,6 +7340,13 @@ const AKSI = {
   'papi-selesai': () => papiTanyaSelesai(true),
   'papi-selesai-batal': () => papiTanyaSelesai(false),
   'papi-selesai-ya': () => papiAkhiri('Diselesaikan peserta sebelum waktu habis'),
+  'msdt-pilih': el => msdtPilih(el),
+  'msdt-nomor': el => msdtKe(+el.dataset.q),
+  'msdt-prev': () => msdtKe((T.msdt.q || 0) - 1),
+  'msdt-next': () => msdtKe((T.msdt.q || 0) + 1),
+  'msdt-selesai': () => msdtTanyaSelesai(true),
+  'msdt-selesai-batal': () => msdtTanyaSelesai(false),
+  'msdt-selesai-ya': () => msdtAkhiri('Diselesaikan peserta sebelum waktu habis'),
   'disc-pilih': el => discPilih(el),
   'disc-nomor': el => discKe(+el.dataset.q),
   'disc-prev': () => discKe((T.disc.q || 0) - 1),
@@ -7123,6 +7541,7 @@ document.addEventListener('keydown', e => {
   if (T.tes === 'ist') return istTombol(e);
   if (T.tes === 'disc') return discTombol(e);
   if (T.tes === 'papi') return papiTombol(e);
+  if (T.tes === 'msdt') return msdtTombol(e);
   if (T.jedaSejak) return;
   let k = null;
   if (/^[0-9]$/.test(e.key)) k = e.key; else if (e.key === 'Backspace' || e.key === 'Delete') k = 'koreksi';
