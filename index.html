@@ -1361,6 +1361,35 @@ button.papi-opsi:active{transform:scale(.995)}
 .disc-geser{margin-top:2.5mm}
 .disc-faktor{margin-top:1.5mm}
 .disc-tanpa-geser{margin:2mm 0 4mm}
+/* Tabel skor DISC lebih rapat; "23 dari 24" satu baris */
+.disc-skor{margin:0 0 1mm}
+.disc-skor td{padding-top:1.35mm;padding-bottom:1.35mm}
+.disc-skor th:last-child,.disc-skor td:last-child{width:18mm;white-space:nowrap;text-align:center}
+.disc-skor td.bintang{padding-top:.8mm;padding-bottom:.8mm;line-height:1.15}
+/* Halaman yang hampir muat dirapatkan bertahap (lihat rapikanLaporan): padat, lalu padat2 */
+.hal.padat .hal-isi{gap:3mm}
+.hal.padat .sek{padding-bottom:2.4mm}
+.hal.padat .t-lap td{padding-top:1.3mm;padding-bottom:1.3mm}
+.hal.padat .disc-kartu{padding:2.6mm 3mm 2.8mm;gap:1.4mm}
+.hal.padat .disc-kartu .makna{line-height:1.34}
+.hal.padat .disc-catatan{margin-top:1.6mm;line-height:1.38}
+.hal.padat .disc-utama{padding:3.6mm 4.6mm;margin:0 0 2mm;gap:4mm}
+.hal.padat .disc-utama .isi{gap:1.4mm;line-height:1.42}
+.hal.padat .disc-dua{gap:3mm;margin-bottom:2mm}
+.hal.padat .disc-blok{padding:2.5mm 3.4mm;gap:1.1mm}
+.hal.padat .disc-blok ul,.hal.padat .disc-blok p,.hal.padat .disc-geser li{line-height:1.4}
+.hal.padat .disc-geser{gap:1.2mm;margin:1.6mm 0 1.4mm}
+.hal.padat .disc-faktor{margin-top:1mm}
+.hal.padat .disc-faktor td{padding:1.2mm 2mm;line-height:1.34}
+.hal.padat .disc-kurang{margin-bottom:1.6mm;padding:1.6mm 2.6mm}
+.hal.padat .cat-tes{padding:2mm 3mm}
+.hal.padat2 .hal-isi{gap:2.4mm}
+.hal.padat2 .sek-lead{font-size:8pt}
+.hal.padat2 .disc-svg{max-height:58mm;width:auto;max-width:100%;margin:0 auto}
+.hal.padat2 .disc-kartu .makna{font-size:6.8pt}
+.hal.padat2 .disc-utama .isi{font-size:7.9pt}
+.hal.padat2 .disc-blok ul,.hal.padat2 .disc-blok p,.hal.padat2 .disc-geser li,.hal.padat2 .disc-faktor td{font-size:7.4pt}
+.hal.padat2 .t-lap td{padding-top:1mm;padding-bottom:1mm}
 
 
 /* Psikogram: tabel menempel ke judul bagian */
@@ -1523,10 +1552,13 @@ var LEVEL = ['Sangat Rendah', 'Rendah', 'Cukup', 'Tinggi', 'Sangat Tinggi'];
 var LEVEL_KODE = ['SR', 'R', 'C', 'T', 'ST'];
 var RANAH = ['Intelegensi', 'Sikap Kerja', 'Kepribadian', 'Kepemimpinan'];
 
-// Daftar tes. Tes baru (intelegensi, kepribadian) cukup ditambahkan di sini beserta aspeknya.
+// Daftar tes. Tes baru cukup ditambahkan di sini beserta aspeknya.
+// nama: nama alat tes (untuk staf dan laporan). fungsi: nama yang dilihat peserta, tanpa nama alat tes.
+// desk: keterangan singkat di kartu tes peserta.
 var TES = {
   kraepelin: {
     nama: 'Kraepelin',
+    fungsi: 'Sikap Kerja',
     desk: 'Penjumlahan cepat per lajur dengan pergantian lajur berkala.',
     aspek: [
       { key: 'panker', nama: 'Kecepatan Kerja', skor: 'Panker', satuan: 'jawaban/lajur', d: 2, ranah: 'Sikap Kerja',
@@ -1541,6 +1573,7 @@ var TES = {
   },
   pauli: {
     nama: 'Pauli',
+    fungsi: 'Ketahanan Kerja',
     desk: 'Penjumlahan berkelanjutan dalam waktu panjang.',
     aspek: [
       { key: 'total', nama: 'Kapasitas Kerja', skor: 'Total', satuan: 'jawaban', d: 0, ranah: 'Sikap Kerja',
@@ -1555,7 +1588,8 @@ var TES = {
   },
   ist: {
     nama: 'IST',
-    desk: 'Tes inteligensi: sembilan subtes berwaktu (bahasa, hitungan, bentuk, dan ingatan).',
+    fungsi: 'Intelegensi',
+    desk: 'Soal berwaktu tentang bahasa, hitungan, bentuk, dan ingatan.',
     // Aspek psikogram IST. 'dari': subtes yang SW-nya dirata-rata; Kecerdasan Umum memakai IQ.
     aspek: [
       { key: 'iq', nama: 'Kecerdasan Umum', skor: 'IQ', satuan: 'IQ', d: 0, ranah: 'Intelegensi', dari: [],
@@ -1576,21 +1610,24 @@ var TES = {
   },
   disc: {
     nama: 'DISC',
-    desk: 'Tes kepribadian: 24 nomor, pilih pernyataan yang paling sesuai dan yang paling tidak sesuai dengan diri Anda.',
+    fungsi: 'Kepribadian',
+    desk: 'Pada setiap nomor, pilih pernyataan yang paling sesuai dan yang paling tidak sesuai dengan diri Anda.',
     // DISC tidak mengisi psikogram; hasilnya berupa grafik dan interpretasi pola.
     aspek: [],
     pelengkap: 'Pelengkap: tidak mengisi psikogram dan rekomendasi. Hasil berupa grafik dan interpretasi kepribadian.'
   },
   msdt: {
     nama: 'MSDT',
-    desk: 'Tes gaya kepemimpinan: 64 nomor, pilih satu dari dua pernyataan yang paling sesuai dengan diri Anda.',
+    fungsi: 'Gaya Kepemimpinan',
+    desk: 'Pada setiap nomor, pilih satu dari dua pernyataan yang paling sesuai dengan diri Anda.',
     // MSDT tidak mengisi psikogram; hasilnya gaya kepemimpinan utama dan dua gaya pendukung.
     aspek: [],
     pelengkap: 'Pelengkap: tidak mengisi psikogram dan rekomendasi. Hasil berupa gaya kepemimpinan utama, posisi TO, RO, dan E, serta dua gaya pendukung.'
   },
   papi: {
     nama: 'PAPI Kostick',
-    desk: 'Tes kepribadian kerja: 90 nomor, pilih satu dari dua pernyataan yang paling menggambarkan diri Anda.',
+    fungsi: 'Gaya Kerja',
+    desk: 'Pada setiap nomor, pilih satu dari dua pernyataan yang paling menggambarkan diri Anda.',
     // Aspek psikogram dari PAPI. 'dari': faktor yang skornya (0–9) dirata-rata; '-K' = K dibalik (9 − K).
     aspek: [
       { key: 'tekun', nama: 'Ketekunan', dari: ['N', 'G'], ranah: 'Sikap Kerja', definisi: 'Kesungguhan dan daya tahan dalam menuntaskan pekerjaan sampai selesai.' },
@@ -2235,7 +2272,7 @@ function buatServer(db) {
   function publikAkun(a) {
     var role = ['superadmin', 'psikolog', 'admin'].indexOf(a.role) >= 0 ? a.role : 'admin';
     return { username: a.username, nama: a.nama, role: role, klien: role === 'superadmin' ? '' : (a.klien || ''),
-      psikolog: role === 'psikolog' || (role === 'superadmin' && !!a.psikolog), sipp: a.sipp || '', wajibGanti: !!a.wajibGanti };
+      psikolog: role === 'psikolog' || (role === 'superadmin' && !!a.psikolog), sipp: a.sipp || '', ttdAda: !!a.ttd, wajibGanti: !!a.wajibGanti };
   }
   // Akun yang baru direset wajib membuat password baru sebelum memakai fitur lain.
   function sesiStaf(d, bolehWajibGanti) {
@@ -2396,6 +2433,15 @@ function buatServer(db) {
     adaIST();
     return { konten: istKonten() };
   };
+  // Gambar soal IST (subtes 7–8) disimpan di server (file GambarIST di proyek Apps Script), bukan di GitHub.
+  // Hanya untuk peserta yang kodenya memuat IST dan belum selesai.
+  A.istGambar = function (d) {
+    var x = sesiPeserta(d), urutan = Array.isArray(x.t.urutan) && x.t.urutan.length ? x.t.urutan : x.m.tes;
+    if (urutan.indexOf('ist') < 0) throw galat('Tes ini tidak termasuk dalam kode tes Anda.');
+    if (x.t.status === 'Selesai') throw galat('Kode tes ini sudah selesai dipakai. Terima kasih.', 'TOKEN');
+    if (typeof db.gambarIST !== 'function') throw galat('Gambar IST belum terpasang di server.');
+    return { gambar: db.gambarIST() };
+  };
   // Isi DISC (pernyataan, tanpa kunci) hanya untuk peserta yang kodenya memuat DISC.
   function adaDISC() { if (typeof DISC_DATA === 'undefined') throw galat('Data DISC belum terpasang di server.'); }
   A.discKonten = function (d) {
@@ -2535,8 +2581,12 @@ function buatServer(db) {
   /* ================= Staf: akun & sesi ================= */
   A.login = function (d) {
     amankanPassword();
-    var a = db.satu('Akun', 'username', teks(d.username, 40).toLowerCase());
-    if (!a || !a.hash || hashPw(String(d.password || ''), a.salt) !== a.hash) throw galat('Username atau password salah.');
+    // Batas percobaan: 5 kali salah password untuk satu username → dikunci 15 menit.
+    var unLogin = teks(d.username, 40).toLowerCase(), kunciGagal = 'gagalmasuk:' + unLogin, gagal = +(db.cacheGet(kunciGagal) || 0);
+    if (gagal >= 5) throw galat('Terlalu banyak percobaan masuk yang salah. Coba lagi 15 menit lagi.');
+    var a = db.satu('Akun', 'username', unLogin);
+    if (!a || !a.hash || hashPw(String(d.password || ''), a.salt) !== a.hash) { db.cacheSet(kunciGagal, gagal + 1, 900); throw galat('Username atau password salah.'); }
+    db.cacheDel(kunciGagal);
     if (!a.aktif) throw galat('Akun ini dinonaktifkan. Hubungi superadmin.');
     var u = publikAkun(a);
     if (!isSuper(u)) { var k = db.satu('Klien', 'id', u.klien); if (!k || !k.aktif) throw galat('Akun klien Anda sedang tidak aktif. Hubungi PotRev.'); }
@@ -2881,7 +2931,9 @@ function buatServer(db) {
     return {
       batch: { id: b.id, judul: b.judul, posisi: b.posisi, mode: b.mode, tes: urutan, kamera: !!m.kamera, intervalFoto: m.intervalFoto, batasPeringatan: m.batasPeringatan,
         lingkupPeringatan: m.lingkupPeringatan, klien: k.nama, modulNama: m.nama },
-      modul: m, klien: { nama: k.nama, logo: k.logo || '', warna: k.warna || '' }, token: publikToken(t),
+      modul: m, klien: { nama: k.nama, logo: k.logo || '', warna: k.warna || '' },
+      // Nama dan SIPP psikolog dari profil terkini (seperti gambar tanda tangan), agar perbaikan profil ikut tampil di laporan yang sudah direview.
+      token: Object.assign(publikToken(t), t.reviewStatus === 'Sudah direview' && rev ? { reviewer: rev.nama || t.reviewer, reviewerSipp: rev.sipp || t.reviewerSipp } : {}),
       biodata: bio ? { data: bio.data || {}, persetujuan: bio.persetujuan || '', perangkat: bio.perangkat || '' } : null,
       hasil: hasil, foto: foto, norma: nr, pengaturan: p, psikogram: hitungPsikogram(hasil, nr, m, p),
       ttd: t.reviewStatus === 'Sudah direview' && rev ? (rev.ttd || '') : '', bolehReview: bisaReview(u, t.klien)
@@ -2943,9 +2995,7 @@ function buatServer(db) {
 }
 // ==/SERVER==
 
-/* Data IST MODE DEMO (dibuat oleh test/ist-buat-demo.js). Hanya contoh dari halaman petunjuk, daftar hafalan,
-   norma, dan tabel IQ karangan. Bukan soal dan norma asli; tidak untuk menilai orang. */
-var IST_DATA_DEMO = {"demo":true,"langkahTotal":2,"konten":[{"k":"se","kode":"SE","tipe":"pilih","judul":"Melengkapi kalimat","petunjuk":["Setiap soal berupa kalimat yang salah satu katanya dihilangkan. Di bawahnya ada lima kata pilihan.","Pilih satu kata yang paling tepat untuk melengkapi kalimat tersebut."],"contoh":[{"t":"Seekor kuda mempunyai lebih banyak persamaan dengan seekor ……","o":["kucing","bajing","keledai","sapi","anjing"],"j":2,"ket":"Jawaban yang benar adalah keledai, jadi pilih c."},{"t":"Lawan \"harapan\" adalah ……","o":["duka","putus asa","sengsara","cinta","benci"],"j":1,"ket":"Jawaban yang benar adalah putus asa, jadi pilih b."}],"soal":[{"n":1,"t":"Seekor kuda mempunyai lebih banyak persamaan dengan seekor ……","o":["kucing","bajing","keledai","sapi","anjing"]},{"n":2,"t":"Lawan \"harapan\" adalah ……","o":["duka","putus asa","sengsara","cinta","benci"]}]},{"k":"wa","kode":"WA","tipe":"pilih","judul":"Mencari kata yang berbeda","petunjuk":["Setiap soal berisi lima kata. Empat di antaranya mempunyai suatu kesamaan.","Cari satu kata yang tidak termasuk kelompok empat kata tersebut."],"contoh":[{"t":"","o":["meja","kursi","burung","lemari","tempat tidur"],"j":2,"ket":"Meja, kursi, lemari, dan tempat tidur adalah perabot rumah tangga. Burung tidak termasuk, jadi pilih c."},{"t":"","o":["duduk","berbaring","berdiri","berjalan","jongkok"],"j":3,"ket":"Duduk, berbaring, berdiri, dan jongkok adalah keadaan tidak bergerak. Berjalan adalah keadaan bergerak, jadi pilih d."}],"soal":[{"n":3,"t":"","o":["meja","kursi","burung","lemari","tempat tidur"]},{"n":4,"t":"","o":["duduk","berbaring","berdiri","berjalan","jongkok"]}]},{"k":"an","kode":"AN","tipe":"pilih","judul":"Mencari hubungan kata","petunjuk":["Setiap soal berisi tiga kata. Antara kata pertama dan kedua terdapat suatu hubungan tertentu.","Antara kata ketiga dan salah satu dari lima kata pilihan terdapat hubungan yang serupa. Cari hubungan itu dan pilih kata yang dimaksud."],"contoh":[{"t":"Hutan : pohon = tembok : ……","o":["batu bata","rumah","semen","putih","dinding"],"j":0,"ket":"Hutan terdiri atas pohon-pohon, dan tembok terdiri atas batu bata, jadi pilih a."},{"t":"Gelap : terang = basah : ……","o":["hujan","hari","lembab","angin","kering"],"j":4,"ket":"Gelap adalah lawan terang, dan lawan basah adalah kering, jadi pilih e."}],"soal":[{"n":5,"t":"Hutan : pohon = tembok : ……","o":["batu bata","rumah","semen","putih","dinding"]},{"n":6,"t":"Gelap : terang = basah : ……","o":["hujan","hari","lembab","angin","kering"]}]},{"k":"ge","kode":"GE","tipe":"kata","judul":"Mencari kata yang meliputi","petunjuk":["Setiap soal berisi dua kata. Cari satu kata yang dapat meliputi pengertian kedua kata tersebut, lalu ketik pada kotak jawaban.","Carilah selalu kata yang paling tepat."],"contoh":[{"t":"Ayam – Itik","j":"burung","ket":"Ayam adalah sejenis burung, demikian pula itik. Jadi jawabannya burung."},{"t":"Gaun – Celana","j":"pakaian","ket":"Jawaban yang benar adalah pakaian."}],"soal":[{"n":7,"t":"Ayam – Itik"},{"n":8,"t":"Gaun – Celana"}]},{"k":"ra","kode":"RA","tipe":"angka","judul":"Hitungan","petunjuk":["Setiap soal berupa hitungan. Ketik jawaban Anda berupa angka pada kotak jawaban.","Pakai titik untuk desimal, misalnya 12.5."],"contoh":[{"t":"Sebatang pensil harganya Rp 25,-. Berapakah harga 3 batang?","j":"75","ket":"Jawaban yang benar adalah 75."},{"t":"Dengan sepeda Husin dapat menempuh jarak 15 km dalam waktu 1 jam. Berapa km jarak yang ditempuhnya dalam waktu 4 jam?","j":"60","ket":"Jawaban yang benar adalah 60."}],"soal":[{"n":9,"t":"Sebatang pensil harganya Rp 25,-. Berapakah harga 3 batang?"},{"n":10,"t":"Dengan sepeda Husin dapat menempuh jarak 15 km dalam waktu 1 jam. Berapa km jarak yang ditempuhnya dalam waktu 4 jam?"}]},{"k":"zr","kode":"ZR","tipe":"angka","judul":"Deret angka","petunjuk":["Setiap soal berupa deret angka yang tersusun menurut aturan tertentu dan dapat dilanjutkan menurut aturan itu.","Cari aturannya, lalu ketik angka berikutnya pada kotak jawaban.","Beberapa soal mungkin memakai aturan perkalian atau pembagian."],"contoh":[{"t":"2 4 6 8 10 12 14","j":"16","ket":"Setiap kali ditambah 2, jadi angka berikutnya 16."},{"t":"9 7 10 8 11 9 12","j":"10","ket":"Dikurangi 2 lalu ditambah 3, bergantian. Angka berikutnya 12 − 2 = 10."}],"soal":[{"n":11,"t":"2 4 6 8 10 12 14"},{"n":12,"t":"9 7 10 8 11 9 12"}]},{"k":"fa","kode":"FA","tipe":"gambar","judul":"Menyusun potongan bentuk","petunjuk":["Setiap soal berupa segi empat berisi potongan-potongan bentuk. Di atasnya ada lima bentuk utuh bertanda a, b, c, d, dan e.","Bila potongan-potongan itu disusun dengan benar, hasilnya menjadi salah satu dari lima bentuk utuh tersebut. Pilih huruf bentuk yang sesuai."],"contoh":[],"soal":[{"n":13,"g":"demo-fa-1"},{"n":14,"g":"demo-fa-2"},{"n":15,"g":"demo-fa-3"},{"n":16,"g":"demo-fa-4"}],"pil":"demo-fa-p"},{"k":"wu","kode":"WU","tipe":"gambar","judul":"Kubus","petunjuk":["Ada lima kubus bertanda a, b, c, d, dan e. Tiap sisi kubus mempunyai tanda yang berlainan, dan tiga sisinya terlihat.","Kelima kubus itu berbeda satu sama lain. Tandanya bisa sama, tetapi letaknya berlainan.","Setiap soal menampilkan salah satu kubus itu dalam kedudukan berbeda: sudah diputar, digulingkan, atau keduanya. Pilih huruf kubus yang sama dengan kubus pada soal."],"contoh":[],"soal":[{"n":17,"g":"demo-wu-1"},{"n":18,"g":"demo-wu-2"},{"n":19,"g":"demo-wu-3"},{"n":20,"g":"demo-wu-4"},{"n":21,"g":"demo-wu-5"}],"pil":"demo-wu-p"},{"k":"me","kode":"ME","tipe":"pilih","judul":"Mengingat kata","petunjuk":["Anda akan diberi daftar kata untuk dihafalkan. Setelah waktu menghafal habis, daftar ditutup dan Anda ditanyai mengenai kata-kata tersebut.","Setiap soal menyebut huruf permulaan sebuah kata. Pilih kelompok tempat kata itu berada."],"contoh":[{"t":"Kata yang mempunyai huruf permulaan – M – adalah suatu ……","o":["bunga","kesenian","burung","perkakas","binatang"],"j":0,"ket":"Kata berhuruf awal M pada daftar adalah Melati. Melati termasuk kelompok bunga, jadi pilih a."},{"t":"Kata yang mempunyai huruf permulaan – R – adalah suatu ……","o":["bunga","kesenian","burung","perkakas","binatang"],"j":4,"ket":"Kata berhuruf awal R pada daftar adalah Rusa. Rusa termasuk kelompok binatang, jadi pilih e."}],"soal":[{"n":22,"t":"Kata yang mempunyai huruf permulaan – O – adalah suatu ……","o":["bunga","kesenian","burung","perkakas","binatang"]},{"n":23,"t":"Kata yang mempunyai huruf permulaan – K – adalah suatu ……","o":["bunga","kesenian","burung","perkakas","binatang"]},{"n":24,"t":"Kata yang mempunyai huruf permulaan – A – adalah suatu ……","o":["bunga","kesenian","burung","perkakas","binatang"]},{"n":25,"t":"Kata yang mempunyai huruf permulaan – W – adalah suatu ……","o":["bunga","kesenian","burung","perkakas","binatang"]},{"n":26,"t":"Kata yang mempunyai huruf permulaan – J – adalah suatu ……","o":["bunga","kesenian","burung","perkakas","binatang"]}],"hafal":{"Bunga":["Melati","Anggrek"],"Kesenian":["Tari","Wayang"],"Burung":["Kakatua","Bangau"],"Perkakas":["Palu","Obeng"],"Binatang":["Rusa","Jerapah"]}}],"kunci":{"se":[2,1],"wa":[2,3],"an":[0,4],"ge":[{"1":["hewan","binatang"],"2":["burung","unggas"]},{"1":["sandang"],"2":["pakaian","busana"]}],"ra":[75,60],"zr":[16,10],"fa":[0,4,1,3],"wu":[0,4,1,2,3],"me":[3,2,0,1,4]},"norma":{"21":{"se":[75,100,125],"wa":[75,100,125],"an":[75,100,125],"ge":[75,88,100,113,125],"ra":[75,100,125],"zr":[75,100,125],"fa":[75,88,100,113,125],"wu":[75,85,95,105,115,125],"me":[75,85,95,105,115,125],"total":[79,82,86,89,93,96,100,104,107,111,114,118,121,125]},"26":{"se":[75,100,125],"wa":[75,100,125],"an":[75,100,125],"ge":[75,88,100,113,125],"ra":[75,100,125],"zr":[75,100,125],"fa":[75,88,100,113,125],"wu":[75,85,95,105,115,125],"me":[75,85,95,105,115,125],"total":[79,82,86,89,93,96,100,104,107,111,114,118,121,125]},"31":{"se":[75,100,125],"wa":[75,100,125],"an":[75,100,125],"ge":[75,88,100,113,125],"ra":[75,100,125],"zr":[75,100,125],"fa":[75,88,100,113,125],"wu":[75,85,95,105,115,125],"me":[75,85,95,105,115,125],"total":[79,82,86,89,93,96,100,104,107,111,114,118,121,125]},"36":{"se":[75,100,125],"wa":[75,100,125],"an":[75,100,125],"ge":[75,88,100,113,125],"ra":[75,100,125],"zr":[75,100,125],"fa":[75,88,100,113,125],"wu":[75,85,95,105,115,125],"me":[75,85,95,105,115,125],"total":[79,82,86,89,93,96,100,104,107,111,114,118,121,125]}},"iq":[[70,55,0],[71,57,0],[72,58,0],[73,60,0],[74,61,0],[75,63,1],[76,64,1],[77,66,1],[78,67,1],[79,69,2],[80,70,2],[81,72,3],[82,73,4],[83,75,5],[84,76,5],[85,78,7],[86,79,8],[87,81,10],[88,82,12],[89,84,14],[90,85,16],[91,87,19],[92,88,21],[93,90,25],[94,91,27],[95,93,32],[96,94,34],[97,96,39],[98,97,42],[99,99,47],[100,100,50],[101,102,55],[102,103,58],[103,105,63],[104,106,66],[105,108,70],[106,109,73],[107,111,77],[108,112,79],[109,114,82],[110,115,84],[111,117,87],[112,118,88],[113,120,91],[114,121,92],[115,123,94],[116,124,95],[117,126,96],[118,127,96],[119,129,97],[120,130,98],[121,132,98],[122,133,99],[123,135,99],[124,136,99],[125,138,99],[126,139,100],[127,141,100],[128,142,100],[129,144,100],[130,145,100]]};
+/* Versi publik: tanpa data demo. Soal, kunci, norma, dan gambar soal hanya ada di server. */
 /* Skoring IST. Hanya untuk server (Code.gs) dan mode demo, bersama IST_DATA. */
 function istRapi(s) { return String(s == null ? '' : s).toLowerCase().replace(/[^a-z0-9]+/g, ' ').replace(/\s+/g, ' ').trim(); }
 function istJarak(a, b) {
@@ -3023,9 +3073,6 @@ function istBersihkan(j) {
   return out;
 }
 
-/* Data DISC MODE DEMO (dibuat oleh test/disc-buat-demo.js). Pernyataan dan tabel grafik karangan, bukan soal dan lembar asli;
-   tidak untuk menilai orang. */
-var DISC_DATA_DEMO = {"demo":true,"soal":[[["Tegas mengambil keputusan","D","D"],["Mudah bergaul","I","I"],["Sabar","S","S"],["Teliti","C","C"]],[["Tenang","S","S"],["Sistematis","C","C"],["Suka memimpin kelompok","D","D"],["Antusias","I","I"]],[["Senang berbicara","I","I"],["Berani mengambil risiko","D","D"],["Mengikuti aturan","C","C"],["Senang mendengarkan orang lain","S","S"]],[["Hati-hati","C","C"],["Setia","S","S"],["Optimis","I","I"],["Berorientasi pada hasil","D","D"]],[["Pandai meyakinkan orang","I","I"],["Konsisten","S","S"],["Langsung ke pokok masalah","D","D"],["Ingin semuanya sempurna","C","C"]],[["Analitis","C","C"],["Senang tantangan baru","D","D"],["Suka membantu","S","S"],["Ceria","I","I"]],[["Senang bersaing","D","D"],["Senang menjadi pusat perhatian","I","I"],["Menyukai rutinitas yang jelas","S","S"],["Rapi","C","C"]],[["Menghindari pertengkaran","S","S"],["Menyukai data dan fakta","C","C"],["Mandiri dalam bekerja","D","D"],["Ekspresif","I","I"]],[["Cepat akrab dengan orang baru","I","I"],["Cepat bertindak","D","D"],["Berpikir sebelum bertindak","C","C"],["Dapat diandalkan","S","S"]],[["Tepat waktu","C","C"],["Lembut","S","S"],["Penuh semangat","I","I"],["Berani berbeda pendapat","D","D"]],[["Suka bercanda","I","I"],["Mudah memaafkan","S","S"],["Mendorong orang lain bergerak","D","D"],["Memperhatikan detail","C","C"]],[["Logis","C","C"],["Pantang menyerah","D","D"],["Stabil","S","S"],["Senang bekerja dalam kelompok besar","I","I"]],[["Menetapkan target tinggi","D","D"],["Spontan","I","I"],["Menjaga kerukunan","S","S"],["Menjaga standar kualitas","C","C"]],[["Tidak tergesa-gesa","S","S"],["Terencana","C","C"],["Yakin pada diri sendiri","D","D"],["Hangat dan ramah","I","I"]],[["Suka memuji orang lain","I","I"],["Suka mengendalikan situasi","D","D"],["Kritis","C","C"],["Penuh pengertian","S","S"]],[["Disiplin","C","C"],["Rendah hati","S","S"],["Pandai bercerita","I","I"],["Tidak sabar dengan hal yang lambat","D","D"]],[["Senang acara sosial","I","I"],["Senang bekerja di belakang layar","S","S"],["Pemberani","D","D"],["Memeriksa ulang pekerjaan","C","C"]],[["Akurat","C","C"],["Berpendirian keras","D","D"],["Tahan mengerjakan tugas panjang","S","S"],["Mudah memotivasi orang","I","I"]],[["Senang mengambil inisiatif","D","D"],["Penuh ide","I","I"],["Mudah menyesuaikan diri dengan tim","S","S"],["Menyukai prosedur yang jelas","C","C"]],[["Sabar mengajari orang","S","S"],["Objektif","C","C"],["Ingin punya wewenang","D","D"],["Menyenangkan","I","I"]],[["Suka berdiskusi","I","I"],["Ingin selalu menang","D","D"],["Serius","C","C"],["Menghargai kebiasaan lama","S","S"]],[["Terstruktur","C","C"],["Kalem","S","S"],["Ramah kepada siapa saja","I","I"],["Bicara terus terang","D","D"]],[["Mudah tertawa","I","I"],["Murah hati","S","S"],["Berani menghadapi konflik","D","D"],["Mengutamakan ketepatan","C","C"]],[["Waspada terhadap kesalahan","C","C"],["Cepat memutuskan","D","D"],["Tenang saat ditekan","S","S"],["Pandai mencairkan suasana","I","I"]]],"grafik":{"most":{"D":[[0,-6.9],[2,-4.6],[4,-2.3],[6,0],[8,2.3],[10,4.6],[12,6.9],[24,7.4]],"I":[[0,-6.9],[2,-4.6],[4,-2.3],[6,0],[8,2.3],[10,4.6],[12,6.9],[24,7.4]],"S":[[0,-6.9],[2,-4.6],[4,-2.3],[6,0],[8,2.3],[10,4.6],[12,6.9],[24,7.4]],"C":[[0,-6.9],[2,-4.6],[4,-2.3],[6,0],[8,2.3],[10,4.6],[12,6.9],[24,7.4]]},"least":{"D":[[0,6.9],[2,4.6],[4,2.3],[6,0],[8,-2.3],[10,-4.6],[12,-6.9],[24,-7.4]],"I":[[0,6.9],[2,4.6],[4,2.3],[6,0],[8,-2.3],[10,-4.6],[12,-6.9],[24,-7.4]],"S":[[0,6.9],[2,4.6],[4,2.3],[6,0],[8,-2.3],[10,-4.6],[12,-6.9],[24,-7.4]],"C":[[0,6.9],[2,4.6],[4,2.3],[6,0],[8,-2.3],[10,-4.6],[12,-6.9],[24,-7.4]]},"change":{"D":[[-24,-7.4],[-12,-6.9],[-8,-4.6],[-4,-2.3],[0,0],[4,2.3],[8,4.6],[12,6.9],[24,7.4]],"I":[[-24,-7.4],[-12,-6.9],[-8,-4.6],[-4,-2.3],[0,0],[4,2.3],[8,4.6],[12,6.9],[24,7.4]],"S":[[-24,-7.4],[-12,-6.9],[-8,-4.6],[-4,-2.3],[0,0],[4,2.3],[8,4.6],[12,6.9],[24,7.4]],"C":[[-24,-7.4],[-12,-6.9],[-8,-4.6],[-4,-2.3],[0,0],[4,2.3],[8,4.6],[12,6.9],[24,7.4]]}}};
 // ==DISC== skoring DISC. DISC_DATA disediakan disc-data.js (Code.gs) atau disc-demo.js (mode demo).
 // Isi untuk peserta: hanya teks pernyataan, tanpa kunci.
 function discKonten() {
@@ -3076,9 +3123,6 @@ function discSkor(j) {
   return { most: most, least: least, change: change, posisi: posisi, pola: pola, lengkap: lengkap, nSoal: N, demo: !!DISC_DATA.demo, butir: butir };
 }
 
-/* Data PAPI Kostick MODE DEMO (dibuat oleh test/papi-buat-demo.js). Pernyataan karangan dan pasangan acak, bukan soal maupun kunci asli;
-   tidak untuk menilai orang. */
-var PAPI_DATA_DEMO = {"demo":true,"soal":[[["Saya ingin hasil kerja saya lebih unggul","A"],["Saya berani membantah bila tidak setuju","K"]],[["Saya rela lembur bila pekerjaan menuntut","G"],["Saya tetap tenang walaupun sedang kesal","E"]],[["Saya senang bila hasil kerja saya diperhatikan orang","X"],["Saya senang menjadi bagian dari sebuah kelompok","B"]],[["Saya senang punya hubungan yang akrab dengan rekan kerja","O"],["Saya lebih suka bekerja dengan petunjuk yang jelas","W"]],[["Saya suka tampil di depan banyak orang","X"],["Saya mudah berkenalan dengan orang baru","S"]],[["Saya terbiasa bekerja dengan tenaga penuh","G"],["Saya nyaman diminta memimpin rapat","L"]],[["Saya suka membagi tugas kepada anggota tim","P"],["Saya suka memikirkan alasan di balik sebuah masalah","R"]],[["Saya senang menghadiri acara yang ramai","S"],["Saya menyusun jadwal sebelum mulai bekerja","C"]],[["Saya menetapkan target yang menantang untuk diri sendiri","A"],["Saya senang menunjukkan cara kerja yang benar kepada orang lain","P"]],[["Saya memeriksa ulang rincian pekerjaan","D"],["Saya menyimpan dokumen dengan rapi dan teratur","C"]],[["Saya senang mendapat pujian atas pekerjaan saya","X"],["Saya jarang menunjukkan emosi di tempat kerja","E"]],[["Saya suka pekerjaan yang membuat saya banyak bergerak","V"],["Orang lain sering meminta saya mengambil peran ketua","L"]],[["Saya senang mengerjakan tugas yang menuntut ketelitian","D"],["Saya mengikuti aturan perusahaan dengan patuh","W"]],[["Saya senang bertanggung jawab atas sebuah tim","L"],["Saya bisa menahan diri saat sedang tertekan","E"]],[["Saya tidak tenang bila ada pekerjaan yang belum beres","N"],["Saya mendukung keputusan atasan saya","F"]],[["Saya ingin atasan puas dengan pekerjaan saya","F"],["Saya tetap tenang walaupun sedang kesal","E"]],[["Saya memperhatikan hal-hal kecil yang sering terlewat","D"],["Saya terdorong untuk menjadi yang terbaik di bidang saya","A"]],[["Saya senang bila atasan memeriksa pekerjaan saya","W"],["Saya ingin hasil kerja saya lebih unggul","A"]],[["Saya peduli pada perasaan orang di sekitar saya","O"],["Saya setia pada pimpinan dan organisasi","F"]],[["Saya menuntaskan satu tugas sebelum pindah ke tugas lain","N"],["Saya mendukung keputusan atasan saya","F"]],[["Saya memeriksa ulang rincian pekerjaan","D"],["Saya senang mencoba cara kerja yang baru","Z"]],[["Saya nyaman diminta memimpin rapat","L"],["Saya bekerja dengan tempo cepat","T"]],[["Saya suka menyelesaikan pekerjaan lebih awal dari tenggat","T"],["Saya cepat memutuskan pilihan","I"]],[["Saya senang mengerjakan tugas yang menuntut ketelitian","D"],["Saya mudah bosan dengan pekerjaan yang itu-itu saja","Z"]],[["Saya menyukai perubahan suasana kerja","Z"],["Saya bekerja mengikuti urutan yang jelas","C"]],[["Saya lebih suka bekerja dengan petunjuk yang jelas","W"],["Saya lebih suka bekerja bersama tim daripada sendiri","B"]],[["Saya ingin disukai oleh orang-orang dekat saya","O"],["Saya tidak ragu mengambil keputusan penting","I"]],[["Saya terbiasa mengejar waktu","T"],["Saya mengikuti aturan perusahaan dengan patuh","W"]],[["Saya punya banyak teman dari berbagai kalangan","S"],["Saya memastikan orang lain bekerja sesuai rencana","P"]],[["Saya senang mencoba cara kerja yang baru","Z"],["Saya senang membaca dan mempelajari teori","R"]],[["Saya akan membela pendapat saya dengan keras","K"],["Saya bisa memutuskan walaupun informasi belum lengkap","I"]],[["Saya senang kegiatan di luar ruangan","V"],["Saya suka membagi tugas kepada anggota tim","P"]],[["Saya tidak mudah mengalah dalam perdebatan","K"],["Saya memperhatikan hal-hal kecil yang sering terlewat","D"]],[["Saya menetapkan target yang menantang untuk diri sendiri","A"],["Saya memeriksa ulang rincian pekerjaan","D"]],[["Orang lain sering meminta saya mengambil peran ketua","L"],["Saya bekerja dengan tempo cepat","T"]],[["Saya mudah bosan dengan pekerjaan yang itu-itu saja","Z"],["Saya ingin atasan puas dengan pekerjaan saya","F"]],[["Saya menyukai perubahan suasana kerja","Z"],["Saya tetap mengerjakan tugas sampai benar-benar selesai","N"]],[["Saya ingin diterima oleh rekan-rekan kerja","B"],["Saya suka menyelesaikan pekerjaan lebih awal dari tenggat","T"]],[["Saya tidak betah duduk terlalu lama","V"],["Saya menimbang banyak kemungkinan sebelum bertindak","R"]],[["Saya suka memikirkan alasan di balik sebuah masalah","R"],["Saya tidak tenang bila ada pekerjaan yang belum beres","N"]],[["Saya senang bertanggung jawab atas sebuah tim","L"],["Saya mudah berkenalan dengan orang baru","S"]],[["Saya menyusun jadwal sebelum mulai bekerja","C"],["Saya jarang menunjukkan emosi di tempat kerja","E"]],[["Saya cepat memutuskan pilihan","I"],["Saya terdorong untuk menjadi yang terbaik di bidang saya","A"]],[["Saya senang bila hasil kerja saya diperhatikan orang","X"],["Saya menuntaskan satu tugas sebelum pindah ke tugas lain","N"]],[["Saya bisa menahan diri saat sedang tertekan","E"],["Saya terbiasa mengejar waktu","T"]],[["Saya menyimpan dokumen dengan rapi dan teratur","C"],["Saya senang membaca dan mempelajari teori","R"]],[["Saya setia pada pimpinan dan organisasi","F"],["Saya suka pekerjaan yang membuat saya banyak bergerak","V"]],[["Saya berani membantah bila tidak setuju","K"],["Saya senang mencoba cara kerja yang baru","Z"]],[["Saya menimbang banyak kemungkinan sebelum bertindak","R"],["Saya senang menjadi bagian dari sebuah kelompok","B"]],[["Saya akan membela pendapat saya dengan keras","K"],["Saya mendukung keputusan atasan saya","F"]],[["Saya senang kegiatan di luar ruangan","V"],["Saya bekerja mengikuti urutan yang jelas","C"]],[["Saya nyaman diminta memimpin rapat","L"],["Saya ingin hasil kerja saya lebih unggul","A"]],[["Saya tidak mudah mengalah dalam perdebatan","K"],["Saya menyusun jadwal sebelum mulai bekerja","C"]],[["Orang lain sering meminta saya mengambil peran ketua","L"],["Saya tidak ragu mengambil keputusan penting","I"]],[["Saya senang bertanggung jawab atas sebuah tim","L"],["Saya senang menunjukkan cara kerja yang benar kepada orang lain","P"]],[["Saya senang bila atasan memeriksa pekerjaan saya","W"],["Saya berani membantah bila tidak setuju","K"]],[["Saya suka tampil di depan banyak orang","X"],["Saya ingin atasan puas dengan pekerjaan saya","F"]],[["Saya bisa memutuskan walaupun informasi belum lengkap","I"],["Saya bekerja dengan tempo cepat","T"]],[["Saya lebih suka bekerja dengan petunjuk yang jelas","W"],["Saya senang menghadiri acara yang ramai","S"]],[["Saya mengikuti aturan perusahaan dengan patuh","W"],["Saya akan membela pendapat saya dengan keras","K"]],[["Saya suka memikirkan alasan di balik sebuah masalah","R"],["Saya merasa puas setelah bekerja keras seharian","G"]],[["Saya senang membaca dan mempelajari teori","R"],["Saya rela lembur bila pekerjaan menuntut","G"]],[["Saya memastikan orang lain bekerja sesuai rencana","P"],["Saya tetap tenang walaupun sedang kesal","E"]],[["Saya senang punya hubungan yang akrab dengan rekan kerja","O"],["Saya senang mengerjakan tugas yang menuntut ketelitian","D"]],[["Saya jarang menunjukkan emosi di tempat kerja","E"],["Saya terbiasa bekerja dengan tenaga penuh","G"]],[["Saya lebih suka bekerja bersama tim daripada sendiri","B"],["Saya setia pada pimpinan dan organisasi","F"]],[["Saya bisa menahan diri saat sedang tertekan","E"],["Saya tidak mudah mengalah dalam perdebatan","K"]],[["Saya tetap mengerjakan tugas sampai benar-benar selesai","N"],["Saya suka menyelesaikan pekerjaan lebih awal dari tenggat","T"]],[["Saya senang bila atasan memeriksa pekerjaan saya","W"],["Saya menetapkan target yang menantang untuk diri sendiri","A"]],[["Saya tidak betah duduk terlalu lama","V"],["Saya ingin diterima oleh rekan-rekan kerja","B"]],[["Saya suka pekerjaan yang membuat saya banyak bergerak","V"],["Saya punya banyak teman dari berbagai kalangan","S"]],[["Saya senang kegiatan di luar ruangan","V"],["Saya tidak tenang bila ada pekerjaan yang belum beres","N"]],[["Saya cepat memutuskan pilihan","I"],["Saya senang mendapat pujian atas pekerjaan saya","X"]],[["Saya senang menjadi bagian dari sebuah kelompok","B"],["Saya mudah berkenalan dengan orang baru","S"]],[["Saya senang bila hasil kerja saya diperhatikan orang","X"],["Saya peduli pada perasaan orang di sekitar saya","O"]],[["Saya merasa puas setelah bekerja keras seharian","G"],["Saya senang menghadiri acara yang ramai","S"]],[["Saya menyimpan dokumen dengan rapi dan teratur","C"],["Saya rela lembur bila pekerjaan menuntut","G"]],[["Saya memperhatikan hal-hal kecil yang sering terlewat","D"],["Saya menuntaskan satu tugas sebelum pindah ke tugas lain","N"]],[["Saya terbiasa mengejar waktu","T"],["Saya terdorong untuk menjadi yang terbaik di bidang saya","A"]],[["Saya terbiasa bekerja dengan tenaga penuh","G"],["Saya menimbang banyak kemungkinan sebelum bertindak","R"]],[["Saya lebih suka bekerja bersama tim daripada sendiri","B"],["Saya bekerja mengikuti urutan yang jelas","C"]],[["Saya suka membagi tugas kepada anggota tim","P"],["Saya tidak ragu mengambil keputusan penting","I"]],[["Saya ingin disukai oleh orang-orang dekat saya","O"],["Saya ingin diterima oleh rekan-rekan kerja","B"]],[["Saya senang menunjukkan cara kerja yang benar kepada orang lain","P"],["Saya merasa puas setelah bekerja keras seharian","G"]],[["Saya memastikan orang lain bekerja sesuai rencana","P"],["Saya senang punya hubungan yang akrab dengan rekan kerja","O"]],[["Saya mudah bosan dengan pekerjaan yang itu-itu saja","Z"],["Saya suka tampil di depan banyak orang","X"]],[["Saya punya banyak teman dari berbagai kalangan","S"],["Saya peduli pada perasaan orang di sekitar saya","O"]],[["Saya senang mendapat pujian atas pekerjaan saya","X"],["Saya ingin disukai oleh orang-orang dekat saya","O"]],[["Saya tidak betah duduk terlalu lama","V"],["Saya bisa memutuskan walaupun informasi belum lengkap","I"]],[["Saya tetap mengerjakan tugas sampai benar-benar selesai","N"],["Saya menyukai perubahan suasana kerja","Z"]]]};
 // ==PAPI== skoring PAPI Kostick. PAPI_DATA disediakan papi-data.js (Code.gs) atau papi-demo.js (mode demo).
 // Isi untuk peserta: hanya teks pernyataan, tanpa kunci faktor.
 function papiKonten() {
@@ -3102,9 +3146,6 @@ function papiSkor(j) {
   return { f: f, lengkap: lengkap, nSoal: PAPI_DATA.soal.length, demo: !!PAPI_DATA.demo, butir: butir };
 }
 
-/* Data MSDT MODE DEMO (dibuat oleh test/msdt-buat-demo.js). Pernyataan, pasangan, kunci, dan tabel konversi karangan;
-   bukan soal maupun kunci asli, tidak untuk menilai orang. */
-var MSDT_DATA_DEMO = {"demo":true,"soal":[["Saya memastikan setiap pekerjaan mengikuti prosedur yang berlaku","Saya memberi arahan yang jelas tentang apa yang harus dicapai"],["Saya cepat memutuskan saat tim menghadapi masalah mendesak","Saya mencari jalan tengah agar semua pihak merasa puas"],["Saya menetapkan cara kerja dan meminta tim mengikutinya tanpa banyak diskusi","Saya membiarkan anggota tim menyelesaikan masalahnya sendiri tanpa campur tangan"],["Saya memberi kesempatan anggota tim untuk mencoba tugas baru","Saya menetapkan target dan memantau kemajuannya setiap minggu"],["Saya mengajak tim menetapkan target bersama","Saya menjelaskan alasan di balik keputusan yang saya ambil"],["Saya menjaga agar suasana tim selalu menyenangkan","Saya menuntut standar kerja tinggi sambil tetap memperhatikan kebutuhan tim"],["Saya lebih suka menunggu sampai masalah reda dengan sendirinya","Saya mendorong anggota tim bekerja sama untuk mencapai hasil terbaik"],["Saya menegur keras anggota tim yang tidak memenuhi target","Saya membahas hasil kerja bersama tim untuk perbaikan berikutnya"],["Saya mengajak tim menetapkan target bersama","Saya mengubah keputusan bila banyak anggota tim yang keberatan"],["Saya menghindari teguran yang bisa membuat anggota tim tersinggung","Saya mencatat dan mengarsipkan setiap keputusan tim dengan rapi"],["Saya menuntut standar kerja tinggi sambil tetap memperhatikan kebutuhan tim","Saya mendengarkan ide anggota tim sebelum menetapkan rencana"],["Saya melibatkan semua orang sebelum memutuskan hal kecil sekalipun","Saya memberi arahan yang jelas tentang apa yang harus dicapai"],["Saya cepat memutuskan saat tim menghadapi masalah mendesak","Saya mengerjakan bagian saya sesuai aturan dan tidak lebih dari itu"],["Saya meluangkan waktu untuk membimbing anggota tim yang baru","Saya mengutamakan hubungan baik walaupun target sedikit tertunda"],["Saya jarang mengadakan rapat dengan tim","Saya mencoba memenuhi permintaan atasan dan bawahan sekaligus"],["Saya mempercayakan tanggung jawab penting kepada anggota tim","Saya membiarkan anggota tim menyelesaikan masalahnya sendiri tanpa campur tangan"],["Saya menetapkan target dan memantau kemajuannya setiap minggu","Saya lebih suka menunggu sampai masalah reda dengan sendirinya"],["Saya mendorong anggota tim bekerja sama untuk mencapai hasil terbaik","Saya memberi kesempatan anggota tim untuk mencoba tugas baru"],["Saya mendengarkan ide anggota tim sebelum menetapkan rencana","Saya mengalah agar tidak terjadi perselisihan di tim"],["Saya mencari jalan tengah agar semua pihak merasa puas","Saya mengambil keputusan sendiri karena saya paling tahu apa yang harus dilakukan"],["Saya mengerjakan bagian saya sesuai aturan dan tidak lebih dari itu","Saya meluangkan waktu untuk membimbing anggota tim yang baru"],["Saya membahas hasil kerja bersama tim untuk perbaikan berikutnya","Saya menjelaskan alasan di balik keputusan yang saya ambil"],["Saya menjaga agar suasana tim selalu menyenangkan","Saya memberi arahan yang jelas tentang apa yang harus dicapai"],["Saya menghindari teguran yang bisa membuat anggota tim tersinggung","Saya mengubah keputusan bila banyak anggota tim yang keberatan"],["Saya mengawasi pekerjaan bawahan dengan ketat","Saya mempercayakan tanggung jawab penting kepada anggota tim"],["Saya melibatkan semua orang sebelum memutuskan hal kecil sekalipun","Saya memperlakukan semua anggota tim dengan aturan yang sama"],["Saya cepat memutuskan saat tim menghadapi masalah mendesak","Saya memberi kesempatan anggota tim untuk mencoba tugas baru"],["Saya mencoba memenuhi permintaan atasan dan bawahan sekaligus","Saya mengajak tim menetapkan target bersama"],["Saya merujuk pada peraturan perusahaan saat ada perbedaan pendapat","Saya mengutamakan hubungan baik walaupun target sedikit tertunda"],["Saya menetapkan cara kerja dan meminta tim mengikutinya tanpa banyak diskusi","Saya memastikan setiap pekerjaan mengikuti prosedur yang berlaku"],["Saya menegur keras anggota tim yang tidak memenuhi target","Saya menetapkan target dan memantau kemajuannya setiap minggu"],["Saya mencatat dan mengarsipkan setiap keputusan tim dengan rapi","Saya mengambil keputusan sendiri karena saya paling tahu apa yang harus dilakukan"],["Saya mengawasi pekerjaan bawahan dengan ketat","Saya mencari jalan tengah agar semua pihak merasa puas"],["Saya mengalah agar tidak terjadi perselisihan di tim","Saya mendengarkan ide anggota tim sebelum menetapkan rencana"],["Saya jarang mengadakan rapat dengan tim","Saya menuntut standar kerja tinggi sambil tetap memperhatikan kebutuhan tim"],["Saya menjaga agar suasana tim selalu menyenangkan","Saya menetapkan cara kerja dan meminta tim mengikutinya tanpa banyak diskusi"],["Saya membiarkan anggota tim menyelesaikan masalahnya sendiri tanpa campur tangan","Saya menghindari teguran yang bisa membuat anggota tim tersinggung"],["Saya menegur keras anggota tim yang tidak memenuhi target","Saya mendorong anggota tim bekerja sama untuk mencapai hasil terbaik"],["Saya meluangkan waktu untuk membimbing anggota tim yang baru","Saya membahas hasil kerja bersama tim untuk perbaikan berikutnya"],["Saya mempercayakan tanggung jawab penting kepada anggota tim","Saya lebih suka menunggu sampai masalah reda dengan sendirinya"],["Saya memperlakukan semua anggota tim dengan aturan yang sama","Saya mengerjakan bagian saya sesuai aturan dan tidak lebih dari itu"],["Saya mengubah keputusan bila banyak anggota tim yang keberatan","Saya mengutamakan hubungan baik walaupun target sedikit tertunda"],["Saya melibatkan semua orang sebelum memutuskan hal kecil sekalipun","Saya merujuk pada peraturan perusahaan saat ada perbedaan pendapat"],["Saya jarang mengadakan rapat dengan tim","Saya memastikan setiap pekerjaan mengikuti prosedur yang berlaku"],["Saya mengajak tim menetapkan target bersama","Saya mencoba memenuhi permintaan atasan dan bawahan sekaligus"],["Saya mencatat dan mengarsipkan setiap keputusan tim dengan rapi","Saya mengambil keputusan sendiri karena saya paling tahu apa yang harus dilakukan"],["Saya memberi kesempatan anggota tim untuk mencoba tugas baru","Saya mengalah agar tidak terjadi perselisihan di tim"],["Saya memperlakukan semua anggota tim dengan aturan yang sama","Saya mencari jalan tengah agar semua pihak merasa puas"],["Saya mengubah keputusan bila banyak anggota tim yang keberatan","Saya menjaga agar suasana tim selalu menyenangkan"],["Saya menjelaskan alasan di balik keputusan yang saya ambil","Saya membiarkan anggota tim menyelesaikan masalahnya sendiri tanpa campur tangan"],["Saya lebih suka menunggu sampai masalah reda dengan sendirinya","Saya melibatkan semua orang sebelum memutuskan hal kecil sekalipun"],["Saya menghindari teguran yang bisa membuat anggota tim tersinggung","Saya merujuk pada peraturan perusahaan saat ada perbedaan pendapat"],["Saya memberi arahan yang jelas tentang apa yang harus dicapai","Saya mendengarkan ide anggota tim sebelum menetapkan rencana"],["Saya mengerjakan bagian saya sesuai aturan dan tidak lebih dari itu","Saya memastikan setiap pekerjaan mengikuti prosedur yang berlaku"],["Saya mencatat dan mengarsipkan setiap keputusan tim dengan rapi","Saya mengutamakan hubungan baik walaupun target sedikit tertunda"],["Saya menuntut standar kerja tinggi sambil tetap memperhatikan kebutuhan tim","Saya mengawasi pekerjaan bawahan dengan ketat"],["Saya cepat memutuskan saat tim menghadapi masalah mendesak","Saya menetapkan cara kerja dan meminta tim mengikutinya tanpa banyak diskusi"],["Saya meluangkan waktu untuk membimbing anggota tim yang baru","Saya jarang mengadakan rapat dengan tim"],["Saya mendorong anggota tim bekerja sama untuk mencapai hasil terbaik","Saya mempercayakan tanggung jawab penting kepada anggota tim"],["Saya memperlakukan semua anggota tim dengan aturan yang sama","Saya menegur keras anggota tim yang tidak memenuhi target"],["Saya mencoba memenuhi permintaan atasan dan bawahan sekaligus","Saya mengambil keputusan sendiri karena saya paling tahu apa yang harus dilakukan"],["Saya mengalah agar tidak terjadi perselisihan di tim","Saya membahas hasil kerja bersama tim untuk perbaikan berikutnya"],["Saya mengawasi pekerjaan bawahan dengan ketat","Saya menetapkan target dan memantau kemajuannya setiap minggu"],["Saya menjelaskan alasan di balik keputusan yang saya ambil","Saya merujuk pada peraturan perusahaan saat ada perbedaan pendapat"]],"kunci":["EG","GD","CA","FG","HG","BH","AH","CH","HD","BE","HF","DG","GA","FB","AD","FA","GA","HF","FB","DC","AF","HG","BG","BD","CF","DE","GF","DH","EB","CE","CG","EC","CD","BF","AH","BC","AB","CH","FH","FA","EA","DB","DE","AE","HD","EC","FB","ED","DB","GA","AD","BE","GF","AE","EB","HC","GC","FA","HF","EC","DC","BH","CG","GE"],"koreksi":{},"konversi":[[0,0],[28,0.8],[30,1.4],[32,2.2],[34,2.8],[36,3.4],[38,4]]};
 // ==MSDT== skoring MSDT. MSDT_DATA disediakan msdt-data.js (Code.gs) atau msdt-demo.js (mode demo).
 // Isi untuk peserta: hanya teks pernyataan, tanpa kunci skoring.
 function msdtKonten() {
@@ -3168,6 +3209,22 @@ function durasiTeks(menit) {
 }
 function durasiTes(tes, c) { return durasiTeks(durasiTesMs(tes, c) / 60000); }
 const NAMA_TES = t => (TES[t] ? TES[t].nama : t);
+// Nama tes untuk peserta: fungsi tesnya (misalnya "Intelegensi"), bukan nama alat tes.
+const NAMA_PESERTA = t => (TES[t] && TES[t].fungsi) || 'Psikotes';
+// Memuat isi tes dari server sekali saja. Panggilan yang datang bersamaan (pramuat dan tombol mulai) menunggu permintaan yang sama.
+// diam: gagal tanpa pesan (dipakai saat pramuat).
+async function muatIsiTes(wadah, ambil, tes, el, diam) {
+  if (wadah.konten) return true;
+  try {
+    if (el) el.disabled = true;
+    if (!wadah.janji) wadah.janji = ambil().finally(() => { wadah.janji = null; });
+    await wadah.janji;
+    return true;
+  } catch (e) {
+    if (!diam) vDaftarTes({ teks: `Soal tes ${NAMA_PESERTA(tes)} belum bisa dimuat. ${e.message}`, jenis: 'galat' });
+    return false;
+  } finally { if (el) el.disabled = false; }
+}
 
 /* ================= Status aplikasi ================= */
 const S = {
@@ -3683,13 +3740,13 @@ function bannerLanjutan() {
   let html = '';
   const td = bacaLokal('psikotes_tertunda');
   if (td && td.kode === P.kode) {
-    html += `<div class="notis peringatan banner"><div><b>Hasil tes ${NAMA_TES(td.tes)} belum terkirim.</b> Jawaban Anda aman tersimpan di perangkat ini.</div>
+    html += `<div class="notis peringatan banner"><div><b>Hasil tes ${NAMA_PESERTA(td.tes)} belum terkirim.</b> Jawaban Anda aman tersimpan di perangkat ini.</div>
       <button class="tombol utama kecil" data-aksi="kirim-ulang">Kirim sekarang</button></div>`;
   }
   const c = cuplikanLanjut();
   if (c && !(td && td.kode === P.kode && td.tes === c.tes)) {
     const sisa = c.tes === 'ist' ? 60000 : Math.max(0, durasiTesMs(c.tes, P.state.cfg[c.tes]) - c.berlaluKini);
-    html += `<div class="notis peringatan banner"><div><b>Tes ${NAMA_TES(c.tes)} sedang berjalan.</b> ${c.tes === 'ist' ? 'Waktu subtes yang sedang dikerjakan tetap berjalan selama Anda terputus.' : sisa > 0 ? `Waktu tes tetap berjalan selama Anda terputus; sisa sekitar ${durasiTeks(sisa / 60000)}.` : 'Waktu tes sudah habis; jawaban yang tersimpan akan langsung dikirim.'}</div>
+    html += `<div class="notis peringatan banner"><div><b>Tes ${NAMA_PESERTA(c.tes)} sedang berjalan.</b> ${c.tes === 'ist' ? 'Waktu subtes yang sedang dikerjakan tetap berjalan selama Anda terputus.' : sisa > 0 ? `Waktu tes tetap berjalan selama Anda terputus; sisa sekitar ${durasiTeks(sisa / 60000)}.` : 'Waktu tes sudah habis; jawaban yang tersimpan akan langsung dikirim.'}</div>
       <button class="tombol utama kecil" data-aksi="lanjutkan-tes">${sisa > 0 ? 'Lanjutkan tes' : 'Kirim jawaban'}</button></div>`;
   }
   return html;
@@ -3716,11 +3773,12 @@ function vDaftarTes(pesan) {
 }
 function kartuTes(tes, i, berikut) {
   const c = P.state.cfg[tes], sudah = P.state.selesai.includes(tes), cup = cuplikanLanjut(), jalan = !sudah && cup && cup.tes === tes, giliran = jalan || (tes === berikut && !(cup && cup.tes !== tes));
-  const fakta = tes === 'ist' ? [['Subtes', c.menit.length], ['Soal', istJumlahSoal()], ['Total waktu', durasiTes(tes, c)]] : tes === 'disc' ? [['Nomor', 24], ['Pilihan', 'P dan K'], ['Total waktu', durasiTes(tes, c)]] : tes === 'papi' ? [['Nomor', 90], ['Pilihan', 'A atau B'], ['Total waktu', durasiTes(tes, c)]] : tes === 'msdt' ? [['Nomor', 64], ['Pilihan', 'A atau B'], ['Total waktu', durasiTes(tes, c)]] : tes === 'kraepelin'
-    ? [['Lajur', c.jumlahLajur], ['Per lajur', c.detikPerLajur + ' dtk'], ['Total', durasiTes(tes, c)]]
-    : [['Total', durasiTes(tes, c)], ['Tanda garis', 'tiap ' + durasiTeks(c.menitPerPeriode)], ['Periode', jumlahPeriode(c)]];
+  // Fakta singkat untuk peserta: jumlah soal, jenis soal, dan waktu. Tanpa nama alat tes maupun rincian teknisnya.
+  const waktu = ['Total waktu', durasiTes(tes, c)], pilihan = ['Jenis soal', 'Pilihan'];
+  const fakta = tes === 'ist' ? [['Soal', istJumlahSoal()], ['Perkiraan waktu', durasiTes(tes, c)]]
+    : tes === 'disc' ? [['Soal', 24], pilihan, waktu] : tes === 'papi' ? [['Soal', 90], pilihan, waktu] : tes === 'msdt' ? [['Soal', 64], pilihan, waktu] : [waktu];
   return `<article class="lembar kartu${giliran ? ' giliran' : ''}">
-    <div class="kartu-kepala"><h2><span class="no-tes">${i + 1}</span>Tes ${NAMA_TES(tes)}</h2>${sudah ? '<span class="chip ok">Selesai</span>' : jalan ? '<span class="chip draf">Sedang berjalan</span>' : giliran ? '<span class="chip biru">Berikutnya</span>' : '<span class="chip">Menunggu</span>'}</div>
+    <div class="kartu-kepala"><h2><span class="no-tes">${i + 1}</span>Tes ${NAMA_PESERTA(tes)}</h2>${sudah ? '<span class="chip ok">Selesai</span>' : jalan ? '<span class="chip draf">Sedang berjalan</span>' : giliran ? '<span class="chip biru">Berikutnya</span>' : '<span class="chip">Menunggu</span>'}</div>
     <p class="desk">${esc(TES[tes].desk)}</p>
     <dl class="fakta">${fakta.map(([l, v]) => `<div><dt>${l}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
     ${jalan ? '<button class="tombol utama" data-aksi="lanjutkan-tes">Lanjutkan tes</button>' : giliran ? `<button class="tombol utama" data-aksi="petunjuk" data-tes="${tes}">Baca petunjuk & mulai</button>` : sudah ? '<p class="catatan-kecil">Sudah dikerjakan. Terima kasih.</p>' : '<p class="catatan-kecil">Dikerjakan setelah tes sebelumnya selesai.</p>'}
@@ -3764,11 +3822,12 @@ function vInstruksiIST() {
     'Saat waktu subtes habis, subtes <b>berganti sendiri</b>. Anda tidak bisa kembali ke subtes sebelumnya.',
     'Di dalam satu subtes, Anda bebas mengerjakan soal mana saja lebih dulu dan mengganti jawaban.',
     'Jawaban berupa pilihan a sampai e, kata yang diketik, atau angka yang diketik, tergantung subtesnya.',
+    'Pada soal pilihan, layar <b>pindah sendiri</b> ke soal berikutnya setelah Anda memilih. Pada soal yang jawabannya diketik, tekan Enter atau tombol berikutnya.',
     `Subtes terakhir diawali <b>${durasiTeks(c.hafalMenit)} menghafal</b> daftar kata.`
   ];
   render(kepala() + `<main class="wrap">
     ${tKembali('Daftar tes', 'data-aksi="daftar-tes"')}
-    <div class="tumpuk"><h1>Petunjuk tes IST</h1></div>
+    <div class="tumpuk"><h1>Petunjuk tes ${NAMA_PESERTA('ist')}</h1></div>
     ${P.state.batch.mode === 'Uji coba' ? notis('Durasi singkat (uji coba). Hasil ditandai "Uji coba".', 'peringatan') : ''}
     <div class="instruksi">
       <section class="lembar tumpuk" style="gap:18px">
@@ -3788,6 +3847,7 @@ function vInstruksiIST() {
   </main>`);
 }
 function vInstruksi(tes) {
+  pramuatKonten(tes);
   if (tes === 'ist') return vInstruksiIST();
   if (tes === 'disc') return vInstruksiDISC();
   if (tes === 'papi') return vInstruksiPAPI();
@@ -3808,7 +3868,7 @@ function vInstruksi(tes) {
   ];
   render(kepala() + `<main class="wrap">
     ${tKembali('Daftar tes', 'data-aksi="daftar-tes"')}
-    <div class="tumpuk"><h1>Petunjuk tes ${NAMA_TES(tes)}</h1></div>
+    <div class="tumpuk"><h1>Petunjuk tes ${NAMA_PESERTA(tes)}</h1></div>
     ${P.state.batch.mode === 'Uji coba' ? notis('Durasi singkat (uji coba). Hasil ditandai "Uji coba".', 'peringatan') : ''}
     <div class="instruksi">
       <section class="lembar tumpuk" style="gap:18px">
@@ -3835,7 +3895,7 @@ function vInstruksi(tes) {
 function vLatihanSelesai(t, skor) {
   const K = t.tes === 'kraepelin';
   render(kepala() + `<main class="wrap sempit">
-    <div class="tumpuk"><h1>Latihan ${NAMA_TES(t.tes)} selesai</h1>
+    <div class="tumpuk"><h1>Latihan tes ${NAMA_PESERTA(t.tes)} selesai</h1>
     <p class="lead">Anda mengerjakan <b>${K ? skor.totalDikerjakan : skor.total}</b> penjumlahan dengan <b>${skor.totalSalah}</b> jawaban salah. Hasil latihan tidak disimpan.</p></div>
     <div class="aksi"><button class="tombol sekunder" data-aksi="latihan" data-tes="${t.tes}">Ulangi latihan</button>
     <button class="tombol utama" data-aksi="tanya-mulai">Mulai tes sesungguhnya</button></div>
@@ -3847,7 +3907,7 @@ function vLatihanSelesai(t, skor) {
 async function kirimHasil(kiriman) {
   if (!kiriman) return lanjutPeserta();
   simpanLokal('psikotes_tertunda', kiriman);
-  render(kepala() + `<main class="wrap sempit"><div class="tumpuk"><h1>Menyimpan jawaban tes ${NAMA_TES(kiriman.tes)}…</h1><p class="lead">Jangan tutup halaman ini.</p></div></main>`);
+  render(kepala() + `<main class="wrap sempit"><div class="tumpuk"><h1>Menyimpan jawaban tes ${NAMA_PESERTA(kiriman.tes)}…</h1><p class="lead">Jangan tutup halaman ini.</p></div></main>`);
   try {
     const r = await api('simpanHasil', { kode: kiriman.kode, sesi: kiriman.sesi, tes: kiriman.tes, hasil: kiriman.hasil, token: '' });
     simpanLokal('psikotes_tertunda', null);
@@ -3861,7 +3921,7 @@ async function kirimHasil(kiriman) {
 function vGagalKirim(kiriman, e) {
   const dup = e.kode === 'DUPLIKAT', sesi = e.kode === 'SESI_PESERTA' || e.kode === 'TOKEN';
   render(kepala() + `<main class="wrap sempit">
-    <div class="tumpuk"><h1>${dup ? `Tes ${NAMA_TES(kiriman.tes)} sudah tersimpan` : `Jawaban tes ${NAMA_TES(kiriman.tes)} belum terkirim`}</h1></div>
+    <div class="tumpuk"><h1>${dup ? `Tes ${NAMA_PESERTA(kiriman.tes)} sudah tersimpan` : `Jawaban tes ${NAMA_PESERTA(kiriman.tes)} belum terkirim`}</h1></div>
     ${notis(e.message, dup ? 'ok' : 'galat')}
     ${dup || sesi ? '' : '<p class="lead">Jawaban Anda tersimpan aman di perangkat ini sampai berhasil terkirim.</p>'}
     <div class="aksi">
@@ -3874,9 +3934,9 @@ function vSelesaiTes(kiriman, r) {
   const berikut = st.batch.tes.find(t => !st.selesai.includes(t));
   render(kepala() + `<main class="wrap sempit">
     <div class="tumpuk"><span class="tanda-selesai${h.dihentikan ? ' henti' : ''}">${ik(h.dihentikan ? 'peringatan' : 'cek')}</span>
-    <h1>${h.dihentikan ? 'Tes diakhiri otomatis' : 'Jawaban Anda sudah tersimpan'}</h1><p class="eyebrow">Tes ${NAMA_TES(tes)} selesai</p>
+    <h1>${h.dihentikan ? 'Tes diakhiri otomatis' : 'Jawaban Anda sudah tersimpan'}</h1><p class="eyebrow">Tes ${NAMA_PESERTA(tes)} selesai</p>
     ${h.dihentikan ? notis(h.dihentikan + '. Jawaban sampai titik itu sudah tersimpan dan dicatat di laporan.', 'peringatan') : ''}
-    <p class="lead">${berikut ? `Berikutnya: Tes ${NAMA_TES(berikut)}. Ambil napas sejenak sebelum mulai.` : 'Semua tes sudah selesai.'}</p></div>
+    <p class="lead">${berikut ? `Berikutnya: Tes ${NAMA_PESERTA(berikut)}. Ambil napas sejenak sebelum mulai.` : 'Semua tes sudah selesai.'}</p></div>
     ${r.kategori ? `<section class="lembar">${blokInterpretasi(tes, r.kategori)}</section>` : ''}
     <div class="aksi"><button class="tombol utama" data-aksi="daftar-tes">${berikut ? 'Lanjut ke tes berikutnya' : 'Selesai'}</button></div>
   </main>`);
@@ -3919,11 +3979,15 @@ function keluarLayarPenuh() {
 const berlalu = (t, now) => now - t.mulai - t.jedaTotal - (t.jedaSejak ? now - t.jedaSejak : 0);
 function logT(e, k) { if (T && T.log) T.log.push({ w: new Date().toISOString(), e, k: k || '' }); }
 
-async function mulaiTes(tes, jenis, lanjut) {
+// Bunyi aba-aba butuh klik pengguna untuk menyala; dipanggil langsung saat tombol mulai diklik.
+function siapkanAudio() {
   try {
     if (!audio) audio = new (window.AudioContext || window.webkitAudioContext)();
     if (audio.resume) audio.resume();
   } catch (e) { audio = null; }
+}
+async function mulaiTes(tes, jenis, lanjut) {
+  siapkanAudio();
   const st = P.state, proktor = jenis !== 'latihan', now = Date.now();
   if (lanjut) {
     // Melanjutkan dari cuplikan (perangkat ini atau autosave server). Waktu tetap berjalan selama terputus.
@@ -3975,7 +4039,7 @@ function bangunLayarTes() {
   const L = $('#layar-tes'), K = T.tes === 'kraepelin';
   const label = T.jenis === 'latihan' ? 'Latihan' : P.state.batch.mode === 'Uji coba' ? 'Uji coba' : '';
   L.innerHTML = `<div class="tes-kepala">
-      <div class="tes-judul">${K ? 'Kraepelin' : 'Pauli'}${label ? `<span class="chip biru">${label}</span>` : ''}</div>
+      <div class="tes-judul">${NAMA_PESERTA(T.tes)}${label ? `<span class="chip biru">${label}</span>` : ''}</div>
       <div class="tes-kanan">${T.proktor ? '<span class="tes-peringatan" id="t-peringatan"></span>' : ''}<span class="tes-posisi" id="t-posisi"></span>${T.jenis === 'latihan' ? '<button class="tombol teks kecil" data-aksi="hentikan-latihan">Hentikan</button>' : ''}</div>
     </div>
     <div class="bar" aria-hidden="true"><i id="t-total"></i></div>
@@ -4301,28 +4365,28 @@ window.addEventListener('beforeunload', e => {
 /* ================= IST: sembilan subtes berwaktu ================= */
 const IST = { konten: null };
 const IST_HURUF = ['a', 'b', 'c', 'd', 'e'];
-async function muatIST(el) {
-  if (IST.konten) return true;
-  try {
-    if (el) el.disabled = true;
-    IST.konten = (await apiP('istKonten')).konten;
-    return true;
-  } catch (e) { vDaftarTes({ teks: 'Soal IST belum bisa dimuat. ' + e.message, jenis: 'galat' }); return false; }
-  finally { if (el) el.disabled = false; }
+// Soal dan gambar soal subtes 7–8 diambil dari server. Gambar asli disimpan di file GambarIST pada proyek Apps Script,
+// tidak di GitHub, dan hanya dikirim ke peserta yang kodenya memuat IST. Mode demo memakai folder ist-gambar lokal.
+function muatIST(el, diam) {
+  return muatIsiTes(IST, async () => {
+    const [k, g] = await Promise.all([apiP('istKonten'), DEMO ? null : apiP('istGambar')]);
+    if (g) { const peta = {}, isi = g.gambar || {}; Object.keys(isi).forEach(n => { peta[n] = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(isi[n]); }); IST.gbr = peta; }
+    IST.konten = k.konten;
+  }, 'ist', el, diam);
 }
 const istSub = () => T.konten[T.ist.i];
 const istJam = ms => { const d = Math.max(0, Math.ceil(ms / 1000)); return Math.floor(d / 60) + ':' + String(d % 60).padStart(2, '0'); };
 const istBatas = () => (T.ist.fase === 'hafal' ? T.cfg.hafalMenit : T.cfg.menit[T.ist.i]) * 60000;
 // Gambar subtes 7–8 (SVG). Ukuran asli dipakai agar skala gambar soal dan bentuk pilihan tetap sama.
 const istGambar = (n, kelas) => { const u = (typeof IST_UKURAN !== 'undefined' && IST_UKURAN[n]) || [300, 300];
-  return `<img class="ist-gbr${kelas ? ' ' + kelas : ''}" src="ist-gambar/${n}.svg" width="${u[0]}" height="${u[1]}" style="--w:${u[0]}px" alt="" draggable="false">`; };
+  return `<img class="ist-gbr${kelas ? ' ' + kelas : ''}" src="${(IST.gbr && IST.gbr[n]) || (DEMO ? `ist-gambar/${n}.svg` : '')}" width="${u[0]}" height="${u[1]}" style="--w:${u[0]}px" alt="" draggable="false">`; };
 const istIsi = v => v !== undefined && v !== null && v !== '';
 const istJumlahSoal = () => { const k = IST.konten || (typeof IST_DATA !== 'undefined' ? IST_DATA.konten : null); return k ? k.reduce((a, s) => a + s.soal.length, 0) : 176; };
 
 function bangunLayarIST() {
   const L = $('#layar-tes'), label = P.state.batch.mode === 'Uji coba' ? 'Uji coba' : '';
   L.innerHTML = `<div class="tes-kepala">
-      <div class="tes-judul">IST${label ? `<span class="chip biru">${label}</span>` : ''}<span class="ist-sub" id="ist-sub"></span></div>
+      <div class="tes-judul">${NAMA_PESERTA('ist')}${label ? `<span class="chip biru">${label}</span>` : ''}<span class="ist-sub" id="ist-sub"></span></div>
       <div class="tes-kanan"><span class="tes-peringatan" id="t-peringatan"></span><span class="tes-posisi ist-waktu" id="t-posisi"></span></div>
     </div>
     <div class="bar" aria-hidden="true"><i id="t-total"></i></div>
@@ -4408,6 +4472,7 @@ function istTampilSoal(fokus) {
 function istKe(j) {
   if (!istBolehJawab()) return;
   const N = istSub().soal.length; if (j < 0 || j >= N) return;
+  clearTimeout(T.istMaju);
   T.ist.q = j; istTanyaLanjut(false); istTampilSoal(); simpanProgres();
 }
 function istTanda() {
@@ -4509,6 +4574,16 @@ function istPilih(el) {
   if (sama) delete T.jawaban[n]; else T.jawaban[n] = v;
   el.parentElement.querySelectorAll('[data-aksi="ist-pilih"]').forEach(b => { const p = !sama && b === el; b.classList.toggle('pilih', p); b.setAttribute('aria-pressed', p); });
   istPerbaruiPanel(); simpanProgres();
+  // Soal pilihan (teks maupun gambar): setelah memilih, pindah sendiri ke soal berikutnya seperti tes Gaya Kerja.
+  // Soal terakhir: tampilkan pertanyaan lanjut ke subtes berikutnya. Membatalkan pilihan tidak memindahkan soal.
+  // Subtes isian (kata dan angka) tidak lewat sini, jadi tetap pindah manual.
+  clearTimeout(T.istMaju);
+  if (sama) return;
+  const q = T.ist.q || 0, sub = T.ist.i, akhir = q >= istSub().soal.length - 1;
+  T.istMaju = setTimeout(() => {
+    if (!istBolehJawab() || T.ist.i !== sub || (T.ist.q || 0) !== q) return;
+    if (akhir) istTanyaLanjut(true); else istKe(q + 1);
+  }, 320);
 }
 function istKetik(el) {
   if (!istBolehJawab()) return;
@@ -4528,14 +4603,8 @@ function istTanyaLanjut(tampil) {
 
 /* ================= DISC: 24 nomor, pilih P (paling sesuai) dan K (paling tidak sesuai) ================= */
 const DISC = { konten: null };
-async function muatDISC(el) {
-  if (DISC.konten) return true;
-  try {
-    if (el) el.disabled = true;
-    DISC.konten = (await apiP('discKonten')).konten;
-    return true;
-  } catch (e) { vDaftarTes({ teks: 'Pernyataan DISC belum bisa dimuat. ' + e.message, jenis: 'galat' }); return false; }
-  finally { if (el) el.disabled = false; }
+function muatDISC(el, diam) {
+  return muatIsiTes(DISC, async () => { DISC.konten = (await apiP('discKonten')).konten; }, 'disc', el, diam);
 }
 const discLengkap = j => !!j && j.p != null && j.k != null;
 const discN = () => T.konten.soal.length;
@@ -4563,7 +4632,7 @@ function vInstruksiDISC() {
   ];
   render(kepala() + `<main class="wrap">
     ${tKembali('Daftar tes', 'data-aksi="daftar-tes"')}
-    <div class="tumpuk"><h1>Petunjuk tes DISC</h1></div>
+    <div class="tumpuk"><h1>Petunjuk tes ${NAMA_PESERTA('disc')}</h1></div>
     ${P.state.batch.mode === 'Uji coba' ? notis('Durasi singkat (uji coba). Hasil ditandai "Uji coba".', 'peringatan') : ''}
     <div class="instruksi">
       <section class="lembar tumpuk" style="gap:18px">
@@ -4588,7 +4657,7 @@ function vInstruksiDISC() {
 function bangunLayarDISC() {
   const L = $('#layar-tes'), label = P.state.batch.mode === 'Uji coba' ? 'Uji coba' : '';
   L.innerHTML = `<div class="tes-kepala">
-      <div class="tes-judul">DISC${label ? `<span class="chip biru">${label}</span>` : ''}<span class="ist-sub" id="disc-sub"></span></div>
+      <div class="tes-judul">${NAMA_PESERTA('disc')}${label ? `<span class="chip biru">${label}</span>` : ''}<span class="ist-sub" id="disc-sub"></span></div>
       <div class="tes-kanan"><span class="tes-peringatan" id="t-peringatan"></span><span class="tes-posisi ist-waktu" id="t-posisi"></span></div>
     </div>
     <div class="bar" aria-hidden="true"><i id="t-total"></i></div>
@@ -4810,14 +4879,8 @@ const discAngka = v => String(v).replace('.', ',').replace(/^-/, '−');
 
 /* ================= PAPI Kostick: 90 nomor, pilih satu dari dua pernyataan ================= */
 const PAPI = { konten: null };
-async function muatPAPI(el) {
-  if (PAPI.konten) return true;
-  try {
-    if (el) el.disabled = true;
-    PAPI.konten = (await apiP('papiKonten')).konten;
-    return true;
-  } catch (e) { vDaftarTes({ teks: 'Pernyataan PAPI Kostick belum bisa dimuat. ' + e.message, jenis: 'galat' }); return false; }
-  finally { if (el) el.disabled = false; }
+function muatPAPI(el, diam) {
+  return muatIsiTes(PAPI, async () => { PAPI.konten = (await apiP('papiKonten')).konten; }, 'papi', el, diam);
 }
 const papiN = () => T.konten.soal.length;
 const papiSah = v => v === 0 || v === 1;
@@ -4842,7 +4905,7 @@ function vInstruksiPAPI() {
   ];
   render(kepala() + `<main class="wrap">
     ${tKembali('Daftar tes', 'data-aksi="daftar-tes"')}
-    <div class="tumpuk"><h1>Petunjuk tes PAPI Kostick</h1></div>
+    <div class="tumpuk"><h1>Petunjuk tes ${NAMA_PESERTA('papi')}</h1></div>
     ${P.state.batch.mode === 'Uji coba' ? notis('Durasi singkat (uji coba). Hasil ditandai "Uji coba".', 'peringatan') : ''}
     <div class="instruksi">
       <section class="lembar tumpuk" style="gap:18px">
@@ -4867,7 +4930,7 @@ function vInstruksiPAPI() {
 function bangunLayarPAPI() {
   const L = $('#layar-tes'), label = P.state.batch.mode === 'Uji coba' ? 'Uji coba' : '';
   L.innerHTML = `<div class="tes-kepala">
-      <div class="tes-judul">PAPI Kostick${label ? `<span class="chip biru">${label}</span>` : ''}<span class="ist-sub" id="papi-sub"></span></div>
+      <div class="tes-judul">${NAMA_PESERTA('papi')}${label ? `<span class="chip biru">${label}</span>` : ''}<span class="ist-sub" id="papi-sub"></span></div>
       <div class="tes-kanan"><span class="tes-peringatan" id="t-peringatan"></span><span class="tes-posisi ist-waktu" id="t-posisi"></span></div>
     </div>
     <div class="bar" aria-hidden="true"><i id="t-total"></i></div>
@@ -5152,14 +5215,8 @@ function halPAPI(H, L, h, no, klien) {
 /* ================= MSDT: 64 nomor, pilih satu dari dua pernyataan =================
    Layar kerja memakai tampilan pilihan A/B yang sama dengan PAPI Kostick (kelas papi-*). */
 const MSDT = { konten: null };
-async function muatMSDT(el) {
-  if (MSDT.konten) return true;
-  try {
-    if (el) el.disabled = true;
-    MSDT.konten = (await apiP('msdtKonten')).konten;
-    return true;
-  } catch (e) { vDaftarTes({ teks: 'Pernyataan MSDT belum bisa dimuat. ' + e.message, jenis: 'galat' }); return false; }
-  finally { if (el) el.disabled = false; }
+function muatMSDT(el, diam) {
+  return muatIsiTes(MSDT, async () => { MSDT.konten = (await apiP('msdtKonten')).konten; }, 'msdt', el, diam);
 }
 const msdtN = () => T.konten.soal.length;
 const msdtSah = v => v === 0 || v === 1;
@@ -5184,7 +5241,7 @@ function vInstruksiMSDT() {
   ];
   render(kepala() + `<main class="wrap">
     ${tKembali('Daftar tes', 'data-aksi="daftar-tes"')}
-    <div class="tumpuk"><h1>Petunjuk tes MSDT</h1></div>
+    <div class="tumpuk"><h1>Petunjuk tes ${NAMA_PESERTA('msdt')}</h1></div>
     ${P.state.batch.mode === 'Uji coba' ? notis('Durasi singkat (uji coba). Hasil ditandai "Uji coba".', 'peringatan') : ''}
     <div class="instruksi">
       <section class="lembar tumpuk" style="gap:18px">
@@ -5209,7 +5266,7 @@ function vInstruksiMSDT() {
 function bangunLayarMSDT() {
   const L = $('#layar-tes'), label = P.state.batch.mode === 'Uji coba' ? 'Uji coba' : '';
   L.innerHTML = `<div class="tes-kepala">
-      <div class="tes-judul">MSDT${label ? `<span class="chip biru">${label}</span>` : ''}<span class="ist-sub" id="msdt-sub"></span></div>
+      <div class="tes-judul">${NAMA_PESERTA('msdt')}${label ? `<span class="chip biru">${label}</span>` : ''}<span class="ist-sub" id="msdt-sub"></span></div>
       <div class="tes-kanan"><span class="tes-peringatan" id="t-peringatan"></span><span class="tes-posisi ist-waktu" id="t-posisi"></span></div>
     </div>
     <div class="bar" aria-hidden="true"><i id="t-total"></i></div>
@@ -5682,6 +5739,7 @@ async function isiToken(f) {
 
 /* ---------- Modul ---------- */
 async function tabModul(pesan) {
+  pesan = pesan || S.pesanTab || ''; S.pesanTab = '';
   const kl = konteks(), k = klienInfo(kl);
   let r; try { r = await panggil('daftarModul', { klien: kl }); } catch (e) { return gagalTab(e); }
   const boleh = bolehModul(k) && (kl || !isSuper());
@@ -5759,7 +5817,7 @@ function langkahAlat(m, boleh) {
         <span><b>${esc(BIODATA[k].nama)}</b><small>${BIODATA[k].field.length} isian: ${esc(ringkasBiodata(k))}</small></span></label>${tombolLihat('pratinjau-biodata', `data-k="${k}"`)}</div>`).join('')}</div></section>
     <section class="lembar tumpuk"><div class="judul-baris"><h2>Alat tes</h2><small>Aspek psikogram terisi otomatis dari alat tes yang dipilih</small></div>
       <div class="opsi-daftar">${URUT_TES.map(t => `<div class="opsi"><label><input type="checkbox" value="${t}" data-ubah="tes-modul" ${m.tes.includes(t) ? 'checked' : ''}>
-        <span><b>${TES[t].nama} <span class="durasi">${durasiTes(t, cfg[t])}</span></b><small>${TES[t].aspek.length ? `${TES[t].aspek.length} aspek: ${TES[t].aspek.map(a => esc(a.nama)).join(', ')}` : esc(TES[t].pelengkap || 'Pelengkap: tidak mengisi psikogram dan rekomendasi.')}</small></span></label>${TES[t].aspek.length ? tombolLihat('pratinjau-tes', `data-tes="${t}"`, 'Lihat aspek') : ''}</div>`).join('')}</div>
+        <span><b>${TES[t].nama} <span class="durasi">${durasiTes(t, cfg[t])}</span></b><small>${TES[t].aspek.length ? `${TES[t].aspek.length} aspek: ${TES[t].aspek.map(a => esc(a.nama)).join(', ')}` : esc(TES[t].pelengkap || 'Pelengkap: tidak mengisi psikogram dan rekomendasi.')}</small></span></label>${tombolLihat('pratinjau-tes', `data-tes="${t}"`, 'Lihat aspek')}</div>`).join('')}</div>
       ${m.tes.length > 1 ? `<div class="tumpuk-kecil"><h3 class="sub-h">Urutan pengerjaan</h3><div class="urutan">${m.tes.map((t, i) => `<div class="urutan-baris"><span class="no">${i + 1}</span><span>${TES[t].nama}</span>
         ${boleh ? `<span class="aksi-kecil"><button type="button" class="tombol teks kecil" data-aksi="tes-geser" data-i="${i}" data-d="-1" ${i ? '' : 'disabled'} aria-label="Naikkan ${TES[t].nama}">↑</button><button type="button" class="tombol teks kecil" data-aksi="tes-geser" data-i="${i}" data-d="1" ${i < m.tes.length - 1 ? '' : 'disabled'} aria-label="Turunkan ${TES[t].nama}">↓</button></span>` : ''}</div>`).join('')}</div>
         <label class="cek"><input type="checkbox" data-mf="acak" ${m.acak ? 'checked' : ''}> Acak urutan tes untuk setiap peserta</label></div>` : ''}</section>
@@ -5877,8 +5935,14 @@ async function simpanModul(f, status) {
   f.querySelectorAll('button[type="submit"]').forEach(b => { b.disabled = true; });
   try {
     const r = await panggil('simpanModul', { modul: Object.assign(n.modul, { id: m.id || '', klien: m.klien }) });
+    // Terbit: kembali ke daftar modul klien tersebut. Draft: tetap di editor.
+    if (kirim.status === 'Terbit') {
+      if (isSuper() && r.modul.klien) S.klienAktif = r.modul.klien;
+      S.mEdit = null; S.pesanTab = notis(`Modul "${r.modul.nama}" tersimpan dan terbit. Modul ini sekarang bisa dipakai membuat kode tes.`, 'ok');
+      return vStaf('modul');
+    }
     S.mEdit = r.modul;
-    gambarModul(notis(kirim.status === 'Terbit' ? 'Modul tersimpan dan terbit. Modul ini sekarang bisa dipakai membuat kode tes.' : 'Modul tersimpan sebagai draft.', 'ok'));
+    gambarModul(notis('Modul tersimpan sebagai draft.', 'ok'));
   } catch (e) { f.querySelectorAll('button[type="submit"]').forEach(b => { b.disabled = false; }); if (e.kode !== 'SESI') pesanForm(f, notis(e.message, 'galat')); }
 }
 
@@ -5918,7 +5982,24 @@ function pratinjauBiodata(k) {
       <div class="id-chip"><span>Kode tes <b class="mono">7LVNAKT754</b></span><span>${esc(L.batch.judul)}</span></div></div></div>
     ${kartuBiodata(k, b, usia, L)}`), `Peserta mengisi ${BIODATA[k].field.length} isian ini sebelum tes. Data fiktif.`);
 }
+// Contoh hasil fiktif untuk pratinjau alat tes pelengkap (dihitung dari pernyataan dan tabel demo karangan, bukan data asli).
+const CONTOH_PELENGKAP = {
+  disc: { most: { D: 2, I: 12, S: 7, C: 3, '*': 0 }, least: { D: 7, I: 2, S: 2, C: 13, '*': 0 }, change: { D: -5, I: 10, S: 5, C: -10 },
+    posisi: { most: { D: -4.6, I: 6.9, S: 1.15, C: -3.45 }, least: { D: -1.15, I: 4.6, S: 4.6, C: -6.94 }, change: { D: -2.87, I: 5.75, S: 2.88, C: -5.75 } },
+    lengkap: 24, nSoal: 24 },
+  msdt: { s: { A: 5, B: 7, C: 6, D: 7, E: 12, F: 11, G: 5, H: 11 }, dim: { TO: { konv: 0.8 }, RO: { konv: 3.4 }, E: { konv: 4 }, O: { skor: 5 } }, gaya: 'Developer', lengkap: 64, nSoal: 64 }
+};
+// Alat tes pelengkap (DISC, MSDT): tidak punya aspek psikogram, jadi yang ditampilkan halaman hasil tesnya di laporan.
+function pratinjauPelengkap(t) {
+  const tes = TES[t], selesai = Date.now(), H = [];
+  const h = { tes: t, skor: JSON.parse(JSON.stringify(CONTOH_PELENGKAP[t])), data: {}, mode: 'Penuh', jedaDetik: 0, log: [], pelanggaran: [],
+    mulai: new Date(selesai - (t === 'disc' ? 11 : 19) * 60e3).toISOString(), selesai: new Date(selesai).toISOString() };
+  if (t === 'disc') halDISC(H, {}, h, '03', false, null); else halMSDT(H, {}, h, '03', true, null);
+  bukaPratinjau(`Hasil tes ${tes.nama}`, halContoh(H[0].isi.replace(/<p class="cat-tes[\s\S]*?<\/p>/, '')),
+    `${tes.nama} tidak mengisi psikogram. Halaman ini yang muncul di laporan bila ${tes.nama} dipilih. Data fiktif.`);
+}
 function pratinjauTes(t) {
+  if (!TES[t].aspek.length && CONTOH_PELENGKAP[t]) return pratinjauPelengkap(t);
   const skala = (S.mEdit && S.mEdit.skala) || 5, aspek = aspekAwal([t], skala), tes = TES[t];
   bukaPratinjau(`Aspek dari tes ${tes.nama}`, halContoh(sek('03', 'Psikogram', 'Psikogram Hasil Pemeriksaan', `Bila ${tes.nama} dipilih, aspek berikut otomatis muncul di psikogram (skala 1–${skala}).`) +
     tabelPsikogram(susunPsikogram(barisContoh(aspek)), skala) + `
@@ -6268,6 +6349,7 @@ async function vProfil(pesan) {
     ${pesan || ''}
     <form class="lembar" data-form="profil" novalidate>
       <h2>Identitas tanda tangan</h2>
+      <p class="catatan-kecil">${S.user.psikolog ? 'Nama, SIPP, dan tanda tangan ini tampil di laporan yang Anda review sebagai psikolog, termasuk laporan yang sudah direview sebelumnya.' : 'Nama ini tampil di aplikasi.'}</p>
       <label class="isian"><span>Nama & gelar</span><input name="nama" required maxlength="120" value="${esc(pr.nama)}" placeholder="mis. Nama, M.Psi., Psikolog"></label>
       <label class="isian"><span>Nomor SIPP</span><input name="sipp" maxlength="60" value="${esc(pr.sipp)}"></label>
       <div class="isian"><span>Tanda tangan (gambar)</span>
@@ -6352,7 +6434,7 @@ async function rapikanLaporan() {
   if (lap._giliran !== giliran || !lap.isConnected || !lap.offsetWidth) return;
   const luber = h => { const x = h.querySelector('.hal-isi'); return !!x && x.scrollHeight - x.clientHeight > 1; };
   const lanjutan = (asal, judul) => {
-    const h = asal.cloneNode(true); h.classList.remove('hal-ringkas', 'rapat', 'rapat2');
+    const h = asal.cloneNode(true); h.classList.remove('hal-ringkas', 'rapat', 'rapat2', 'padat', 'padat2');
     const sek = h.querySelector('.sek'), lead = sek && sek.querySelector('.sek-lead');
     if (lead) lead.remove();
     if (sek) sek.querySelector('h2').textContent = judul + ' (lanjutan)';
@@ -6404,14 +6486,24 @@ async function rapikanLaporan() {
   // 3. Halaman lain yang isinya tidak muat (mis. Interpretasi DISC dengan empat pergeseran, Panduan dengan banyak alat tes):
   //    blok terakhir pindah ke halaman lanjutan, bukan terpotong. Judul kecil ikut pindah bersama isinya.
   const judulKecil = x => /^H[34]$/.test(x.tagName) || x.classList.contains('sub-judul');
+  // Sebelum ada blok yang pindah halaman, jarak dan ukuran dirapatkan bertahap (padat → padat2) agar halaman tetap satu.
+  // Dipilih tahap paling longgar yang muat; bila tetap tidak muat, tampilan kembali normal dan blok terakhir pindah.
+  const pasPadat = h => {
+    h.classList.remove('padat', 'padat2'); if (!luber(h)) return true;
+    h.classList.add('padat'); if (!luber(h)) return true;
+    h.classList.add('padat2'); if (!luber(h)) return true;
+    h.classList.remove('padat', 'padat2'); return false;
+  };
   [...lap.querySelectorAll('.hal')].forEach(h => {
     if (h.classList.contains('sampul') || h.classList.contains('hal-ringkas') || h.querySelector('.psg')) return;
     const judul = ((h.querySelector('.sek h2') || {}).textContent || '').replace(/ \(lanjutan\)$/, '');
     let kini = h;
     while (kini && luber(kini)) {
+      if (pasPadat(kini)) break;
       const isi = kini.querySelector('.hal-isi'), blok = [...isi.children].filter(x => !x.classList.contains('sek')), bawa = [];
-      while (luber(kini) && blok.length > 1) { const x = blok.pop(); bawa.unshift(x); x.remove(); }
+      while (blok.length > 1 && !pasPadat(kini)) { const x = blok.pop(); bawa.unshift(x); x.remove(); }
       while (blok.length > 1 && judulKecil(blok[blok.length - 1])) { const x = blok.pop(); bawa.unshift(x); x.remove(); }
+      pasPadat(kini);
       if (!bawa.length) break;
       const baru = lanjutan(kini, judul), bi = baru.querySelector('.hal-isi');
       baru.classList.remove('hal-alir');
@@ -6472,6 +6564,14 @@ function dasarRek(ps) {
   return { label: 'Nilai rata-rata', nilai: ps.jumlahDihitung ? `${(+ps.rataRata).toFixed(2)} dari ${ps.skala}${ps.rataLama ? ` (${fmt(ps.nilaiRek, 1)}/100)` : ''}` : '–' };
 }
 function durasiDetik(d) { d = +d || 0; return d < 60 ? d + ' detik' : Math.floor(d / 60) + ' menit ' + (d % 60) + ' detik'; }
+// Identitas tanda tangan psikolog yang belum lengkap (nama masih nama akun bawaan, SIPP, gambar tanda tangan).
+function identitasKurang() {
+  const u = S.user || {}, k = [];
+  if (!u.nama || /^(superadmin|psikolog|admin)$/i.test(u.nama.trim())) k.push('Nama & gelar');
+  if (!u.sipp) k.push('Nomor SIPP');
+  if (!u.ttdAda) k.push('Tanda tangan');
+  return k;
+}
 function panelReview(L) {
   const t = L.token, ps = L.psikogram, reviewed = t.reviewStatus === 'Sudah direview', adaRek = ps.baris.length > 0;
   const cat = catatanPelaksanaan(L);
@@ -6480,6 +6580,7 @@ function panelReview(L) {
     <div class="angka-ringkas"><span>Modul <b>${esc(L.batch.modulNama)}</b></span>${adaRek ? `<span>${esc(dasarRek(ps).label)} <b>${esc(dasarRek(ps).nilai)}</b></span><span>Saran sistem <b>${esc(ps.saran || '–')}</b></span>` : '<span>Tanpa psikogram dan rekomendasi; DISC sebagai pelengkap</span>'}</div>
     ${ps.kunciGagal.length ? notis('Aspek kunci di bawah standar: ' + ps.kunciGagal.join(', ') + '. Sistem otomatis menyarankan kategori terakhir.', 'peringatan') : ''}
     ${cat.length ? `<ul class="catatan-list">${cat.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+    ${L.bolehReview && identitasKurang().length ? `<div class="notis peringatan banner"><div><b>${esc(identitasKurang().join(', '))} Anda belum diatur.</b> Laporan yang Anda review memakai nama, SIPP, dan tanda tangan dari Profil.</div><button type="button" class="tombol sekunder kecil" data-aksi="profil">Atur di Profil</button></div>` : ''}
     ${L.bolehReview ? `<form data-form="review" data-kode="${esc(t.kode)}" class="form-review">
       <div class="grid-isian">
         <label class="isian"><span>Status</span><select name="reviewStatus"><option ${!reviewed ? 'selected' : ''}>Draft</option><option ${reviewed ? 'selected' : ''}>Sudah direview</option></select></label>
@@ -6957,7 +7058,7 @@ function halDISC(H, L, h, no, klien, akhir) {
   const N = s.nSoal || 24, kurang = N - (s.lengkap == null ? N : s.lengkap);
   const catKurang = kurang ? `<p class="disc-kurang">${ikon('peringatan')}<span>${kurang} dari ${N} nomor tidak dijawab lengkap. Jumlah pilihan tidak mencapai 24, sehingga hasil perlu ditafsirkan dengan hati-hati.</span></p>` : '';
   const jml = o => DISC_F.reduce((a, f) => a + o[f], 0) + (o['*'] || 0);
-  const cekJml = o => jml(o) === N ? `${N} <span class="ok">✓</span>` : `${jml(o)} <span class="kurang">dari ${N}</span>`;
+  const cekJml = o => jml(o) === N ? `${N} <span class="ok">✓</span>` : `${jml(o)}<span class="kurang"> dari ${N}</span>`;
   const tg = v => `<td class="tg mono">${v}</td>`;
   if (!klien) {
     const dur = (new Date(h.selesai) - new Date(h.mulai)) / 1000 - (+h.jedaDetik || 0);
@@ -6995,13 +7096,12 @@ function halDISC(H, L, h, no, klien, akhir) {
     <table class="t-lap disc-faktor"><thead><tr><th>Faktor</th><th>Di atas garis tengah</th><th>Di bawah garis tengah</th></tr></thead><tbody>
       ${DISC_F.map(f => { const v = s.posisi.change[f], atas = v > 0; return `<tr><td><b>${f} · ${DISC_NAMA[f]}</b><br><span class="tanda-pos">Grafik 3: ${atas ? 'di atas' : 'di bawah'} (${v > 0 ? '+' : ''}${discAngka(v)})</span></td><td class="${atas ? 'kini' : ''}">${esc(DISC_FAKTOR[f].tinggi)}</td><td class="${atas ? '' : 'kini'}">${esc(DISC_FAKTOR[f].rendah)}</td></tr>`; }).join('')}
     </tbody></table></div>`;
+  // Interpretasi dan arti faktor satu halaman (dirapatkan bila perlu oleh rapikanLaporan).
+  // Modul tanpa psikogram: kesimpulan dan tanda tangan menyusul; bila tidak muat, pindah ke halaman "Kesimpulan Psikolog".
   if (!akhir) { H.push({ isi: isiUtama + artiFaktor }); return; }
-  // Modul DISC saja: arti faktor pindah ke halaman lanjutan, ditutup kesimpulan dan tanda tangan psikolog.
-  H.push({ isi: isiUtama });
-  const lanjut = sek(no, 'Kepribadian · Tes DISC', 'Interpretasi DISC (lanjutan)') + artiFaktor;
-  if (!akhir.panjang) { H.push({ isi: lanjut + akhir.blok }); return; }
-  H.push({ isi: lanjut + akhir.pindah });
-  H.push({ isi: sek(no, 'Kepribadian · Tes DISC', 'Kesimpulan Psikolog') + akhir.blok });
+  if (!akhir.panjang) { H.push({ isi: isiUtama + artiFaktor + akhir.blok }); return; }
+  H.push({ isi: isiUtama + artiFaktor + akhir.pindah });
+  H.push({ isi: sek(no, 'Kesimpulan', 'Kesimpulan Psikolog') + akhir.blok });
 }
 function halKraepelin(H, L, h, no) {
   const s = h.skor, data = h.data || [], c = h.cfg, kat = hitungKategori(h.tes, h.skor, h.cfg, L.norma, cfgPenuh(L.pengaturan));
@@ -7287,15 +7387,26 @@ function demoKodeContoh() {
 }
 
 /* ================= Peristiwa ================= */
+// Soal IST, DISC, PAPI, dan MSDT diambil dari server saat tes dimulai.
+function muatKontenTes(tes, el, diam) {
+  return tes === 'ist' ? muatIST(el, diam) : tes === 'disc' ? muatDISC(el, diam) : tes === 'papi' ? muatPAPI(el, diam) : tes === 'msdt' ? muatMSDT(el, diam) : Promise.resolve(true);
+}
+// Dipanggil saat peserta membuka petunjuk: soal diambil diam-diam selagi petunjuk dibaca, agar tes bisa langsung dimulai.
+function pramuatKonten(tes) { muatKontenTes(tes, null, true); }
+// Layar penuh dan bunyi diminta langsung saat tombol diklik, sebelum menunggu soal dari server.
+// Browser hanya mengizinkan layar penuh beberapa detik setelah klik, sedangkan server bisa lebih lama dari itu.
+async function bukaTes(tes, el, lanjut) {
+  siapkanAudio();
+  const fs = masukLayarPenuh();
+  if (!(await muatKontenTes(tes, el))) { await fs; keluarLayarPenuh(); return; }
+  await fs;
+  mulaiTes(tes, 'tes', lanjut);
+}
 async function lanjutkanTesTersimpan() {
   const c = cuplikanLanjut();
   if (!c) return lanjutPeserta();
   if (P.state.batch.kamera && !Kamera.aktif()) return vKamera({ teks: 'Nyalakan kamera lagi untuk melanjutkan tes.', jenis: 'peringatan' }, 'lanjutkan-tes');
-  if (c.tes === 'ist' && !(await muatIST())) return;
-  if (c.tes === 'disc' && !(await muatDISC())) return;
-  if (c.tes === 'papi' && !(await muatPAPI())) return;
-  if (c.tes === 'msdt' && !(await muatMSDT())) return;
-  mulaiTes(c.tes, 'tes', c);
+  return bukaTes(c.tes, null, c);
 }
 function salinTeks(el, teks) {
   const pilih = () => { const c = el.parentElement && el.parentElement.querySelector('code'); if (c) { const r = document.createRange(); r.selectNodeContents(c); const s = getSelection(); s.removeAllRanges(); s.addRange(r); } el.textContent = 'Salin manual'; };
@@ -7318,11 +7429,7 @@ const AKSI = {
   'mulai': async el => {
     const tes = el.dataset.tes, c = cuplikanLanjut(); if (c && c.tes === tes) return lanjutkanTesTersimpan();
     if (P.state.batch.kamera && !Kamera.aktif()) return vKamera({ teks: 'Kamera belum menyala. Nyalakan kamera sebelum memulai tes.', jenis: 'peringatan' });
-    if (tes === 'ist' && !(await muatIST(el))) return;
-    if (tes === 'disc' && !(await muatDISC(el))) return;
-    if (tes === 'papi' && !(await muatPAPI(el))) return;
-    if (tes === 'msdt' && !(await muatMSDT(el))) return;
-    mulaiTes(tes, 'tes');
+    return bukaTes(tes, el);
   },
   'ist-mulai-sub': () => istMulaiSub(),
   'ist-pilih': el => istPilih(el),
