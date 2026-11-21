@@ -823,6 +823,17 @@ button.papi-opsi:active{transform:scale(.995)}
 #layar-tes{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #layar-tes input,#layar-tes textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
 
+/* ---------- Mechanical Comprehension: gambar soal ---------- */
+.mk-gambar{background:#fff;border:1.5px solid var(--garis);border-radius:16px;padding:10px;display:flex;justify-content:center;margin-bottom:16px}
+.mk-gambar img,.mk-gambar svg{display:block;width:100%;max-width:640px;height:auto;max-height:46vh;object-fit:contain;-webkit-user-drag:none;pointer-events:none}
+.mk-gambar.contoh{padding:6px;margin-bottom:10px}.mk-gambar.contoh svg{max-height:150px}
+.mk-teks{margin:0 0 14px;font-size:17px;font-weight:600;line-height:1.5;color:var(--tinta)}.mk-teks.contoh{font-size:14px;margin:0 0 8px}
+.papi-contoh.mk-pilihan{display:flex;flex-direction:column;gap:6px}
+@media (max-width:640px){.mk-gambar{padding:6px;border-radius:12px}.mk-gambar img{max-height:34vh}}
+.mekanik .mk-pilihan{gap:8px}
+.mekanik .mk-pilihan .papi-opsi{padding:11px 16px 11px 14px;border-radius:14px}
+.mekanik .mk-gambar img{max-height:36vh}
+
 /* ================= Laporan A4 ================= */
 .lap-wadah{--skala:1;background:var(--isi-kuat,#D9DCE5);border-radius:20px;padding:16px 8px;display:flex;flex-direction:column;align-items:center;gap:16px;overflow-x:auto}
 .hal{zoom:var(--skala);width:210mm;height:297mm;flex:none;position:relative;overflow:hidden;background:#fff;color:#1B2433;box-shadow:0 2px 16px rgba(0,0,0,.3);
@@ -1488,6 +1499,36 @@ td.md-rk small{display:block;margin-top:.8mm;font-size:5.8pt;color:#8A94A6}
 .md-ef.ef{background:#E3F3EC;color:#145A40}.md-ef.ku{background:#FCF1DC;color:#7A4A0B}
 .md-gaya-tabel tr.aktif .md-g b{color:#2240B0}
 
+/* ---------- Mechanical Comprehension ---------- */
+.mk-hero{display:grid;grid-template-columns:52mm 1fr;gap:3.4mm}
+.mk-skor{border-radius:4.2mm;padding:3.6mm 4.2mm;display:flex;flex-direction:column;gap:1mm;background:#E4EAFB}
+.mk-skor.lv3,.mk-skor.lv4{background:#E3F3EC}.mk-skor.lv0,.mk-skor.lv1{background:#FCF1DC}
+.mk-skor .label{color:#3b4556}
+.mk-angka{display:flex;align-items:baseline;gap:1.6mm}
+.mk-angka b{font:800 30pt/1 "Plus Jakarta Sans",Arial,sans-serif;color:#132449}
+.mk-angka span{font-size:8pt;color:#3b4556}
+.mk-tingkat{font:800 12pt/1.1 "Plus Jakarta Sans",Arial,sans-serif;color:#145A40}
+.mk-skor.lv2 .mk-tingkat{color:#2240B0}.mk-skor.lv0 .mk-tingkat,.mk-skor.lv1 .mk-tingkat{color:#7A4A0B}
+.mk-psg{font-size:7.4pt;color:#3b4556}.mk-psg b{font-weight:800;color:#132449}
+.mk-arti{border:.25mm solid #DDE3EE;border-radius:4.2mm;padding:3.6mm 4.4mm;display:flex;flex-direction:column;gap:2mm;justify-content:center}
+.mk-def{font-size:7.8pt;line-height:1.45;color:#556074}.mk-def b{display:block;font:800 9.4pt "Plus Jakarta Sans",Arial,sans-serif;color:#132449;margin-bottom:.6mm}
+.mk-interp{font-size:8.6pt;line-height:1.5;color:#1d2636}
+.mk-pita{display:grid;grid-template-columns:repeat(5,1fr);gap:1.4mm}
+.mk-pita div{border-radius:2.6mm;background:#F2F4F8;padding:2mm 2.4mm;display:flex;flex-direction:column;gap:.4mm;position:relative}
+.mk-pita b{font:800 9.4pt "Plus Jakarta Sans",Arial,sans-serif;color:#44506A}
+.mk-pita span{font-size:7.2pt;color:#556074}
+.mk-pita small{position:absolute;right:2.2mm;top:2mm;font:800 7pt "Plus Jakarta Sans",Arial,sans-serif;color:#8A94A6}
+.mk-pita .aktif{background:#132449}.mk-pita .aktif b,.mk-pita .aktif span,.mk-pita .aktif small{color:#fff}
+.mk-ket{font-size:7pt;color:#8A94A6;margin-top:1.4mm}
+.mk-bag td{font-size:8pt;vertical-align:middle;padding:1.6mm 2mm}
+.mk-sub{color:#556074;font-size:7.4pt!important}
+.mk-bar-th{width:38mm}
+.mk-bar{height:2.2mm;border-radius:1.2mm;background:#EEF1F6;overflow:hidden}.mk-bar i{display:block;height:100%;background:#2240B0;border-radius:1.2mm}
+.mk-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:1.2mm}
+.mk-grid div{border-radius:2mm;padding:1.2mm 0;text-align:center;display:flex;flex-direction:column;gap:.2mm;background:#F2F4F8}
+.mk-grid small{font-size:6.4pt;color:#8A94A6}.mk-grid b{font:800 9pt "Plus Jakarta Sans",Arial,sans-serif}
+.mk-grid .b b{color:#145A40}.mk-grid .s{background:#FCEDEA}.mk-grid .s b{color:#B3261E}.mk-grid .k b{color:#8A94A6}
+
 </style>
 </head>
 <body>
@@ -1529,7 +1570,9 @@ var DISC_MENIT = 15;
 var PAPI_MENIT = 30;
 // MSDT: 64 nomor, satu batas waktu untuk seluruh tes.
 var MSDT_MENIT = 30;
-var CFG_SINGKAT = { kraepelin: { jumlahLajur: 8, angkaPerLajur: 60, detikPerLajur: 15 }, pauli: { durasiMenit: 3, menitPerPeriode: 0.25 }, ist: { menit: [1, 1, 1, 1, 1, 1, 1, 1, 1], hafalMenit: 0.5 }, disc: { menit: 5 }, papi: { menit: 5 }, msdt: { menit: 5 } };
+// Mechanical Comprehension: 20 soal bergambar, satu batas waktu.
+var MEKANIK_MENIT = 30;
+var CFG_SINGKAT = { kraepelin: { jumlahLajur: 8, angkaPerLajur: 60, detikPerLajur: 15 }, pauli: { durasiMenit: 3, menitPerPeriode: 0.25 }, ist: { menit: [1, 1, 1, 1, 1, 1, 1, 1, 1], hafalMenit: 0.5 }, disc: { menit: 5 }, papi: { menit: 5 }, msdt: { menit: 5 }, mekanik: { menit: 5 } };
 var CFG_LATIHAN = { kraepelin: { jumlahLajur: 3, angkaPerLajur: 60, detikPerLajur: 10 }, pauli: { durasiMenit: 0.5, menitPerPeriode: 0.25 } };
 
 function cfgPenuh(p) {
@@ -1540,12 +1583,13 @@ function cfgPenuh(p) {
     ist: { menit: IST_MENIT.slice(), hafalMenit: IST_HAFAL },
     disc: { menit: DISC_MENIT },
     papi: { menit: PAPI_MENIT },
-    msdt: { menit: MSDT_MENIT }
+    msdt: { menit: MSDT_MENIT },
+    mekanik: { menit: MEKANIK_MENIT }
   };
 }
 function cfgMode(p, mode) {
   var src = mode === 'Uji coba' ? CFG_SINGKAT : cfgPenuh(p);
-  return { kraepelin: Object.assign({}, src.kraepelin), pauli: Object.assign({}, src.pauli), ist: { menit: src.ist.menit.slice(), hafalMenit: src.ist.hafalMenit }, disc: Object.assign({}, src.disc), papi: Object.assign({}, src.papi), msdt: Object.assign({}, src.msdt) };
+  return { kraepelin: Object.assign({}, src.kraepelin), pauli: Object.assign({}, src.pauli), ist: { menit: src.ist.menit.slice(), hafalMenit: src.ist.hafalMenit }, disc: Object.assign({}, src.disc), papi: Object.assign({}, src.papi), msdt: Object.assign({}, src.msdt), mekanik: Object.assign({}, src.mekanik) };
 }
 
 var LEVEL = ['Sangat Rendah', 'Rendah', 'Cukup', 'Tinggi', 'Sangat Tinggi'];
@@ -1616,6 +1660,16 @@ var TES = {
     aspek: [],
     pelengkap: 'Pelengkap: tidak mengisi psikogram dan rekomendasi. Hasil berupa grafik dan interpretasi kepribadian.'
   },
+  mekanik: {
+    nama: 'Mechanical Comprehension',
+    fungsi: 'Penalaran Mekanis',
+    desk: 'Soal bergambar tentang cara kerja alat dan benda. Pilih satu dari empat jawaban.',
+    // Masuk ranah Intelegensi, tetapi tidak ikut menentukan IQ (IQ hanya dari IST).
+    aspek: [
+      { key: 'pm', nama: 'Penalaran Mekanis', ranah: 'Intelegensi', skor: 'jumlah jawaban benar (0–20)',
+        definisi: 'Kemampuan memahami dan memperkirakan pengaruh gaya dan gerak pada alat, mesin, dan benda mekanis berdasarkan prinsip fisika sehari-hari.' }
+    ]
+  },
   msdt: {
     nama: 'MSDT',
     fungsi: 'Gaya Kepemimpinan',
@@ -1649,7 +1703,7 @@ var TES = {
     ].map(function (a) { a.skor = a.dari.map(function (k) { return k === '-K' ? 'K dibalik' : k; }).join(', '); a.satuan = 'rata-rata 0–9'; a.d = 1; return a; })
   }
 };
-var URUT_TES = ['kraepelin', 'pauli', 'ist', 'disc', 'papi', 'msdt'];
+var URUT_TES = ['kraepelin', 'pauli', 'ist', 'mekanik', 'disc', 'papi', 'msdt'];
 // MSDT (Teori Tiga Dimensi, W.J. Reddin): skala A–H = delapan gaya. to/ro: orientasi tugas/hubungan tinggi; efektif: dimensi E tinggi.
 var MSDT_GAYA = [
   { k: 'A', nama: 'Deserter', efektif: false, to: false, ro: false },
@@ -1718,7 +1772,9 @@ var NORMA_AWAL = [
   { tes: 'pauli', aspek: 'tren', nama: 'Ketahanan Kerja', arah: 'naik', batas: [-15, -5, 5, 15], ket: 'CONTOH — ganti dengan norma resmi' }
 ].concat(TES.ist.aspek.map(function (a) {
   return { tes: 'ist', aspek: a.key, nama: a.nama, arah: 'naik', batas: [80, 90, 110, 120], ket: a.key === 'iq' ? 'IQ: di bawah 80, 80–89, 90–109, 110–119, 120 ke atas' : 'Rata-rata SW ' + a.dari.map(function (k) { return k.toUpperCase(); }).join(', ') + ': di bawah 80, 80–89, 90–109, 110–119, 120 ke atas' };
-})).concat(TES.papi.aspek.map(function (a) {
+})).concat([
+  { tes: 'mekanik', aspek: 'pm', nama: 'Penalaran Mekanis', arah: 'naik', batas: [4, 8, 12, 16], ket: 'Jawaban benar (0–20): 0–3, 4–7, 8–11, 12–15, 16–20' }
+]).concat(TES.papi.aspek.map(function (a) {
   return { tes: 'papi', aspek: a.key, nama: a.nama, arah: 'naik', batas: [2, 4, 6, 8], ket: 'Rata-rata skor ' + a.skor + ' (0–9): di bawah 2, 2–3,9, 4–5,9, 6–7,9, 8 ke atas' };
 }));
 
@@ -1783,6 +1839,15 @@ var TEKS = {
       'Jumlah kerja cenderung meningkat di bagian akhir. Daya tahan baik.',
       'Jumlah kerja meningkat jelas di bagian akhir. Daya tahan sangat baik.'
     ]
+  },
+  mekanik: {
+    pm: [
+      'Belum menunjukkan pemahaman prinsip mekanis dasar. Untuk pekerjaan yang melibatkan alat atau mesin, membutuhkan pelatihan intensif dan pendampingan.',
+      'Pemahaman tentang cara kerja alat dan pengaruh gaya pada benda masih terbatas. Perlu bimbingan dan pengalaman langsung sebelum menangani peralatan mekanis secara mandiri.',
+      'Memahami prinsip mekanis dasar yang sering ditemui sehari-hari. Pada sistem yang lebih rumit, dengan beberapa komponen yang saling terhubung, masih memerlukan waktu atau arahan.',
+      'Memahami dengan baik prinsip mekanis yang umum di tempat kerja. Mampu menalar arah gerak dan besar gaya pada sistem sederhana hingga menengah, serta memilih alat yang tepat.',
+      'Sangat cepat memahami cara kerja alat dan mesin: arah putaran, perbandingan gaya dan lengan, serta pengaruh bentuk dan posisi benda. Mampu memperkirakan akibat suatu gerakan atau gaya tanpa perlu mencobanya.'
+    ]
   }
 };
 
@@ -1830,6 +1895,7 @@ function durasiTesMs(tes, cfg) {
   if (tes === 'disc') return Math.round((+cfg.menit || DISC_MENIT) * 60000);
   if (tes === 'papi') return Math.round((+cfg.menit || PAPI_MENIT) * 60000);
   if (tes === 'msdt') return Math.round((+cfg.menit || MSDT_MENIT) * 60000);
+  if (tes === 'mekanik') return Math.round((+cfg.menit || MEKANIK_MENIT) * 60000);
   return tes === 'kraepelin' ? cfg.jumlahLajur * cfg.detikPerLajur * 1000 : Math.round(cfg.durasiMenit * 60000);
 }
 function bulat(x, d) { if (d === undefined) d = 2; var p = Math.pow(10, d); return Math.round(x * p) / p; }
@@ -1914,7 +1980,7 @@ function hitungSkor(tes, seed, cfg, jawaban, batas, pembetulan) {
 
 // Penanda kecepatan yang tidak wajar (kemungkinan bantuan otomatis). Hanya tanda untuk psikolog, bukan keputusan.
 function tandaTidakWajar(tes, cfg, skor) {
-  if (tes === 'ist' || tes === 'disc' || tes === 'papi' || tes === 'msdt') return '';
+  if (tes === 'ist' || tes === 'disc' || tes === 'papi' || tes === 'msdt' || tes === 'mekanik') return '';
   if (tes === 'kraepelin') {
     var maks = cfg.detikPerLajur * 3;
     return skor.lajur.some(function (x) { return x.t > maks; }) ? 'Kecepatan di atas 3 jawaban/detik pada sebagian lajur' : '';
@@ -1927,6 +1993,7 @@ function tandaTidakWajar(tes, cfg, skor) {
 function nilaiNorma(tes, skor, cfg, penuh) {
   if (tes === 'ist') { var o = {}; TES.ist.aspek.forEach(function (a) { o[a.key] = istNilaiAspek(skor, a); }); return o; }
   if (tes === 'disc' || tes === 'msdt') return {};
+  if (tes === 'mekanik') return { pm: (skor && skor.benar != null) ? +skor.benar : NaN };
   if (tes === 'papi') { var op = {}; TES.papi.aspek.forEach(function (a) { op[a.key] = papiNilaiAspek(skor, a); }); return op; }
   if (tes === 'kraepelin') {
     var sk = penuh.kraepelin.jumlahLajur / (+cfg.jumlahLajur || penuh.kraepelin.jumlahLajur);
@@ -2458,6 +2525,15 @@ function buatServer(db) {
     adaPAPI();
     return { konten: papiKonten() };
   };
+  // Isi Mechanical Comprehension (soal, pilihan, gambar; tanpa kunci) hanya untuk peserta yang kodenya memuat tes ini dan belum selesai.
+  function adaMekanik() { if (typeof MK_DATA === 'undefined') throw galat('Data Mechanical Comprehension belum terpasang di server.'); }
+  A.mekanikKonten = function (d) {
+    var x = sesiPeserta(d), urutan = Array.isArray(x.t.urutan) && x.t.urutan.length ? x.t.urutan : x.m.tes;
+    if (urutan.indexOf('mekanik') < 0) throw galat('Tes ini tidak termasuk dalam kode tes Anda.');
+    if (x.t.status === 'Selesai') throw galat('Kode tes ini sudah selesai dipakai. Terima kasih.', 'TOKEN');
+    adaMekanik();
+    return { konten: mekanikKonten() };
+  };
   // Isi MSDT (pernyataan, tanpa kunci skoring) hanya untuk peserta yang kodenya memuat MSDT.
   function adaMSDT() { if (typeof MSDT_DATA === 'undefined') throw galat('Data MSDT belum terpasang di server.'); }
   A.msdtKonten = function (d) {
@@ -2485,6 +2561,10 @@ function buatServer(db) {
     } else if (tes === 'papi') {
       adaPAPI();
       snap = { seed: 1, jawaban: papiBersihkan(s.jawaban), papi: { q: Math.max(0, Math.min(PAPI_DATA.soal.length - 1, Math.floor(+(s.papi && s.papi.q) || 0))) },
+        pelanggaran: lg.pel, log: lg.log, jedaTotal: Math.max(0, +s.jedaTotal || 0), berlalu: Math.max(0, +s.berlalu || 0) };
+    } else if (tes === 'mekanik') {
+      adaMekanik();
+      snap = { seed: 1, jawaban: mekanikBersihkan(s.jawaban), mekanik: { q: Math.max(0, Math.min(MK_DATA.soal.length - 1, Math.floor(+(s.mekanik && s.mekanik.q) || 0))) },
         pelanggaran: lg.pel, log: lg.log, jedaTotal: Math.max(0, +s.jedaTotal || 0), berlalu: Math.max(0, +s.berlalu || 0) };
     } else if (tes === 'msdt') {
       adaMSDT();
@@ -2533,6 +2613,12 @@ function buatServer(db) {
       dataHasil = { butir: sPapi.butir }; delete sPapi.butir;
       skor = sPapi; skor.pembetulan = [];
       jw = { kompak: JSON.stringify(jPapi) };
+    } else if (tes === 'mekanik') {
+      adaMekanik();
+      var jMk = mekanikBersihkan(h.jawaban), sMk = mekanikSkor(jMk);
+      dataHasil = { butir: sMk.butir }; delete sMk.butir;
+      skor = sMk; skor.pembetulan = [];
+      jw = { kompak: JSON.stringify(jMk) };
     } else if (tes === 'msdt') {
       adaMSDT();
       var jMsdt = msdtBersihkan(h.jawaban), sMsdt = msdtSkor(jMsdt);
@@ -2550,7 +2636,7 @@ function buatServer(db) {
     return db.kunciTulis(function () {
       var sudah = db.cari('Hasil', 'token', x.t.token);
       if (sudah.some(function (r) { return r.tes === tes; })) throw galat('Hasil tes ini sudah tersimpan sebelumnya.', 'DUPLIKAT');
-      var id = ({ kraepelin: 'KR-', ist: 'IS-', disc: 'DI-', papi: 'PK-', msdt: 'MS-' }[tes] || 'PA-') + stempelWaktu(new Date()) + '-' + acakTeks(4, ALFABET_KODE);
+      var id = ({ kraepelin: 'KR-', ist: 'IS-', disc: 'DI-', papi: 'PK-', msdt: 'MS-', mekanik: 'MK-' }[tes] || 'PA-') + stempelWaktu(new Date()) + '-' + acakTeks(4, ALFABET_KODE);
       db.tambah('Hasil', {
         id: id, token: x.t.token, batch: x.b.id, klien: x.b.klien, tes: tes, mode: x.b.mode, mulai: isoAtauKini(h.mulai), selesai: isoAtauKini(h.selesai),
         seed: seed, cfg: cfg, skor: ringkasSkor(skor), data: dataHasil, jawaban: jw.kompak,
@@ -3183,6 +3269,32 @@ function msdtSkor(j) {
   return { s: s, dim: dim, gaya: gaya, lengkap: lengkap, nSoal: MSDT_DATA.soal.length, demo: !!MSDT_DATA.demo, butir: butir };
 }
 
+// ==MEKANIK== skoring Mechanical Comprehension. MK_DATA disediakan mekanik-data.js (hanya Code.gs).
+// Isi untuk peserta: soal, pilihan, dan gambar, tanpa kunci maupun pengelompokan prinsip.
+function mekanikKonten() {
+  return { soal: MK_DATA.soal.map(function (s) { return { t: s.t, opsi: s.opsi.slice(), g: s.g }; }), gambar: MK_DATA.gambar };
+}
+// Jawaban: { nomor: indeks pilihan 0–3 }.
+function mekanikBersihkan(j) {
+  var o = {}, N = MK_DATA.soal.length;
+  if (!j || typeof j !== 'object') return o;
+  for (var n = 1; n <= N; n++) { var v = j[n]; if (v !== '' && v !== null && v !== undefined && /^[0-3]$/.test(String(v))) o[n] = +v; }
+  return o;
+}
+// Skor = jumlah jawaban benar. butir: '1' benar, '0' salah, '-' kosong per nomor.
+// bagian: jumlah benar per prinsip mekanis (gambaran di laporan; pengelompokan soal tetap di server).
+function mekanikSkor(j) {
+  var butir = '', benar = 0, lengkap = 0;
+  MK_DATA.soal.forEach(function (s, i) {
+    var v = j[i + 1];
+    if (v === 0 || v === 1 || v === 2 || v === 3) { lengkap++; if (v === MK_DATA.kunci[i]) { benar++; butir += '1'; } else butir += '0'; } else butir += '-';
+  });
+  var bagian = MK_DATA.bagian.map(function (b) {
+    return { nama: b.nama, desk: b.desk, n: b.no.length, benar: b.no.filter(function (n) { return butir.charAt(n - 1) === '1'; }).length };
+  });
+  return { benar: benar, lengkap: lengkap, nSoal: MK_DATA.soal.length, bagian: bagian, butir: butir };
+}
+
 const IST_UKURAN = {"117":[564,443],"118":[564,443],"119":[564,443],"120":[564,443],"121":[564,443],"122":[564,443],"123":[564,443],"124":[564,443],"125":[564,443],"126":[564,443],"127":[564,443],"128":[564,443],"129":[564,443],"130":[564,443],"131":[564,443],"132":[564,443],"133":[564,443],"134":[564,443],"135":[564,443],"136":[564,443],"137":[299,335],"138":[319,335],"139":[314,335],"140":[323,322],"141":[337,335],"142":[301,329],"143":[320,329],"144":[311,317],"145":[322,317],"146":[337,327],"147":[305,322],"148":[321,319],"149":[316,313],"150":[323,305],"151":[338,309],"152":[304,329],"153":[321,326],"154":[316,316],"155":[323,314],"156":[331,331],"demo-fa-1":[623,470],"demo-fa-2":[590,454],"demo-fa-3":[592,443],"demo-fa-4":[573,447],"demo-fa-p-a":[370,363],"demo-fa-p-b":[505,363],"demo-fa-p-c":[321,363],"demo-fa-p-d":[457,363],"demo-fa-p-e":[471,363],"demo-wu-1":[340,324],"demo-wu-2":[336,327],"demo-wu-3":[320,319],"demo-wu-4":[324,306],"demo-wu-5":[329,313],"demo-wu-p-a":[335,362],"demo-wu-p-b":[334,340],"demo-wu-p-c":[320,329],"demo-wu-p-d":[324,319],"demo-wu-p-e":[330,314],"fa-contoh-pilihan":[1968,392],"fa-contoh-soal":[1996,468],"fa-p1-a":[468,347],"fa-p1-b":[328,347],"fa-p1-c":[386,347],"fa-p1-d":[410,347],"fa-p1-e":[461,347],"fa-p2-a":[415,335],"fa-p2-b":[436,335],"fa-p2-c":[367,335],"fa-p2-d":[285,335],"fa-p2-e":[532,335],"wu-contoh":[2104,878],"wu-p-a":[301,317],"wu-p-b":[322,326],"wu-p-c":[318,322],"wu-p-d":[326,317],"wu-p-e":[335,320]};
 'use strict';
 /* =================================================================
@@ -3260,7 +3372,7 @@ function hashDemo(s) { // hanya untuk demo; versi Google Sheets memakai SHA-256
   return ((h1 >>> 0).toString(16) + (h2 >>> 0).toString(16)).padStart(16, '0');
 }
 function buatDbDemo() {
-  const KUNCI = 'potrev_demo_v10';
+  const KUNCI = 'potrev_demo_v11';
   let data = bacaLokal(KUNCI) || { tabel: {}, cache: {}, foto: [] };
   const salin = o => JSON.parse(JSON.stringify(o));
   const simpan = () => { if (!simpanLokal(KUNCI, data)) console.warn('Penyimpanan demo penuh'); };
@@ -3776,7 +3888,7 @@ function kartuTes(tes, i, berikut) {
   // Fakta singkat untuk peserta: jumlah soal, jenis soal, dan waktu. Tanpa nama alat tes maupun rincian teknisnya.
   const waktu = ['Total waktu', durasiTes(tes, c)], pilihan = ['Jenis soal', 'Pilihan'];
   const fakta = tes === 'ist' ? [['Soal', istJumlahSoal()], ['Perkiraan waktu', durasiTes(tes, c)]]
-    : tes === 'disc' ? [['Soal', 24], pilihan, waktu] : tes === 'papi' ? [['Soal', 90], pilihan, waktu] : tes === 'msdt' ? [['Soal', 64], pilihan, waktu] : [waktu];
+    : tes === 'disc' ? [['Soal', 24], pilihan, waktu] : tes === 'papi' ? [['Soal', 90], pilihan, waktu] : tes === 'msdt' ? [['Soal', 64], pilihan, waktu] : tes === 'mekanik' ? [['Soal', 20], pilihan, waktu] : [waktu];
   return `<article class="lembar kartu${giliran ? ' giliran' : ''}">
     <div class="kartu-kepala"><h2><span class="no-tes">${i + 1}</span>Tes ${NAMA_PESERTA(tes)}</h2>${sudah ? '<span class="chip ok">Selesai</span>' : jalan ? '<span class="chip draf">Sedang berjalan</span>' : giliran ? '<span class="chip biru">Berikutnya</span>' : '<span class="chip">Menunggu</span>'}</div>
     <p class="desk">${esc(TES[tes].desk)}</p>
@@ -3852,6 +3964,7 @@ function vInstruksi(tes) {
   if (tes === 'disc') return vInstruksiDISC();
   if (tes === 'papi') return vInstruksiPAPI();
   if (tes === 'msdt') return vInstruksiMSDT();
+  if (tes === 'mekanik') return vInstruksiMekanik();
   const c = P.state.cfg[tes], K = tes === 'kraepelin';
   const langkah = K ? [
     'Layar menampilkan satu lajur angka. Kerjakan <b>dari bawah ke atas</b>.',
@@ -3999,6 +4112,7 @@ async function mulaiTes(tes, jenis, lanjut) {
     if (tes === 'disc') { T.jawaban = Array.isArray(s.jawaban) || !s.jawaban ? {} : s.jawaban; T.disc = Object.assign({ q: 0 }, s.disc || {}); }
     if (tes === 'papi') { T.jawaban = Array.isArray(s.jawaban) || !s.jawaban ? {} : s.jawaban; T.papi = Object.assign({ q: 0 }, s.papi || {}); }
     if (tes === 'msdt') { T.jawaban = Array.isArray(s.jawaban) || !s.jawaban ? {} : s.jawaban; T.msdt = Object.assign({ q: 0 }, s.msdt || {}); }
+    if (tes === 'mekanik') { T.jawaban = Array.isArray(s.jawaban) || !s.jawaban ? {} : s.jawaban; T.mekanik = Object.assign({ q: 0 }, s.mekanik || {}); }
   } else {
     const cfg = Object.assign({}, jenis === 'latihan' ? CFG_LATIHAN[tes] : st.cfg[tes]);
     T = { tes, jenis, kode: P.kode, sesi: P.sesi, cfg, seed: seedBaru(), mulai: now + 3000, jawaban: [], pembetulan: [], batas: [], aktif: 0, dihapus: {},
@@ -4007,6 +4121,7 @@ async function mulaiTes(tes, jenis, lanjut) {
     if (tes === 'disc') { T.mulai = now; T.jawaban = {}; T.disc = { q: 0 }; }
     if (tes === 'papi') { T.mulai = now; T.jawaban = {}; T.papi = { q: 0 }; }
     if (tes === 'msdt') { T.mulai = now; T.jawaban = {}; T.msdt = { q: 0 }; }
+    if (tes === 'mekanik') { T.mulai = now; T.jawaban = {}; T.mekanik = { q: 0 }; }
   }
   T.proktor = proktor; T.berhenti = false; T.hitung = null;
   T.batasPeringatan = st.batch.batasPeringatan;
@@ -4016,10 +4131,11 @@ async function mulaiTes(tes, jenis, lanjut) {
   else if (T.tes === 'disc') T.konten = DISC.konten;
   else if (T.tes === 'papi') T.konten = PAPI.konten;
   else if (T.tes === 'msdt') T.konten = MSDT.konten;
+  else if (T.tes === 'mekanik') T.konten = MEKANIK.konten;
   else if (T.tes === 'kraepelin') T.lembar = lembarKraepelin(T.seed, T.cfg.jumlahLajur, T.cfg.angkaPerLajur);
   else T.get = deretPauli(T.seed);
   T.fsWajib = await masukLayarPenuh();
-  if (T.tes === 'ist') bangunLayarIST(); else if (T.tes === 'disc') bangunLayarDISC(); else if (T.tes === 'papi') bangunLayarPAPI(); else if (T.tes === 'msdt') bangunLayarMSDT(); else { bangunLayarTes(); gambarStrip(); }
+  if (T.tes === 'ist') bangunLayarIST(); else if (T.tes === 'disc') bangunLayarDISC(); else if (T.tes === 'papi') bangunLayarPAPI(); else if (T.tes === 'msdt') bangunLayarMSDT(); else if (T.tes === 'mekanik') bangunLayarMekanik(); else { bangunLayarTes(); gambarStrip(); }
   mintaWakeLock();
   if (proktor) {
     Kamera.tampil(st.batch.kamera);
@@ -4065,8 +4181,8 @@ function perbaruiPeringatan() {
   T.el.peringatan.textContent = n ? `⚠ ${Math.min(n, T.batasPeringatan)}/${T.batasPeringatan}` : '';
 }
 function tutupLayarTes() {
-  const L = $('#layar-tes'); L.hidden = true; L.innerHTML = ''; L.classList.remove('dijeda', 'ist', 'disc', 'papi', 'msdt');
-  document.documentElement.classList.remove('tes-aktif', 'tes-ist', 'tes-disc', 'tes-papi', 'tes-msdt');
+  const L = $('#layar-tes'); L.hidden = true; L.innerHTML = ''; L.classList.remove('dijeda', 'ist', 'disc', 'papi', 'msdt', 'mekanik');
+  document.documentElement.classList.remove('tes-aktif', 'tes-ist', 'tes-disc', 'tes-papi', 'tes-msdt', 'tes-mekanik');
   Kamera.tampil(false);
 }
 function gambarStrip() {
@@ -4115,6 +4231,7 @@ function tick() {
   if (T.tes === 'disc') return tickDISC();
   if (T.tes === 'papi') return tickPAPI();
   if (T.tes === 'msdt') return tickMSDT();
+  if (T.tes === 'mekanik') return tickMekanik();
   const el = berlalu(T, Date.now());
   if (el < 0) {
     const s = Math.min(3, Math.ceil(-el / 1000));
@@ -4160,7 +4277,7 @@ function bunyi(f, dur) {
   } catch (e) { /* suara opsional */ }
 }
 function tekan(k) {
-  if (!T || T.berhenti || T.jedaSejak || T.tes === 'ist' || T.tes === 'disc' || T.tes === 'papi' || T.tes === 'msdt' || berlalu(T, Date.now()) < 0) return;
+  if (!T || T.berhenti || T.jedaSejak || T.tes === 'ist' || T.tes === 'disc' || T.tes === 'papi' || T.tes === 'msdt' || T.tes === 'mekanik' || berlalu(T, Date.now()) < 0) return;
   if (k === 'koreksi') { koreksi(); return; }
   const d = +k; if (!(d >= 0 && d <= 9)) return;
   if (T.tes === 'kraepelin') {
@@ -4195,7 +4312,7 @@ const AUTOSAVE_MS = 30000;
 let autosaveTerakhir = 0, autosaveSibuk = false;
 function cuplikanT() {
   const now = Date.now();
-  return { tes: T.tes, jenis: T.jenis, kode: T.kode, sesi: T.sesi, cfg: T.cfg, seed: T.seed, jawaban: T.jawaban, pembetulan: T.pembetulan, batas: T.batas, aktif: T.aktif, ist: T.ist, disc: T.disc, papi: T.papi, msdt: T.msdt,
+  return { tes: T.tes, jenis: T.jenis, kode: T.kode, sesi: T.sesi, cfg: T.cfg, seed: T.seed, jawaban: T.jawaban, pembetulan: T.pembetulan, batas: T.batas, aktif: T.aktif, ist: T.ist, disc: T.disc, papi: T.papi, msdt: T.msdt, mekanik: T.mekanik,
     pelanggaran: T.pelanggaran, log: T.log, jedaTotal: T.jedaTotal + (T.jedaSejak ? now - T.jedaSejak : 0), berlalu: Math.max(0, berlalu(T, now)), tersimpan: now };
 }
 function simpanProgres(paksa) {
@@ -5439,6 +5556,224 @@ function halMSDT(H, L, h, no, klien, akhir) {
   if (!akhir.panjang) { H.push({ isi: isi + akhir.blok }); return; }
   H.push({ isi: isi + akhir.pindah });
   H.push({ isi: sek(no, 'Kepemimpinan · Tes MSDT', 'Kesimpulan Psikolog') + akhir.blok });
+}
+
+/* ================= Mechanical Comprehension (peserta: "Penalaran Mekanis") =================
+   20 soal bergambar, empat pilihan. Soal, pilihan, dan gambar diambil dari server saat tes dimulai (tidak ada di GitHub).
+   Layar kerja memakai tampilan pilihan yang sama dengan Gaya Kerja (kelas papi-*). */
+const MEKANIK = { konten: null, gbr: null };
+function muatMekanik(el, diam) {
+  return muatIsiTes(MEKANIK, async () => {
+    const k = (await apiP('mekanikKonten')).konten, peta = {}, g = k.gambar || {};
+    Object.keys(g).forEach(n => { peta[n] = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(g[n]); });
+    MEKANIK.gbr = peta; MEKANIK.konten = { soal: k.soal };
+  }, 'mekanik', el, diam);
+}
+const mkN = () => T.konten.soal.length;
+const mkSah = v => v === 0 || v === 1 || v === 2 || v === 3;
+const mkTerjawab = () => Object.keys(T.jawaban).filter(n => mkSah(T.jawaban[n])).length;
+function mkOpsi(teks, i, pilih, n) {
+  const isi = `<span class="papi-huruf">${'abcd'[i]}</span><span class="papi-teks">${esc(teks)}</span><span class="papi-centang" aria-hidden="true">${ik('cek')}</span>`;
+  return n
+    ? `<button type="button" class="papi-opsi${pilih === i ? ' pilih' : ''}" data-aksi="mk-pilih" data-n="${n}" data-i="${i}" aria-pressed="${pilih === i}">${isi}</button>`
+    : `<div class="papi-opsi${pilih === i ? ' pilih' : ''}" aria-hidden="true">${isi}</div>`;
+}
+// Gambar contoh di halaman petunjuk (karangan, bukan soal tes): bola di bidang miring.
+const MK_CONTOH_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 200" role="img" aria-label="Bola di atas papan miring, panah A ke kiri bawah dan panah B ke kanan atas">
+  <path d="M40 170 L380 170 L380 70 Z" fill="#E4EAFB" stroke="#1E3A8A" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="250" cy="96" r="22" fill="#fff" stroke="#1E3A8A" stroke-width="3"/>
+  <path d="M205 132 L150 148" stroke="#1E3A8A" stroke-width="3" marker-end="url(#mkp)"/><path d="M295 82 L345 68" stroke="#1E3A8A" stroke-width="3" marker-end="url(#mkp)"/>
+  <defs><marker id="mkp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1E3A8A"/></marker></defs>
+  <text x="128" y="156" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="#111827">A</text><text x="352" y="66" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="#111827">B</text></svg>`;
+
+/* ---------- Petunjuk ---------- */
+function vInstruksiMekanik() {
+  const c = P.state.cfg.mekanik, contoh = ['Ke arah A', 'Ke arah B', 'Tetap diam', 'Naik, lalu turun'];
+  const langkah = [
+    'Tes terdiri dari <b>20 soal</b>. Setiap soal berisi <b>gambar</b>, pertanyaan, dan <b>empat pilihan jawaban</b> (a sampai d).',
+    'Perhatikan gambar dengan teliti, lalu pilih <b>satu</b> jawaban yang paling tepat. Hanya ada satu jawaban yang benar.',
+    `Waktu pengerjaan <b>${durasiTes('mekanik', c)}</b>. Setelah memilih, layar pindah sendiri ke soal berikutnya. Tes berakhir sendiri saat waktu habis.`,
+    'Anda bisa kembali ke soal sebelumnya dan mengganti jawaban sebelum menekan <b>Selesai tes</b>. Di papan ketik, tekan <b>A</b> sampai <b>D</b> untuk memilih.'
+  ];
+  render(kepala() + `<main class="wrap">
+    ${tKembali('Daftar tes', 'data-aksi="daftar-tes"')}
+    <div class="tumpuk"><h1>Petunjuk tes ${NAMA_PESERTA('mekanik')}</h1></div>
+    ${P.state.batch.mode === 'Uji coba' ? notis('Durasi singkat (uji coba). Hasil ditandai "Uji coba".', 'peringatan') : ''}
+    <div class="instruksi">
+      <section class="lembar tumpuk" style="gap:18px">
+        <h2>Cara mengerjakan</h2>
+        <ol class="langkah">${langkah.map(l => `<li><span>${l}</span></li>`).join('')}</ol>
+        <h3>Pengawasan</h3>
+        ${aturanPengawasan(P.state.batch)}
+      </section>
+      <aside class="sisi">
+        <div class="lembar contoh"><h3>Contoh</h3>
+          <div class="mk-gambar contoh">${MK_CONTOH_SVG}</div>
+          <p class="mk-teks contoh">Ke arah mana bola akan menggelinding?</p>
+          <div class="papi-contoh mk-pilihan">${contoh.map((t, i) => mkOpsi(t, i, 0)).join('')}</div>
+          <p class="disc-contoh-ket">Bola menggelinding ke bawah papan, jadi jawabannya a (ke arah A).</p>
+        </div>
+        <div class="aksi" style="flex-direction:column;align-items:stretch"><button class="tombol utama" data-aksi="tanya-mulai">Mulai tes</button></div>
+        ${panelKonfirmasi('mekanik')}
+      </aside>
+    </div>
+  </main>`);
+}
+
+/* ---------- Layar kerja ---------- */
+function bangunLayarMekanik() {
+  const L = $('#layar-tes'), label = P.state.batch.mode === 'Uji coba' ? 'Uji coba' : '';
+  L.innerHTML = `<div class="tes-kepala">
+      <div class="tes-judul">${NAMA_PESERTA('mekanik')}${label ? `<span class="chip biru">${label}</span>` : ''}<span class="ist-sub" id="mk-sub"></span></div>
+      <div class="tes-kanan"><span class="tes-peringatan" id="t-peringatan"></span><span class="tes-posisi ist-waktu" id="t-posisi"></span></div>
+    </div>
+    <div class="bar" aria-hidden="true"><i id="t-total"></i></div>
+    <div class="bar bagian" aria-hidden="true"><i id="t-bagian"></i></div>
+    <div class="ist-badan" id="ist-badan"><div class="ist-kerja"><section class="ist-soal" id="mk-soal" aria-live="polite"></section>${mkPanel()}</div></div>
+    <div class="aba" id="t-aba" hidden></div>
+    <div class="jeda-layar" id="t-jeda" hidden></div>`;
+  L.hidden = false; L.classList.add('ist', 'papi', 'mekanik');
+  document.documentElement.classList.add('tes-aktif', 'tes-ist', 'tes-mekanik');
+  T.el = { total: $('#t-total'), bagian: $('#t-bagian'), posisi: $('#t-posisi'), peringatan: $('#t-peringatan') };
+  perbaruiPeringatan(); mkTampil();
+}
+function mkPanel() {
+  const N = mkN(), buka = window.innerWidth > 860;
+  return `<aside class="ist-panel papi-panel" aria-label="Nomor soal">
+    <details class="papi-nav"${buka ? ' open' : ''}><summary><b>Soal 1–${N}</b><span id="mk-terisi"></span></summary>
+      <div class="ist-nomor" id="mk-nomor">${Array.from({ length: N }, (_, q) => `<button type="button" data-aksi="mk-nomor" data-q="${q}">${q + 1}</button>`).join('')}</div>
+      <div class="ist-legenda-nav"><span><i class="isi"></i>Terjawab</span><span><i></i>Belum</span></div>
+    </details>
+    <button type="button" class="tombol sekunder lebar" data-aksi="mk-selesai">Selesai tes</button>
+    <div class="ist-tanya" id="mk-tanya" hidden><p id="mk-tanya-teks"></p><div class="aksi"><button type="button" class="tombol sekunder" data-aksi="mk-selesai-batal">Kembali</button><button type="button" class="tombol utama" data-aksi="mk-selesai-ya">Ya, selesai</button></div></div>
+  </aside>`;
+}
+function mkPerbaruiPanel() {
+  const q = T.mekanik.q || 0, N = mkN();
+  document.querySelectorAll('#mk-nomor button').forEach(b => {
+    const i = +b.dataset.q, isi = mkSah(T.jawaban[i + 1]);
+    b.className = ((isi ? 'isi' : '') + (i === q ? ' kini' : '')).trim();
+    b.setAttribute('aria-label', `Soal ${i + 1}, ${isi ? 'terjawab' : 'belum dijawab'}`);
+    b.setAttribute('aria-current', i === q ? 'true' : 'false');
+  });
+  const t = $('#mk-terisi'); if (t) t.textContent = `${mkTerjawab()} dari ${N} terjawab`;
+}
+function mkTampil() {
+  const w = $('#mk-soal'); if (!w) return;
+  const N = mkN(), q = Math.max(0, Math.min(N - 1, T.mekanik.q || 0)), s = T.konten.soal[q], pilih = T.jawaban[q + 1], akhir = q === N - 1;
+  T.mekanik.q = q;
+  $('#mk-sub').textContent = `Soal ${q + 1} dari ${N}`;
+  const src = (MEKANIK.gbr && MEKANIK.gbr[s.g]) || '';
+  w.innerHTML = `<div class="ist-kartu papi-kartu-tes">
+    <div class="ist-kartu-kepala"><span class="ist-no-besar">Soal ${q + 1}</span><span class="ist-pos">${q + 1} dari ${N}</span></div>
+    <div class="ist-kartu-isi">
+      <div class="mk-gambar"><img src="${src}" alt="Gambar soal ${q + 1}" draggable="false"></div>
+      <p class="mk-teks">${esc(s.t)}</p>
+      <div class="papi-pilihan mk-pilihan" role="group" aria-label="Pilihan jawaban soal ${q + 1}">${s.opsi.map((t, i) => mkOpsi(t, i, pilih, q + 1)).join('')}</div>
+    </div>
+    <div class="ist-kartu-kaki">
+      <button type="button" class="tombol sekunder" data-aksi="mk-prev" ${q === 0 ? 'disabled' : ''}>${ik('kiri')}Sebelumnya</button>
+      <button type="button" class="tombol ${akhir ? 'sekunder' : 'utama'}" data-aksi="${akhir ? 'mk-selesai' : 'mk-next'}">${akhir ? 'Selesai tes' : 'Berikutnya'}${akhir ? '' : ik('kanan')}</button>
+    </div></div>`;
+  mkPerbaruiPanel();
+  $('#ist-badan').scrollTop = 0;
+}
+function mkBolehJawab() { return T && !T.berhenti && T.tes === 'mekanik' && !T.jedaSejak; }
+// Memilih: tandai, simpan, lalu pindah sendiri ke soal berikutnya. Soal terakhir: tanyakan apakah selesai.
+function mkPilih(el) {
+  if (!mkBolehJawab()) return;
+  const n = +el.dataset.n, i = +el.dataset.i;
+  T.jawaban[n] = i;
+  document.querySelectorAll('#mk-soal .papi-opsi').forEach(b => { const on = +b.dataset.i === i; b.classList.toggle('pilih', on); b.setAttribute('aria-pressed', on); });
+  mkPerbaruiPanel(); simpanProgres();
+  clearTimeout(T.mkMaju);
+  if (n < mkN()) T.mkMaju = setTimeout(() => { if (mkBolehJawab() && T.mekanik.q === n - 1) mkKe(n); }, 320);
+  else mkTanyaSelesai(true);
+}
+function mkKe(q) {
+  if (!mkBolehJawab() || q < 0 || q >= mkN()) return;
+  clearTimeout(T.mkMaju);
+  T.mekanik.q = q; mkTanyaSelesai(false); mkTampil(); simpanProgres();
+}
+function mkTanyaSelesai(tampil) {
+  const k = $('#mk-tanya'); if (!k || !mkBolehJawab()) return;
+  if (tampil) {
+    const kurang = mkN() - mkTerjawab();
+    $('#mk-tanya-teks').innerHTML = `${kurang ? `<b>${kurang} soal belum dijawab.</b> Soal yang kosong dihitung salah. ` : 'Semua soal sudah dijawab. '}Setelah selesai, jawaban tidak bisa diubah lagi.`;
+  }
+  k.hidden = !tampil;
+  if (tampil) k.scrollIntoView({ block: 'nearest' });
+}
+function mkAkhiri(ket) {
+  if (!T || T.berhenti || T.tes !== 'mekanik') return;
+  clearTimeout(T.mkMaju);
+  logT('bagian', `${ket}; ${mkTerjawab()} dari ${mkN()} soal terjawab`);
+  akhiriTes();
+}
+function tickMekanik() {
+  const el = berlalu(T, Date.now()), total = durasiTesMs('mekanik', T.cfg);
+  if (T.proktor && Date.now() - autosaveTerakhir > AUTOSAVE_MS) autosaveServer();
+  if (el >= total) { mkAkhiri('Waktu habis'); return; }
+  setBar(Math.max(0, el) / total, mkTerjawab() / mkN());
+  teksPosisi(istJam(total - el));
+  if (total - el <= 60000 && total > 90000 && !T.mkKritis) { T.mkKritis = true; T.el.posisi.classList.add('kritis'); bunyi(520, 0.2); }
+}
+// Papan ketik: A–D (atau 1–4) memilih, panah kiri/kanan berpindah soal.
+function mkTombol(e) {
+  if (!mkBolehJawab() || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+  const k = e.key.toLowerCase(), q = T.mekanik.q || 0, idx = 'abcd'.indexOf(k) >= 0 ? 'abcd'.indexOf(k) : '1234'.indexOf(k);
+  if (k === 'arrowright') { e.preventDefault(); mkKe(q + 1); }
+  else if (k === 'arrowleft') { e.preventDefault(); mkKe(q - 1); }
+  else if (idx >= 0 && k.length === 1) {
+    e.preventDefault();
+    const el = document.querySelector(`#mk-soal .papi-opsi[data-i="${idx}"]`); if (el) mkPilih(el);
+  }
+}
+
+/* ================= Laporan: halaman hasil (versi lengkap saja, seperti IST) ================= */
+// Definisi di laporan memakai contoh benda; definisi di psikogram (TES.mekanik) tanpa contoh.
+const MK_DEF_LAPORAN = 'Kemampuan memahami dan memperkirakan pengaruh gaya dan gerak pada alat, mesin, dan benda (roda gigi, tuas, katrol, zat cair) berdasarkan prinsip fisika sehari-hari.';
+// Rentang skor tiap tingkat, dari norma yang berlaku (bawaan 0–3, 4–7, 8–11, 12–15, 16–20).
+function mkPita(L, N) {
+  const n = (L.norma || []).find(x => x.tes === 'mekanik' && x.aspek === 'pm'), b = (n && Array.isArray(n.batas) && n.batas.length === 4 ? n.batas : [4, 8, 12, 16]).map(Number);
+  const ke = v => Math.ceil(v) - 1, r = (a, z) => a > z ? '–' : a === z ? String(a) : `${a}–${z}`;
+  return [r(0, ke(b[0])), r(Math.ceil(b[0]), ke(b[1])), r(Math.ceil(b[1]), ke(b[2])), r(Math.ceil(b[2]), ke(b[3])), r(Math.ceil(b[3]), N)];
+}
+function halMekanik(H, L, h, no) {
+  const s = h.skor || {}, N = s.nSoal || 20, kat = hitungKategori(h.tes, s, h.cfg, L.norma, cfgPenuh(L.pengaturan))[0] || {};
+  const lv = kat.level, skala = (L.psikogram && L.psikogram.skala) || 5, pita = mkPita(L, N), baris = ((L.psikogram && L.psikogram.baris) || []).find(b => (b.sumber || [])[0] === 'mekanik.pm');
+  const butir = (h.data && h.data.butir) || '', bagian = s.bagian || [];
+  const dur = (new Date(h.selesai) - new Date(h.mulai)) / 1000 - (+h.jedaDetik || 0), kurang = N - (s.lengkap == null ? N : s.lengkap);
+  H.push({ isi: sek(no, 'Intelegensi · Tes Mechanical Comprehension', 'Hasil Tes Mechanical Comprehension',
+    `${N} soal pilihan ganda bergambar tentang prinsip mekanika sehari-hari: roda gigi, tuas, katrol, dan zat cair. Peserta memilih satu dari empat jawaban. Dikerjakan ${esc(fmtTgl(h.mulai))}, selama ${esc(durasiRingkas(dur))}${h.mode === 'Uji coba' ? ' (uji coba, durasi singkat)' : ''}.`) + `
+    ${kurang ? `<p class="disc-kurang">${ikon('peringatan')}<span>${kurang} dari ${N} soal tidak dijawab dan dihitung salah.</span></p>` : ''}
+    <div class="mk-hero">
+      <div class="mk-skor${lv == null ? '' : ' lv' + lv}">
+        <p class="label">Penalaran Mekanis</p>
+        <p class="mk-angka"><b>${s.benar == null ? '–' : s.benar}</b><span>dari ${N} benar</span></p>
+        <p class="mk-tingkat">${esc(kat.label || 'Norma belum diisi')}</p>
+        ${baris ? `<p class="mk-psg">Nilai psikogram <b>${baris.skor}</b> dari ${skala}</p>` : ''}
+      </div>
+      <div class="mk-arti">
+        <p class="mk-def"><b>Penalaran Mekanis</b> ${esc(MK_DEF_LAPORAN)}</p>
+        <p class="mk-interp">${lv == null ? 'Norma untuk aspek ini belum diisi.' : esc(TEKS.mekanik.pm[lv])}</p>
+      </div>
+    </div>
+    <div class="blok-alir"><h3 class="sub-judul">Norma</h3>
+      <div class="mk-pita">${pita.map((r, i) => `<div class="${i === lv ? 'aktif' : ''}"><b>${r}</b><span>${LEVEL[i]}</span>${skala === 5 ? `<small>${i + 1}</small>` : ''}</div>`).join('')}</div>
+      <p class="mk-ket">Skor mentah = jumlah jawaban benar (0–${N}).${skala === 5 ? ' Angka kecil di pojok = nilai pada psikogram skala 1–5.' : ''}</p>
+    </div>
+    ${bagian.length ? `<div class="blok-alir"><h3 class="sub-judul">Gambaran per prinsip mekanis</h3>
+      <table class="t-lap mk-bag"><thead><tr><th>Prinsip</th><th>Yang diukur</th><th class="tg">Benar</th><th class="mk-bar-th"></th></tr></thead><tbody>
+        ${bagian.map(b => `<tr><td><b>${esc(b.nama)}</b></td><td class="mk-sub">${esc(b.desk)}</td><td class="tg mono"><b>${b.benar}</b> / ${b.n}</td>
+          <td><div class="mk-bar"><i style="width:${b.n ? b.benar / b.n * 100 : 0}%"></i></div></td></tr>`).join('')}
+      </tbody></table>
+      <p class="mk-ket">Jumlah soal tiap prinsip sedikit (2–6 soal), jadi bagian ini hanya gambaran letak kekuatan dan kelemahan, bukan skor tersendiri.</p></div>` : ''}
+    ${butir ? `<div class="blok-alir"><h3 class="sub-judul">Jawaban per nomor</h3>
+      <div class="mk-grid">${butir.split('').map((v, i) => `<div class="${v === '1' ? 'b' : v === '0' ? 's' : 'k'}"><small>${i + 1}</small><b>${v === '1' ? '✓' : v === '0' ? '✗' : '–'}</b></div>`).join('')}</div>
+      <p class="mk-ket">✓ benar, ✗ salah, – tidak dijawab. Kunci dan isi soal tidak dicetak di laporan.</p></div>` : ''}
+    ${catatanTes(h)}` });
 }
 
 /* ================= Staf: superadmin, psikolog klien, admin klien ================= */
@@ -6898,7 +7233,7 @@ function halamanLaporan(L, versi) {
   const PELENGKAP = ['disc', 'msdt'], hPel = L.hasil.filter(h => PELENGKAP.indexOf(h.tes) >= 0), hAkhir = adaPsg ? null : hPel[hPel.length - 1];
   const akhirPel = adaPsg ? null : { blok: blokAkhir, panjang: (t.kesimpulan || '').length > 2000,
     pindah: `<div class="akhir"><div class="akhir-bawah"><div class="int-mini ${si.kelas}">${ikon(si.ikon)}<div><b>${esc(si.judul)}</b><span>Kesimpulan & tanda tangan di halaman berikutnya.</span></div></div></div></div>` };
-  L.hasil.forEach(h => { const ak = h === hAkhir ? akhirPel : null; if (h.tes === 'disc') halDISC(H, L, h, nomor(), klien, ak); else if (h.tes === 'msdt') halMSDT(H, L, h, nomor(), klien, ak); else if (h.tes === 'papi') halPAPI(H, L, h, nomor(), klien); else if (!klien) (h.tes === 'ist' ? halIST : h.tes === 'kraepelin' ? halKraepelin : halPauli)(H, L, h, nomor()); });
+  L.hasil.forEach(h => { const ak = h === hAkhir ? akhirPel : null; if (h.tes === 'disc') halDISC(H, L, h, nomor(), klien, ak); else if (h.tes === 'msdt') halMSDT(H, L, h, nomor(), klien, ak); else if (h.tes === 'papi') halPAPI(H, L, h, nomor(), klien); else if (!klien) (h.tes === 'ist' ? halIST : h.tes === 'mekanik' ? halMekanik : h.tes === 'kraepelin' ? halKraepelin : halPauli)(H, L, h, nomor()); });
   if (akhirPel && !hAkhir) H.push({ isi: sek(nomor(), 'Kesimpulan', 'Kesimpulan Psikolog') + `<p class="kosong-lap">Tes ${esc(bt.tes.filter(x => PELENGKAP.indexOf(x) >= 0).map(NAMA_TES).join(' dan ') || 'pelengkap')} belum dikerjakan.</p>` + blokAkhir });
 
   /* Integritas (versi lengkap saja) */
@@ -7001,6 +7336,10 @@ const CARA_BACA = {
     ['Gaya pendukung', 'Dua gaya lain dengan skor tertinggi: gaya yang paling sering muncul dalam pilihan peserta.'],
     ['Efektif, kurang efektif', 'Empat gaya efektif (E tinggi) dan empat gaya kurang efektif (E rendah) menurut Teori Tiga Dimensi Reddin.'],
     ['O', 'Skor skala A (Deserter), seperti pada lembar jawaban MSDT.']],
+  mekanik: [['Skor', 'Jumlah jawaban benar dari 20 soal. Soal yang tidak dijawab dihitung salah.'],
+    ['Tingkat', 'Skor 0–3 sangat rendah, 4–7 rendah, 8–11 cukup, 12–15 tinggi, 16–20 sangat tinggi (norma bawaan).'],
+    ['Prinsip mekanis', 'Pengelompokan soal menurut prinsip yang diuji. Hanya gambaran, bukan skor tersendiri.'],
+    ['IQ', 'Skor ini masuk ranah Intelegensi di psikogram, tetapi tidak ikut menentukan IQ. IQ hanya dari IST.']],
   ist: [['RW', 'Raw score: jumlah jawaban benar tiap subtes, paling tinggi 20.'], ['SW', 'Standard score: RW yang disetarakan dengan norma kelompok usia. Rata-rata 100.'],
     ['IQ', 'Jumlah RW sembilan subtes diubah menjadi SW total menurut norma usia, lalu menjadi IQ.'], ['Norma usia', 'Usia di bawah 21 memakai norma 21–25 tahun; usia di atas 40 memakai norma 36–40 tahun.']],
   kraepelin: [['Panker', 'Kecepatan kerja: rata-rata jumlah penjumlahan per lajur.'], ['Tianker', 'Ketelitian kerja: jumlah jawaban salah. Makin sedikit, makin teliti.'],
@@ -7263,6 +7602,21 @@ function demoPesertaPAPI(srv, db, kode, bio, seed, mundurJam) {
   db.ubah('Token', kode, { dibuka: iso(t0 - 6 * 60e3), mulai: iso(t0 - 3 * 60e3), selesai: iso(t + 20e3), sesi: '' });
   db.ubah('Peserta', kode, { persetujuan: iso(t0 - 3 * 60e3) });
 }
+function demoPesertaMekanik(srv, db, kode, bio, seed, mundurJam) {
+  const o = srv.tangani('bukaToken', { kode }), ps = { kode, sesi: o.sesi }, r = mulberry32(seed), iso = ms => new Date(ms).toISOString();
+  srv.tangani('simpanBiodata', Object.assign({ biodata: bio }, ps));
+  srv.tangani('setuju', Object.assign({ perangkat: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36' }, ps));
+  const jw = {}, N = MK_DATA.soal.length;
+  MK_DATA.kunci.forEach((k, i) => { const v = r(); if (v < 0.68) jw[i + 1] = k; else if (v < 0.95) jw[i + 1] = (k + 1 + Math.floor(r() * 3)) % 4; });
+  const isi = Object.keys(jw).length, t0 = Date.now() - mundurJam * 3600e3, t = t0 + 24 * 60e3 + 15e3;
+  const log = [{ w: iso(t0), e: 'mulai', k: '' }, { w: iso(t - 1e3), e: 'bagian', k: `Diselesaikan peserta sebelum waktu habis; ${isi} dari ${N} soal terjawab` }, { w: iso(t), e: 'selesai', k: '' }];
+  srv.tangani('simpanHasil', Object.assign({ tes: 'mekanik', hasil: { seed, mulai: iso(t0), selesai: iso(t), jawaban: jw, pelanggaran: [], jedaDetik: 0, log } }, ps));
+  [['Foto awal (cek kamera)', t0 - 120e3, ''], ['Awal tes', t0 + 3e3, 'mekanik'], ['Foto berkala', t0 + 8 * 60e3, 'mekanik'], ['Akhir tes', t, 'mekanik']].forEach(([k2, w2, tes], i) => {
+    const d = fotoContoh(i); if (d) srv.tangani('unggahFoto', Object.assign({ waktu: iso(w2), tes, ket: k2, data: d }, ps));
+  });
+  db.ubah('Token', kode, { dibuka: iso(t0 - 6 * 60e3), mulai: iso(t0 - 3 * 60e3), selesai: iso(t + 20e3), sesi: '' });
+  db.ubah('Peserta', kode, { persetujuan: iso(t0 - 3 * 60e3) });
+}
 function demoPesertaMSDT(srv, db, kode, bio, seed, mundurJam) {
   const o = srv.tangani('bukaToken', { kode }), ps = { kode, sesi: o.sesi }, r = mulberry32(seed), iso = ms => new Date(ms).toISOString();
   srv.tangani('simpanBiodata', Object.assign({ biodata: bio }, ps));
@@ -7288,6 +7642,7 @@ async function muatDataTes() {
   if (typeof DISC_DATA === 'undefined' && !paksa('discdemo')) await muatSkrip('disc-data.js');
   if (typeof PAPI_DATA === 'undefined' && !paksa('papidemo')) await muatSkrip('papi-data.js');
   if (typeof MSDT_DATA === 'undefined' && !paksa('msdtdemo')) await muatSkrip('msdt-data.js');
+  if (typeof MK_DATA === 'undefined') await muatSkrip('mekanik-data.js');
   if (typeof IST_DATA === 'undefined' && typeof IST_DATA_DEMO !== 'undefined') window.IST_DATA = IST_DATA_DEMO;
   if (typeof DISC_DATA === 'undefined' && typeof DISC_DATA_DEMO !== 'undefined') window.DISC_DATA = DISC_DATA_DEMO;
   if (typeof PAPI_DATA === 'undefined' && typeof PAPI_DATA_DEMO !== 'undefined') window.PAPI_DATA = PAPI_DATA_DEMO;
@@ -7358,7 +7713,17 @@ async function siapkanDemo() {
     b7 = q('buatBatch', { modul: idM, judul: 'Rekrutmen 2026 - Manager Operasional', posisi: 'Manager Operasional', jumlah: 3, mode: 'Penuh' }).batch.id;
     q('buatBatch', { modul: idM, judul: 'Coba MSDT (durasi singkat)', jumlah: 4, mode: 'Uji coba' });
   }
+  // Modul Mechanical Comprehension (hanya bila data tersedia, yaitu di uji lokal). Mengisi satu aspek Intelegensi.
+  let b8 = null;
+  if (typeof MK_DATA !== 'undefined') {
+    const mK = Object.assign(modulBaru(['mekanik'], 5), { nama: 'Asesmen Teknisi (Penalaran Mekanis)', status: 'Terbit', klien: kA.id, biodata: 'rekrutmen' });
+    const idK = q('simpanModul', { modul: mK }).modul.id;
+    b8 = q('buatBatch', { modul: idK, judul: 'Rekrutmen 2026 - Teknisi Mesin', posisi: 'Teknisi Mesin', jumlah: 3, mode: 'Penuh' }).batch.id;
+    q('buatBatch', { modul: idK, judul: 'Coba Penalaran Mekanis (durasi singkat)', jumlah: 4, mode: 'Uji coba' });
+  }
   srv.tangani('logout', s);
+  if (b8) demoPesertaMekanik(srv, db, db.cari('Token', 'batch', b8)[0].token, { nama: 'Yoga Firmansyah (contoh)', jk: 'Laki-laki', tempatLahir: 'Cirebon', tglLahir: '1996-03-12', pendidikan: 'D3',
+    sekolah: 'Politeknik Contoh', jurusan: 'Teknik Mesin', posisi: 'Teknisi Mesin', kotaPenempatan: 'Cikarang', kotaTinggal: 'Bekasi', telepon: '081299990000', email: 'yoga.contoh@example.com' }, 4412, 2);
   if (b7) demoPesertaMSDT(srv, db, db.cari('Token', 'batch', b7)[0].token, { nama: 'Dimas Saputra (contoh)', jk: 'Laki-laki', tempatLahir: 'Medan', tglLahir: '1988-07-25', pendidikan: 'S1',
     sekolah: 'Universitas Contoh', jurusan: 'Manajemen', posisi: 'Manager Operasional', kotaPenempatan: 'Jakarta', kotaTinggal: 'Jakarta Timur', telepon: '081277778888', email: 'dimas.contoh@example.com' }, 7307, 3);
   if (b6) demoPesertaPAPI(srv, db, db.cari('Token', 'batch', b6)[0].token, { nama: 'Bima Prasetyo (contoh)', jk: 'Laki-laki', tempatLahir: 'Malang', tglLahir: '1993-02-14', pendidikan: 'S1',
@@ -7383,13 +7748,13 @@ function demoKodeContoh() {
     demoDb.cari('Token', 'batch', b.id).filter(t => t.status === 'Baru' && t.aktif).slice(0, 1)
       .forEach(t => out.push({ kode: t.token, label: `${tes.map(NAMA_TES).join(' + ')}, ${b.mode === 'Uji coba' ? 'uji coba' : 'durasi penuh'} ± ${menit} menit` }));
   });
-  return out.slice(0, 11);
+  return out.slice(0, 12);
 }
 
 /* ================= Peristiwa ================= */
 // Soal IST, DISC, PAPI, dan MSDT diambil dari server saat tes dimulai.
 function muatKontenTes(tes, el, diam) {
-  return tes === 'ist' ? muatIST(el, diam) : tes === 'disc' ? muatDISC(el, diam) : tes === 'papi' ? muatPAPI(el, diam) : tes === 'msdt' ? muatMSDT(el, diam) : Promise.resolve(true);
+  return tes === 'ist' ? muatIST(el, diam) : tes === 'disc' ? muatDISC(el, diam) : tes === 'papi' ? muatPAPI(el, diam) : tes === 'msdt' ? muatMSDT(el, diam) : tes === 'mekanik' ? muatMekanik(el, diam) : Promise.resolve(true);
 }
 // Dipanggil saat peserta membuka petunjuk: soal diambil diam-diam selagi petunjuk dibaca, agar tes bisa langsung dimulai.
 function pramuatKonten(tes) { muatKontenTes(tes, null, true); }
@@ -7454,6 +7819,13 @@ const AKSI = {
   'msdt-selesai': () => msdtTanyaSelesai(true),
   'msdt-selesai-batal': () => msdtTanyaSelesai(false),
   'msdt-selesai-ya': () => msdtAkhiri('Diselesaikan peserta sebelum waktu habis'),
+  'mk-pilih': el => mkPilih(el),
+  'mk-nomor': el => mkKe(+el.dataset.q),
+  'mk-prev': () => mkKe((T.mekanik.q || 0) - 1),
+  'mk-next': () => mkKe((T.mekanik.q || 0) + 1),
+  'mk-selesai': () => mkTanyaSelesai(true),
+  'mk-selesai-batal': () => mkTanyaSelesai(false),
+  'mk-selesai-ya': () => mkAkhiri('Diselesaikan peserta sebelum waktu habis'),
   'disc-pilih': el => discPilih(el),
   'disc-nomor': el => discKe(+el.dataset.q),
   'disc-prev': () => discKe((T.disc.q || 0) - 1),
@@ -7649,6 +8021,7 @@ document.addEventListener('keydown', e => {
   if (T.tes === 'disc') return discTombol(e);
   if (T.tes === 'papi') return papiTombol(e);
   if (T.tes === 'msdt') return msdtTombol(e);
+  if (T.tes === 'mekanik') return mkTombol(e);
   if (T.jedaSejak) return;
   let k = null;
   if (/^[0-9]$/.test(e.key)) k = e.key; else if (e.key === 'Backspace' || e.key === 'Delete') k = 'koreksi';
