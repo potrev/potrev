@@ -256,11 +256,6 @@ html[data-mode="publik"] .lembar{background:var(--kaca);-webkit-backdrop-filter:
 .jendela-isi{padding:38px 36px;display:flex;flex-direction:column;gap:18px;min-width:0}
 .jendela-isi h2{font-size:24px;font-weight:800;letter-spacing:-.025em}
 .masuk-form{display:flex;flex-direction:column;gap:18px}
-.potongan{display:flex;border-radius:16px;width:fit-content;max-width:100%;overflow:hidden;margin-top:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.pot-lajur{display:flex;flex-direction:column;padding:14px 18px 14px 16px;border-right:1px solid rgba(255,255,255,.14)}
-.pot-lajur:last-child{border-right:0}
-.pa{font:500 19px/22px var(--font-angka);color:#fff}
-.pj{font:600 13px/12px var(--font-angka);color:#FFD98A;padding-left:20px;height:12px}
 .siap{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:14px;color:var(--pudar)}
 .siap li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start;line-height:1.45}
 .siap li .ik-ui{width:30px;height:30px;padding:6px;border-radius:9px;background:var(--biru-lembut);color:var(--biru)}
@@ -271,7 +266,7 @@ html[data-mode="publik"] .lembar{background:var(--kaca);-webkit-backdrop-filter:
   .wrap.pintu{justify-content:flex-start;padding-block:16px 40px}
   .jendela{grid-template-columns:minmax(0,1fr)}
   .jendela-merek{padding:24px 22px;gap:8px}
-  .jendela-merek .potongan,.jm-kaki{display:none}
+  .jendela-merek .alur-merek,.jm-kaki{display:none}
   .jendela-merek .wm{font-size:34px}
   .jendela-isi{padding:24px 22px 28px}
 }
@@ -2106,6 +2101,86 @@ details.lipat.ac-bagian summary b{font-size:16px}
 .hal.padat .ac-blok{gap:1.1mm}
 .hal.padat .t-lap.ac-t td{padding-top:1mm;padding-bottom:1mm}
 .hal.padat2 .t-lap.ac-t td{font-size:7.2pt}
+/* ===== Halaman awal & masuk: satu layar, animasi alur PotRev ===== */
+.wrap.pintu{padding-block:clamp(12px,3vh,28px)}
+.jendela-merek{padding:clamp(20px,4.2vh,38px) 36px;gap:clamp(8px,1.5vh,14px)}
+.jendela-isi{padding:clamp(20px,4.2vh,38px) 36px;gap:clamp(12px,2.2vh,18px)}
+.masuk-form{gap:clamp(12px,2.2vh,18px)}
+.alur-merek{display:block;width:100%;height:clamp(170px,calc(100vh - 290px),330px);margin-top:2px;flex:none}
+.alur-merek text{font-family:var(--font-isi)}
+.alur-merek .mono{font-family:var(--font-angka)}
+@media (min-width:821px) and (max-height:680px){
+  .siap{gap:6px;font-size:13.5px}
+  .siap li{grid-template-columns:26px minmax(0,1fr);line-height:1.38}
+  .siap li .ik-ui{width:26px;height:26px;padding:5px}
+  .jendela-isi .input-kode{min-height:50px!important}
+}
+@media (max-width:820px){.alur-merek{display:none}}
+@media (prefers-reduced-motion:reduce){.alur-merek *{animation:none!important}}
+.am-pil{animation:amPil 16s cubic-bezier(.6,0,.2,1) infinite both}
+@keyframes amPil{0%,47%{transform:translateX(0)}51%,97%{transform:translateX(96px)}100%{transform:translateX(0)}}
+.am-s1,.am-s2a,.am-s2b,.am-s3a,.am-s3b,.am-c1,.am-c2a,.am-c2b,.am-c3,.am-k2,.am-on2,.am-on3,.am-h2,.am-h3{opacity:0}
+.am-s1{opacity:1;animation:amS1 16s linear infinite both}
+@keyframes amS1{0%{opacity:0} 0%{opacity:1} 12%{opacity:1} 13.5%{opacity:0} 48.5%{opacity:0} 50%{opacity:1} 62%{opacity:1} 63.5%{opacity:0} 100%{opacity:0}}
+.am-s2a{animation:amS2a 16s linear infinite both}
+@keyframes amS2a{0%{opacity:0} 12.5%{opacity:0} 14%{opacity:1} 27%{opacity:1} 28.5%{opacity:0} 100%{opacity:0}}
+.am-s2b{animation:amS2b 16s linear infinite both}
+@keyframes amS2b{0%{opacity:0} 62.5%{opacity:0} 64%{opacity:1} 77%{opacity:1} 78.5%{opacity:0} 100%{opacity:0}}
+.am-s3a{animation:amS3a 16s linear infinite both}
+@keyframes amS3a{0%{opacity:0} 27.5%{opacity:0} 29%{opacity:1} 48.5%{opacity:1} 50%{opacity:0} 100%{opacity:0}}
+.am-s3b{animation:amS3b 16s linear infinite both}
+@keyframes amS3b{0%{opacity:0} 77.5%{opacity:0} 79%{opacity:1} 98.5%{opacity:1} 100%{opacity:0}}
+.am-c1{opacity:1;animation:amC1 16s linear infinite both}
+@keyframes amC1{0%{opacity:0} 0%{opacity:1} 12%{opacity:1} 13.5%{opacity:0} 48.5%{opacity:0} 50%{opacity:1} 62%{opacity:1} 63.5%{opacity:0} 100%{opacity:0}}
+.am-c2a{animation:amC2a 16s linear infinite both}
+@keyframes amC2a{0%{opacity:0} 12.5%{opacity:0} 14%{opacity:1} 27%{opacity:1} 28.5%{opacity:0} 100%{opacity:0}}
+.am-c2b{animation:amC2b 16s linear infinite both}
+@keyframes amC2b{0%{opacity:0} 62.5%{opacity:0} 64%{opacity:1} 77%{opacity:1} 78.5%{opacity:0} 100%{opacity:0}}
+.am-c3{animation:amC3 16s linear infinite both}
+@keyframes amC3{0%{opacity:0} 27.5%{opacity:0} 29%{opacity:1} 48.5%{opacity:1} 50%{opacity:0} 77.5%{opacity:0} 79%{opacity:1} 98.5%{opacity:1} 100%{opacity:0}}
+.am-k1{animation:amK1 16s linear infinite both}
+@keyframes amK1{0%{opacity:0} 0%{opacity:1} 48%{opacity:1} 49%{opacity:0} 100%{opacity:0}}
+.am-k2{animation:amK2 16s linear infinite both}
+@keyframes amK2{0%{opacity:0} 49%{opacity:0} 50%{opacity:1} 98%{opacity:1} 99%{opacity:0} 100%{opacity:0}}
+.am-on1{animation:amOn1 16s linear infinite both}
+@keyframes amOn1{0%{opacity:0} 0%{opacity:1} 48.5%{opacity:1} 49.2%{opacity:0} 49.8%{opacity:0} 50.5%{opacity:1} 98.5%{opacity:1} 99.2%{opacity:0} 100%{opacity:0}}
+.am-on2{animation:amOn2 16s linear infinite both}
+@keyframes amOn2{0%{opacity:0} 12.3%{opacity:0} 13%{opacity:1} 48.5%{opacity:1} 49.2%{opacity:0} 62.3%{opacity:0} 63%{opacity:1} 98.5%{opacity:1} 99.2%{opacity:0} 100%{opacity:0}}
+.am-on3{animation:amOn3 16s linear infinite both}
+@keyframes amOn3{0%{opacity:0} 27.3%{opacity:0} 28%{opacity:1} 48.5%{opacity:1} 49.2%{opacity:0} 77.3%{opacity:0} 78%{opacity:1} 98.5%{opacity:1} 99.2%{opacity:0} 100%{opacity:0}}
+.am-h1{animation:amH1 16s linear infinite both}
+@keyframes amH1{0%{opacity:0} 0%{opacity:1} 12%{opacity:1} 12.7%{opacity:0} 49.8%{opacity:0} 50.5%{opacity:1} 62%{opacity:1} 62.7%{opacity:0} 100%{opacity:0}}
+.am-h2{animation:amH2 16s linear infinite both}
+@keyframes amH2{0%{opacity:0} 12.3%{opacity:0} 13%{opacity:1} 27%{opacity:1} 27.7%{opacity:0} 62.3%{opacity:0} 63%{opacity:1} 77%{opacity:1} 77.7%{opacity:0} 100%{opacity:0}}
+.am-h3{animation:amH3 16s linear infinite both}
+@keyframes amH3{0%{opacity:0} 27.3%{opacity:0} 28%{opacity:1} 48.5%{opacity:1} 49.2%{opacity:0} 77.3%{opacity:0} 78%{opacity:1} 98.5%{opacity:1} 99.2%{opacity:0} 100%{opacity:0}}
+.am-cincin{transform-box:fill-box;transform-origin:center;animation:amCincin 1.4s ease-out infinite both}
+@keyframes amCincin{0%{transform:scale(1);opacity:.85}100%{transform:scale(1.8);opacity:0}}
+.am-seg1,.am-seg2{transform-box:fill-box;transform-origin:left center;transform:scaleX(0)}
+.am-seg1{animation:amSeg1 16s ease-in-out infinite both}
+@keyframes amSeg1{0%,11%{transform:scaleX(0)}13%,48.5%{transform:scaleX(1)}50%,61%{transform:scaleX(0)}63%,98.5%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+.am-seg2{animation:amSeg2 16s ease-in-out infinite both}
+@keyframes amSeg2{0%,26%{transform:scaleX(0)}28%,48.5%{transform:scaleX(1)}50%,76%{transform:scaleX(0)}78%,98.5%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+.am-tutup{transform-box:fill-box;transform-origin:right center;transform:scaleX(0);animation:amTutup 16s steps(6,end) infinite both}
+@keyframes amTutup{0%,2%{transform:scaleX(1)}8%,48%{transform:scaleX(0)}50%,52%{transform:scaleX(1)}58%,100%{transform:scaleX(0)}}
+.am-tombol{animation:amTombol 16s ease infinite both}
+@keyframes amTombol{0%,9%{fill:rgba(255,255,255,.24)}10.5%{fill:rgba(255,255,255,.5)}12%,59%{fill:rgba(255,255,255,.24)}60.5%{fill:rgba(255,255,255,.5)}62%,100%{fill:rgba(255,255,255,.24)}}
+.am-jwb{transform-box:fill-box;transform-origin:center;animation:amJwb 16s ease infinite both}
+@keyframes amJwb{0%,15%{transform:scale(0)}17%{transform:scale(1.25)}18%,49%{transform:scale(1)}50%,100%{transform:scale(0)}}
+.am-geser{animation:amGeser 16s cubic-bezier(.3,.7,.2,1) infinite both}
+@keyframes amGeser{0%,65%{transform:translateY(-40px)}68%,100%{transform:translateY(0)}}
+.am-baru{animation:amBaru 16s cubic-bezier(.3,.7,.2,1) infinite both}
+@keyframes amBaru{0%,66%{transform:translateX(24px);opacity:0}70%,100%{transform:translateX(0);opacity:1}}
+.am-lencana{transform-box:fill-box;transform-origin:center;animation:amLen 16s ease infinite both}
+@keyframes amLen{0%,68%{transform:scale(0)}70%{transform:scale(1.3)}71.5%,100%{transform:scale(1)}}
+.am-bar{transform-box:fill-box;transform-origin:left center;animation:amBar 16s cubic-bezier(.3,.7,.2,1) infinite both}
+@keyframes amBar{0%,30%{transform:scaleX(0)}37%,49%{transform:scaleX(1)}50%,100%{transform:scaleX(0)}}
+.am-chip1{transform-box:fill-box;transform-origin:center;animation:amChip1 16s ease infinite both}
+@keyframes amChip1{0%,37%{transform:scale(.6);opacity:0}40%,49%{transform:scale(1);opacity:1}50%,100%{transform:scale(.6);opacity:0}}
+.am-radar{transform-origin:92px 206px;animation:amRad 16s cubic-bezier(.3,.7,.2,1) infinite both}
+@keyframes amRad{0%,80%{transform:scale(0) rotate(-18deg)}88%,100%{transform:scale(1) rotate(0)}}
+.am-chip2{transform-box:fill-box;transform-origin:center;animation:amChip2 16s ease infinite both}
+@keyframes amChip2{0%,88%{transform:scale(.6);opacity:0}91%,100%{transform:scale(1);opacity:1}}
 </style>
 </head>
 <body>
@@ -4934,7 +5009,7 @@ function panelMerek(lead) {
     <h1 class="lockup">${tandaLogo(54, '#FFFFFF', '#2240B0')}${WORDMARK}</h1>
     <p class="deskriptor">Potential Review</p>
     <p class="jm-lead">${lead}</p>
-    ${potonganLembar()}
+    ${ALUR_MEREK}
     <p class="jm-kaki">${DEMO ? 'Mode demo: data hanya tersimpan di browser ini.' : esc(lembaga())}</p>
   </section>`;
 }
@@ -4945,20 +5020,9 @@ function alurPeserta(aktif) {
   return `<ol class="alur" aria-label="Langkah">${L.map((l, n) => `<li class="${n < i ? 'lewat' : n === i ? 'aktif' : ''}"${n === i ? ' aria-current="step"' : ''}><i>${n < i ? ik('cek') : n + 1}</i><span>${l}</span></li>`).join('')}</ol>`;
 }
 const notis = (teks, jenis) => `<p class="notis ${jenis || ''}">${esc(teks)}</p>`;
-function potonganLembar() {
-  const r = mulberry32(97), tinggi = [6, 4, 5, 3];
-  let html = '<div class="potongan" aria-hidden="true">';
-  for (let c = 0; c < 4; c++) {
-    const d = []; for (let i = 0; i < 9; i++) d.push(1 + Math.floor(r() * 9));
-    html += '<div class="pot-lajur">';
-    for (let i = 8; i >= 0; i--) {
-      html += `<span class="pa">${d[i]}</span>`;
-      if (i > 0) { const j = i - 1; html += `<span class="pj">${j < tinggi[c] ? kunci(d[j], d[j + 1]) : ''}</span>`; }
-    }
-    html += '</div>';
-  }
-  return html + '</div>';
-}
+// Animasi alur PotRev di panel merek: bergantian Psikotes dan Assessment (kode tes, mengerjakan, laporan).
+// Isi soal dan pesan hanya contoh umum, bukan item tes. Gerak diatur CSS (kelas am-*), berhenti bila "kurangi gerak" aktif.
+const ALUR_MEREK = "<svg class=\"alur-merek\" viewBox=\"0 0 420 320\" preserveAspectRatio=\"xMinYMid meet\" role=\"img\" aria-label=\"Alur PotRev: kode tes, mengerjakan psikotes atau simulasi assessment, lalu laporan; bergantian antara psikotes dan assessment\"><rect x=\"1\" y=\"1\" width=\"418\" height=\"318\" rx=\"18\" fill=\"rgba(255,255,255,.10)\" stroke=\"rgba(255,255,255,.24)\"></rect><rect x=\"18\" y=\"16\" width=\"196\" height=\"30\" rx=\"15\" fill=\"rgba(255,255,255,.12)\"></rect><rect class=\"am-pil\" x=\"21\" y=\"19\" width=\"94\" height=\"24\" rx=\"12\" fill=\"rgba(255,255,255,.30)\"></rect><text x=\"68\" y=\"35.5\" text-anchor=\"middle\" font-size=\"12.5\" font-weight=\"700\" fill=\"#FFFFFF\">Psikotes</text><text x=\"164\" y=\"35.5\" text-anchor=\"middle\" font-size=\"12.5\" font-weight=\"700\" fill=\"#FFFFFF\">Assessment</text><text x=\"402\" y=\"35\" text-anchor=\"end\" font-size=\"11\" fill=\"rgba(255,255,255,.66)\">Alur peserta</text><line x1=\"47\" y1=\"74\" x2=\"183\" y2=\"74\" stroke=\"rgba(255,255,255,.22)\" stroke-width=\"2\" stroke-linecap=\"round\"></line><line class=\"am-seg1\" x1=\"47\" y1=\"74\" x2=\"183\" y2=\"74\" stroke=\"#FFFFFF\" stroke-width=\"2\" stroke-linecap=\"round\"></line><line x1=\"209\" y1=\"74\" x2=\"345\" y2=\"74\" stroke=\"rgba(255,255,255,.22)\" stroke-width=\"2\" stroke-linecap=\"round\"></line><line class=\"am-seg2\" x1=\"209\" y1=\"74\" x2=\"345\" y2=\"74\" stroke=\"#FFFFFF\" stroke-width=\"2\" stroke-linecap=\"round\"></line><g class=\"am-h1\"><circle class=\"am-cincin\" cx=\"34\" cy=\"74\" r=\"11\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2\"></circle></g><circle cx=\"34\" cy=\"74\" r=\"11\" fill=\"rgba(255,255,255,.14)\" stroke=\"rgba(255,255,255,.45)\" stroke-width=\"1.4\"></circle><text class=\"mono\" x=\"34\" y=\"78\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"700\" fill=\"#FFFFFF\">1</text><g class=\"am-on1\"><circle cx=\"34\" cy=\"74\" r=\"11\" fill=\"#FFFFFF\"></circle><text class=\"mono\" x=\"34\" y=\"78\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"800\" fill=\"#2240B0\">1</text></g><text x=\"23\" y=\"101\" text-anchor=\"start\" font-size=\"11.5\" font-weight=\"650\" fill=\"rgba(255,255,255,.88)\">Kode tes</text><g class=\"am-h2\"><circle class=\"am-cincin\" cx=\"196\" cy=\"74\" r=\"11\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2\"></circle></g><circle cx=\"196\" cy=\"74\" r=\"11\" fill=\"rgba(255,255,255,.14)\" stroke=\"rgba(255,255,255,.45)\" stroke-width=\"1.4\"></circle><text class=\"mono\" x=\"196\" y=\"78\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"700\" fill=\"#FFFFFF\">2</text><g class=\"am-on2\"><circle cx=\"196\" cy=\"74\" r=\"11\" fill=\"#FFFFFF\"></circle><text class=\"mono\" x=\"196\" y=\"78\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"800\" fill=\"#2240B0\">2</text></g><text x=\"196\" y=\"101\" text-anchor=\"middle\" font-size=\"11.5\" font-weight=\"650\" fill=\"rgba(255,255,255,.88)\">Kerjakan</text><g class=\"am-h3\"><circle class=\"am-cincin\" cx=\"358\" cy=\"74\" r=\"11\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2\"></circle></g><circle cx=\"358\" cy=\"74\" r=\"11\" fill=\"rgba(255,255,255,.14)\" stroke=\"rgba(255,255,255,.45)\" stroke-width=\"1.4\"></circle><text class=\"mono\" x=\"358\" y=\"78\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"700\" fill=\"#FFFFFF\">3</text><g class=\"am-on3\"><circle cx=\"358\" cy=\"74\" r=\"11\" fill=\"#FFFFFF\"></circle><text class=\"mono\" x=\"358\" y=\"78\" text-anchor=\"middle\" font-size=\"11\" font-weight=\"800\" fill=\"#2240B0\">3</text></g><text x=\"369\" y=\"101\" text-anchor=\"end\" font-size=\"11.5\" font-weight=\"650\" fill=\"rgba(255,255,255,.88)\">Laporan</text><line x1=\"18\" y1=\"118\" x2=\"402\" y2=\"118\" stroke=\"rgba(255,255,255,.16)\"></line><g class=\"am-s1\"><text x=\"18\" y=\"146\" font-size=\"12.5\" fill=\"rgba(255,255,255,.78)\">Masukkan kode tes dari penyelenggara</text><rect x=\"18\" y=\"158\" width=\"226\" height=\"48\" rx=\"12\" fill=\"#FFFFFF\"></rect><text class=\"mono am-k1\" x=\"131\" y=\"189\" text-anchor=\"middle\" font-size=\"21\" font-weight=\"700\" letter-spacing=\"3\" fill=\"#2240B0\">K7M2QX</text><text class=\"mono am-k2\" x=\"131\" y=\"189\" text-anchor=\"middle\" font-size=\"21\" font-weight=\"700\" letter-spacing=\"3\" fill=\"#2240B0\">A9T4PR</text><rect class=\"am-tutup\" x=\"30\" y=\"168\" width=\"202\" height=\"28\" fill=\"#FFFFFF\"></rect><rect class=\"am-tombol\" x=\"256\" y=\"158\" width=\"146\" height=\"48\" rx=\"12\" fill=\"rgba(255,255,255,.24)\"></rect><text x=\"329\" y=\"187\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"700\" fill=\"#FFFFFF\">Lanjut</text><text x=\"18\" y=\"236\" font-size=\"11.5\" fill=\"rgba(255,255,255,.7)\">Satu kode untuk satu peserta. Kode psikotes dan assessment terpisah.</text></g><g class=\"am-s2a\"><text x=\"18\" y=\"144\" font-size=\"12.5\" font-weight=\"700\" fill=\"#FFFFFF\">Soal 14–18 dari 40</text><text class=\"mono\" x=\"402\" y=\"144\" text-anchor=\"end\" font-size=\"12\" fill=\"rgba(255,255,255,.78)\">sisa 07:42</text><text x=\"176\" y=\"166\" text-anchor=\"middle\" font-size=\"10.5\" font-weight=\"700\" fill=\"rgba(255,255,255,.62)\">A</text><text x=\"228\" y=\"166\" text-anchor=\"middle\" font-size=\"10.5\" font-weight=\"700\" fill=\"rgba(255,255,255,.62)\">B</text><text x=\"280\" y=\"166\" text-anchor=\"middle\" font-size=\"10.5\" font-weight=\"700\" fill=\"rgba(255,255,255,.62)\">C</text><text x=\"332\" y=\"166\" text-anchor=\"middle\" font-size=\"10.5\" font-weight=\"700\" fill=\"rgba(255,255,255,.62)\">D</text><text x=\"18\" y=\"188\" font-size=\"12\" fill=\"rgba(255,255,255,.86)\">Soal 14</text><circle cx=\"176\" cy=\"184\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle cx=\"228\" cy=\"184\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle cx=\"280\" cy=\"184\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle cx=\"332\" cy=\"184\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle class=\"am-jwb\" style=\"animation-delay: 0.0s\" cx=\"228\" cy=\"184\" r=\"5\" fill=\"#FFFFFF\"></circle><text x=\"18\" y=\"209\" font-size=\"12\" fill=\"rgba(255,255,255,.86)\">Soal 15</text><circle cx=\"176\" cy=\"205\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle cx=\"228\" cy=\"205\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle cx=\"280\" cy=\"205\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle cx=\"332\" cy=\"205\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle class=\"am-jwb\" style=\"animation-delay: 0.2s\" cx=\"332\" cy=\"205\" r=\"5\" fill=\"#FFFFFF\"></circle><text x=\"18\" y=\"230\" font-size=\"12\" fill=\"rgba(255,255,255,.86)\">Soal 16</text><circle cx=\"176\" cy=\"226\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle cx=\"228\" cy=\"226\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle cx=\"280\" cy=\"226\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle cx=\"332\" cy=\"226\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle class=\"am-jwb\" style=\"animation-delay: 0.4s\" cx=\"176\" cy=\"226\" r=\"5\" fill=\"#FFFFFF\"></circle><text x=\"18\" y=\"251\" font-size=\"12\" fill=\"rgba(255,255,255,.86)\">Soal 17</text><circle cx=\"176\" cy=\"247\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle cx=\"228\" cy=\"247\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle cx=\"280\" cy=\"247\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle cx=\"332\" cy=\"247\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle class=\"am-jwb\" style=\"animation-delay: 0.6s\" cx=\"280\" cy=\"247\" r=\"5\" fill=\"#FFFFFF\"></circle><text x=\"18\" y=\"272\" font-size=\"12\" fill=\"rgba(255,255,255,.86)\">Soal 18</text><circle cx=\"176\" cy=\"268\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle cx=\"228\" cy=\"268\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle cx=\"280\" cy=\"268\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle cx=\"332\" cy=\"268\" r=\"7.5\" fill=\"none\" stroke=\"rgba(255,255,255,.5)\" stroke-width=\"1.4\"></circle><circle class=\"am-jwb\" style=\"animation-delay: 0.8s\" cx=\"228\" cy=\"268\" r=\"5\" fill=\"#FFFFFF\"></circle></g><g class=\"am-s2b\"><text x=\"18\" y=\"144\" font-size=\"12.5\" font-weight=\"700\" fill=\"#FFFFFF\">Kotak masuk · Rabu</text><g class=\"am-lencana\"><circle cx=\"150\" cy=\"140\" r=\"8\" fill=\"#FF8D78\"></circle><text x=\"150\" y=\"143.5\" text-anchor=\"middle\" font-size=\"9.5\" font-weight=\"800\" fill=\"#FFFFFF\">3</text></g><text class=\"mono\" x=\"402\" y=\"144\" text-anchor=\"end\" font-size=\"12\" fill=\"rgba(255,255,255,.78)\">10.42</text><g class=\"am-baru\"><rect x=\"18\" y=\"156\" width=\"384\" height=\"34\" rx=\"10\" fill=\"rgba(255,255,255,.24)\"></rect><circle cx=\"38\" cy=\"173\" r=\"9\" fill=\"rgba(255,255,255,.9)\"></circle><text x=\"56\" y=\"171\" font-size=\"11.5\" font-weight=\"700\" fill=\"#FFFFFF\">Rapat Direksi dimajukan</text><text x=\"56\" y=\"184\" font-size=\"10\" fill=\"rgba(255,255,255,.7)\">Direktur Operasional</text><rect x=\"344\" y=\"166\" width=\"48\" height=\"16\" rx=\"8\" fill=\"#FFD98A\"></rect><text x=\"368\" y=\"177.5\" text-anchor=\"middle\" font-size=\"9.5\" font-weight=\"800\" fill=\"#6B4508\">Tinggi</text></g><g class=\"am-geser\"><rect x=\"18\" y=\"196\" width=\"384\" height=\"34\" rx=\"10\" fill=\"rgba(255,255,255,.11)\"></rect><circle cx=\"38\" cy=\"213\" r=\"9\" fill=\"rgba(255,255,255,.45)\"></circle><text x=\"56\" y=\"211\" font-size=\"11.5\" font-weight=\"700\" fill=\"#FFFFFF\">Keluhan pelanggan baru</text><text x=\"56\" y=\"224\" font-size=\"10\" fill=\"rgba(255,255,255,.7)\">Tim Layanan</text><rect x=\"18\" y=\"236\" width=\"384\" height=\"34\" rx=\"10\" fill=\"rgba(255,255,255,.11)\"></rect><circle cx=\"38\" cy=\"253\" r=\"9\" fill=\"rgba(255,255,255,.45)\"></circle><text x=\"56\" y=\"251\" font-size=\"11.5\" font-weight=\"700\" fill=\"#FFFFFF\">Revisi anggaran disetujui</text><text x=\"56\" y=\"264\" font-size=\"10\" fill=\"rgba(255,255,255,.7)\">Finance</text></g></g><g class=\"am-s3a\"><text x=\"18\" y=\"144\" font-size=\"13.5\" font-weight=\"750\" fill=\"#FFFFFF\">Psikogram</text><g class=\"am-chip1\"><rect x=\"286\" y=\"128\" width=\"116\" height=\"24\" rx=\"12\" fill=\"rgba(127,224,180,.26)\"></rect><polyline points=\"298,140 302,144 309,136\" fill=\"none\" stroke=\"#D2F7E6\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></polyline><text x=\"315\" y=\"144.5\" font-size=\"11.5\" font-weight=\"750\" fill=\"#D2F7E6\">Disarankan</text></g><text x=\"18\" y=\"176\" font-size=\"12\" fill=\"rgba(255,255,255,.92)\">Penalaran</text><rect x=\"150\" y=\"167\" width=\"218\" height=\"10\" rx=\"5\" fill=\"rgba(255,255,255,.14)\"></rect><rect class=\"am-bar\" style=\"animation-delay: 0.00s\" x=\"150\" y=\"167\" width=\"174.4\" height=\"10\" rx=\"5\" fill=\"#7FE0B4\"></rect><text class=\"mono\" x=\"402\" y=\"176.5\" text-anchor=\"end\" font-size=\"12\" font-weight=\"700\" fill=\"#FFFFFF\">4</text><text x=\"18\" y=\"200\" font-size=\"12\" fill=\"rgba(255,255,255,.92)\">Ketelitian</text><rect x=\"150\" y=\"191\" width=\"218\" height=\"10\" rx=\"5\" fill=\"rgba(255,255,255,.14)\"></rect><rect class=\"am-bar\" style=\"animation-delay: 0.12s\" x=\"150\" y=\"191\" width=\"130.8\" height=\"10\" rx=\"5\" fill=\"#DCE4FF\"></rect><text class=\"mono\" x=\"402\" y=\"200.5\" text-anchor=\"end\" font-size=\"12\" font-weight=\"700\" fill=\"#FFFFFF\">3</text><text x=\"18\" y=\"224\" font-size=\"12\" fill=\"rgba(255,255,255,.92)\">Kecepatan kerja</text><rect x=\"150\" y=\"215\" width=\"218\" height=\"10\" rx=\"5\" fill=\"rgba(255,255,255,.14)\"></rect><rect class=\"am-bar\" style=\"animation-delay: 0.24s\" x=\"150\" y=\"215\" width=\"218.0\" height=\"10\" rx=\"5\" fill=\"#7FE0B4\"></rect><text class=\"mono\" x=\"402\" y=\"224.5\" text-anchor=\"end\" font-size=\"12\" font-weight=\"700\" fill=\"#FFFFFF\">5</text><text x=\"18\" y=\"248\" font-size=\"12\" fill=\"rgba(255,255,255,.92)\">Daya tahan kerja</text><rect x=\"150\" y=\"239\" width=\"218\" height=\"10\" rx=\"5\" fill=\"rgba(255,255,255,.14)\"></rect><rect class=\"am-bar\" style=\"animation-delay: 0.36s\" x=\"150\" y=\"239\" width=\"87.2\" height=\"10\" rx=\"5\" fill=\"#FFD98A\"></rect><text class=\"mono\" x=\"402\" y=\"248.5\" text-anchor=\"end\" font-size=\"12\" font-weight=\"700\" fill=\"#FFFFFF\">2</text><line x1=\"280.8\" y1=\"160\" x2=\"280.8\" y2=\"252\" stroke=\"#FFFFFF\" stroke-opacity=\".8\" stroke-width=\"1.4\" stroke-dasharray=\"3 3\"></line></g><g class=\"am-s3b\"><text x=\"18\" y=\"144\" font-size=\"13.5\" font-weight=\"750\" fill=\"#FFFFFF\">Profil kompetensi</text><polygon points=\"92.0,191.5 100.5,194.3 105.8,201.5 105.8,210.5 100.5,217.7 92.0,220.5 83.5,217.7 78.2,210.5 78.2,201.5 83.5,194.3\" fill=\"none\" stroke=\"rgba(255,255,255,.18)\"></polygon><polygon points=\"92.0,177.0 109.0,182.5 119.6,197.0 119.6,215.0 109.0,229.5 92.0,235.0 75.0,229.5 64.4,215.0 64.4,197.0 75.0,182.5\" fill=\"none\" stroke=\"rgba(255,255,255,.18)\"></polygon><polygon points=\"92.0,162.5 117.6,170.8 133.4,192.6 133.4,219.4 117.6,241.2 92.0,249.5 66.4,241.2 50.6,219.4 50.6,192.6 66.4,170.8\" fill=\"none\" stroke=\"rgba(255,255,255,.18)\"></polygon><polygon points=\"92.0,148.0 126.1,159.1 147.2,188.1 147.2,223.9 126.1,252.9 92.0,264.0 57.9,252.9 36.8,223.9 36.8,188.1 57.9,159.1\" fill=\"none\" stroke=\"rgba(255,255,255,.18)\"></polygon><polygon points=\"92.0,169.8 113.3,176.7 126.5,194.8 126.5,217.2 113.3,235.3 92.0,242.2 70.7,235.3 57.5,217.2 57.5,194.8 70.7,176.7\" fill=\"none\" stroke=\"#FFFFFF\" stroke-opacity=\".75\" stroke-width=\"1.2\" stroke-dasharray=\"3 3\"></polygon><g class=\"am-radar\"><polygon points=\"92.0,162.5 117.6,170.8 126.5,194.8 133.4,219.4 121.8,247.1 92.0,249.5 57.9,252.9 50.6,219.4 50.6,192.6 75.0,182.5\" fill=\"rgba(127,224,180,.28)\" stroke=\"#7FE0B4\" stroke-width=\"2\" stroke-linejoin=\"round\"></polygon><circle cx=\"92.0\" cy=\"162.5\" r=\"2.6\" fill=\"#FFFFFF\"></circle><circle cx=\"117.6\" cy=\"170.8\" r=\"2.6\" fill=\"#FFFFFF\"></circle><circle cx=\"126.5\" cy=\"194.8\" r=\"2.6\" fill=\"#FFFFFF\"></circle><circle cx=\"133.4\" cy=\"219.4\" r=\"2.6\" fill=\"#FFFFFF\"></circle><circle cx=\"121.8\" cy=\"247.1\" r=\"2.6\" fill=\"#FFFFFF\"></circle><circle cx=\"92.0\" cy=\"249.5\" r=\"2.6\" fill=\"#FFFFFF\"></circle><circle cx=\"57.9\" cy=\"252.9\" r=\"2.6\" fill=\"#FFFFFF\"></circle><circle cx=\"50.6\" cy=\"219.4\" r=\"2.6\" fill=\"#FFFFFF\"></circle><circle cx=\"50.6\" cy=\"192.6\" r=\"2.6\" fill=\"#FFFFFF\"></circle><circle cx=\"75.0\" cy=\"182.5\" r=\"2.6\" fill=\"#FFFFFF\"></circle></g><text x=\"214\" y=\"168\" font-size=\"11.5\" fill=\"rgba(255,255,255,.72)\">Kategori</text><g class=\"am-chip2\"><rect x=\"214\" y=\"176\" width=\"124\" height=\"30\" rx=\"15\" fill=\"rgba(127,224,180,.26)\"></rect><text x=\"276\" y=\"196\" text-anchor=\"middle\" font-size=\"14.5\" font-weight=\"800\" fill=\"#D2F7E6\">Potensial</text></g><text x=\"214\" y=\"230\" font-size=\"11.5\" fill=\"rgba(255,255,255,.72)\">Rata-rata skor</text><text class=\"mono\" x=\"214\" y=\"254\" font-size=\"20\" font-weight=\"700\" fill=\"#FFFFFF\">2,98</text><text x=\"270\" y=\"254\" font-size=\"11.5\" fill=\"rgba(255,255,255,.66)\">dari 4 · 1 di bawah standar</text></g><text class=\"am-c1\" x=\"18\" y=\"298\" font-size=\"13\" font-weight=\"650\" fill=\"#FFFFFF\">Peserta memasukkan kode tes</text><text class=\"am-c2a\" x=\"18\" y=\"298\" font-size=\"13\" font-weight=\"650\" fill=\"#FFFFFF\">Mengerjakan psikotes online</text><text class=\"am-c2b\" x=\"18\" y=\"298\" font-size=\"13\" font-weight=\"650\" fill=\"#FFFFFF\">Menjalani simulasi in-basket</text><text class=\"am-c3\" x=\"18\" y=\"298\" font-size=\"13\" font-weight=\"650\" fill=\"#FFFFFF\">Laporan ditinjau psikolog, siap diunduh</text></svg>";
 function langkahRapi(maks) {
   const raw = maks / 4, p = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / p;
   return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p;
@@ -8398,7 +8462,7 @@ const KUNCI_STAF = 'potrev_staf';
 function vLoginStaf(pesan) {
   render(kepala(true) + `<main class="wrap pintu">
     <div class="jendela">
-      ${panelMerek('Panel untuk admin dan psikolog: kelola klien, susun modul tes, buat kode peserta, dan tinjau laporan.')}
+      ${panelMerek('Psikotes dan assessment online dalam satu panel: klien, modul, kode peserta, dan laporan.')}
       <section class="jendela-isi masuk-form">
         <div class="tumpuk-kecil"><h2>Masuk</h2><p class="catatan-kecil">Untuk admin, psikolog, dan superadmin.</p></div>
         ${pesan ? notis(pesan.teks, pesan.jenis) : ''}
