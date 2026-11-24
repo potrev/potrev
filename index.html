@@ -1559,6 +1559,8 @@ var PENGATURAN_KET = {
 };
 // Batas ukuran foto kamera yang boleh diatur (KB).
 var FOTO_KB_MIN = 4, FOTO_KB_MAKS = 60;
+// Batas panjang gambar data URI (logo klien, tanda tangan), di bawah batas tulis satu sel Google Sheets (49.000 karakter).
+var BATAS_GAMBAR = 45000;
 function fotoMaksKB(p) { var n = +(p && p.fotoMaksKB); return isNaN(n) || !n ? 15 : Math.max(FOTO_KB_MIN, Math.min(FOTO_KB_MAKS, n)); }
 
 // IST: menit pengerjaan tiap subtes (SE, WA, AN, GE, RA, ZR, FA, WU, ME) dan menit menghafal sebelum ME.
@@ -2288,6 +2290,9 @@ function buatServer(db) {
   function tgl(v) { return /^\d{4}-\d{2}-\d{2}$/.test(v || '') ? v : ''; }
   function bulat2(x) { return Math.round(x * 100) / 100; }
   function gambarSah(v, maks) { v = String(v || ''); return !v || (/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(v) && v.length <= maks); }
+  // Logo lama yang tersimpan sebelum batas 45.000 berlaku bisa terpotong di 49.000 karakter (batas tulis sel) dan tidak bisa ditampilkan.
+  function logoRusak(k) { return String((k && k.logo) || '').length >= 49000; }
+  function logoKlien(k) { return logoRusak(k) ? '' : String((k && k.logo) || ''); }
 
   function pengaturan() {
     var p = Object.assign({}, PENGATURAN_AWAL);
@@ -2317,7 +2322,7 @@ function buatServer(db) {
   }
   function publikKlien(k) {
     return { id: k.id, nama: k.nama, punyaPsikolog: !!k.punyaPsikolog, metode: k.metode, periode: k.periode || '', aktifSampai: k.aktifSampai || '',
-      saldo: +k.saldo || 0, tarif: +k.tarif || 0, logo: k.logo || '', warna: k.warna || '', aktif: !!k.aktif, catatan: k.catatan || '', status: statusKlien(k) };
+      saldo: +k.saldo || 0, tarif: +k.tarif || 0, logo: logoKlien(k), logoRusak: logoRusak(k), warna: k.warna || '', aktif: !!k.aktif, catatan: k.catatan || '', status: statusKlien(k) };
   }
   function catatTransaksi(k, jenis, jumlah, ket, oleh) {
     db.tambah('Transaksi', { id: 'T' + stempelWaktu(new Date()).replace('-', '') + acakTeks(4, ALFABET_KODE), klien: k.id, waktu: kini(), jenis: jenis,
@@ -2402,7 +2407,7 @@ function buatServer(db) {
       progres = { tes: pg.tes, snap: pg.data, berlaluKini: Math.max(0, (+pg.data.berlalu || 0) + (isNaN(lalu) ? 0 : Math.max(0, lalu))) };
     }
     return {
-      kode: t.token, status: t.status, lembaga: p.namaLembaga, klien: { nama: k.nama, logo: k.logo || '', warna: k.warna || '' },
+      kode: t.token, status: t.status, lembaga: p.namaLembaga, klien: { nama: k.nama, logo: logoKlien(k), warna: k.warna || '' },
       batch: { judul: b.judul, klien: k.nama, posisi: b.posisi || '', tes: urutan, mode: b.mode, kamera: !!m.kamera, intervalFoto: +m.intervalFoto || 5, fotoMaksKB: fotoMaksKB(p),
         batasPeringatan: +m.batasPeringatan, lingkupPeringatan: m.lingkupPeringatan === 'sesi' ? 'sesi' : 'tes', tampilHasil: !!m.tampilHasil },
       biodataTpl: m.biodata, cfg: cfgMode(p, b.mode),
@@ -2657,7 +2662,7 @@ function buatServer(db) {
     // Perangkat peserta mengecilkan foto sampai di bawah batas di Pengaturan. Server menolak foto yang jauh di atasnya.
     var batasFoto = Math.ceil(Math.max(fotoMaksKB(pengaturan()) * 2, 40) * 1024 * 4 / 3);
     if (!data || data.length > batasFoto || !/^[A-Za-z0-9+/=]+$/.test(data)) throw galat('Foto tidak valid atau melebihi batas ukuran.');
-    if (db.cari('Foto', 'token', x.t.token).length >= 300) return { dilewati: true };
+    if (db.hitung('Foto', 'token', x.t.token) >= 300) return { dilewati: true };
     var id = 'F-' + stempelWaktu(new Date()) + '-' + acakTeks(5, ALFABET_KODE), waktu = isoAtauKini(d.waktu);
     var file = db.simpanFoto({ id: id, token: x.t.token, batch: x.b.id, judul: x.k.nama + ' — ' + x.b.judul, waktu: waktu }, data);
     db.kunciTulis(function () { db.tambah('Foto', { id: id, token: x.t.token, batch: x.b.id, waktu: waktu, tes: teks(d.tes, 20), ket: teks(d.ket, 120), file: file }); });
@@ -2700,7 +2705,7 @@ function buatServer(db) {
     var u = sesiStaf(d), nama = teks(d.nama, 120);
     if (!nama) throw galat('Nama wajib diisi.');
     var patch = { nama: nama, sipp: teks(d.sipp, 60) };
-    if (d.ttd !== undefined) { if (!gambarSah(d.ttd, 45000)) throw galat('Gambar tanda tangan tidak valid atau terlalu besar.'); patch.ttd = String(d.ttd || ''); }
+    if (d.ttd !== undefined) { if (!gambarSah(d.ttd, BATAS_GAMBAR)) throw galat('Gambar tanda tangan tidak valid atau terlalu besar.'); patch.ttd = String(d.ttd || ''); }
     db.kunciTulis(function () { db.ubah('Akun', u.username, patch); });
     return { user: publikAkun(db.satu('Akun', 'username', u.username)) };
   };
@@ -2764,7 +2769,7 @@ function buatServer(db) {
     if (metode === 'langganan' && !tgl(v.aktifSampai)) throw galat('Isi tanggal akhir masa langganan.');
     var tarif = +v.tarif;
     if (metode === 'token' && !(tarif > 0 && tarif <= 100)) throw galat('Tarif token per peserta harus lebih dari 0.');
-    if (!gambarSah(v.logo, 60000)) throw galat('Logo tidak valid atau terlalu besar.');
+    if (!gambarSah(v.logo, BATAS_GAMBAR)) throw galat('Logo tidak valid atau terlalu besar. Gunakan gambar yang lebih kecil atau lebih sederhana.');
     var data = { nama: nama, punyaPsikolog: !!v.punyaPsikolog, metode: metode, periode: v.periode === 'tahunan' ? 'tahunan' : 'bulanan', aktifSampai: tgl(v.aktifSampai),
       tarif: metode === 'token' ? bulat2(tarif) : 0, logo: String(v.logo || ''), warna: /^#[0-9a-fA-F]{6}$/.test(v.warna || '') ? v.warna : '', aktif: v.aktif === undefined ? true : !!v.aktif,
       catatan: teks(v.catatan, 300) };
@@ -3017,7 +3022,7 @@ function buatServer(db) {
     return {
       batch: { id: b.id, judul: b.judul, posisi: b.posisi, mode: b.mode, tes: urutan, kamera: !!m.kamera, intervalFoto: m.intervalFoto, batasPeringatan: m.batasPeringatan,
         lingkupPeringatan: m.lingkupPeringatan, klien: k.nama, modulNama: m.nama },
-      modul: m, klien: { nama: k.nama, logo: k.logo || '', warna: k.warna || '' },
+      modul: m, klien: { nama: k.nama, logo: logoKlien(k), warna: k.warna || '' },
       // Nama dan SIPP psikolog dari profil terkini (seperti gambar tanda tangan), agar perbaikan profil ikut tampil di laporan yang sudah direview.
       token: Object.assign(publikToken(t), t.reviewStatus === 'Sudah direview' && rev ? { reviewer: rev.nama || t.reviewer, reviewerSipp: rev.sipp || t.reviewerSipp } : {}),
       biodata: bio ? { data: bio.data || {}, persetujuan: bio.persetujuan || '', perangkat: bio.perangkat || '' } : null,
@@ -3381,6 +3386,7 @@ function buatDbDemo() {
     semua: t => salin(tabel(t)),
     cari: (t, f, v) => salin(tabel(t).filter(r => String(r[f]) === String(v))),
     satu: (t, f, v) => db.cari(t, f, v)[0] || null,
+    hitung: (t, f, v) => tabel(t).filter(r => String(r[f]) === String(v)).length,
     tambah: (t, r) => { tabel(t).push(salin(r)); simpan(); },
     tambahBanyak: (t, rows) => { rows.forEach(r => tabel(t).push(salin(r))); simpan(); },
     ubah: (t, k, patch) => {
@@ -3754,6 +3760,11 @@ async function simpanBiodata(f) {
   const btn = f.querySelector('button[type="submit"]'); btn.disabled = true; btn.textContent = 'Menyimpan…';
   try { const r = await apiP('simpanBiodata', { biodata: v.bio }); terimaStateP(r.peserta); lanjutPeserta(); }
   catch (e) { btn.disabled = false; btn.textContent = 'Simpan & lanjut'; if (e.kode === 'SESI_PESERTA' || e.kode === 'TOKEN') errPeserta(e); else pesanForm(f, notis(e.message, 'galat')); }
+}
+// Pesan di halaman laporan, di atas panel review (tanpa memuat ulang laporan).
+function pesanLaporan(html) {
+  const p = $('#pesan-laporan'); if (!p) return;
+  p.innerHTML = html; p.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 function pesanForm(form, html) {
   let p = form.querySelector('.pesan-form');
@@ -5981,7 +5992,7 @@ async function tabKlien(pesan) {
     ${ks.length ? `<div class="daftar">${ks.map(k => `<button class="butir" data-aksi="buka-klien" data-id="${esc(k.id)}">
       <span class="kiri"><span class="nama">${esc(k.nama)}</span><span class="sub">${bagian(infoTagihan(k), k.punyaPsikolog ? 'Punya psikolog sendiri' : 'Modul & review oleh PotRev')}</span></span>
       <span class="kanan"><span class="metrik">${bagian(`${k.selesai}/${k.jumlahKode} selesai`, `${k.modul} modul`, `${k.akun} akun`)}</span>
-        <span class="aksi-kecil">${k.status.ok ? '<span class="chip ok">Aktif</span>' : `<span class="chip draf">${k.aktif ? 'Berakhir' : 'Nonaktif'}</span>`}</span></span>
+        <span class="aksi-kecil">${k.logoRusak ? '<span class="chip l0" title="Logo tersimpan tidak utuh. Buka klien ini dan unggah ulang logonya.">Logo perlu diunggah ulang</span>' : ''}${k.status.ok ? '<span class="chip ok">Aktif</span>' : `<span class="chip draf">${k.aktif ? 'Berakhir' : 'Nonaktif'}</span>`}</span></span>
     </button>`).join('')}</div>` : '<div class="kosong-isi">Belum ada klien. Tambahkan klien untuk mulai membuat modul dan kode tes.</div>'}`);
 }
 async function vKlien(id, pesan) {
@@ -6016,9 +6027,9 @@ async function vKlien(id, pesan) {
         <fieldset class="kelompok"><legend>Tampilan untuk peserta & laporan</legend>
           <div class="grid-isian">
             <label class="isian"><span>Warna utama</span><input name="warna" type="color" value="${esc(k.warna || '#2240B0')}"></label>
-            <div class="isian"><span>Logo</span><div class="ttd-kotak" id="logo-pratinjau">${k.logo ? `<img src="${k.logo}" alt="Logo">` : '<span class="catatan-kecil">Belum ada</span>'}</div>
+            <div class="isian"><span>Logo</span><div class="ttd-kotak" id="logo-pratinjau">${k.logo ? `<img src="${k.logo}" alt="Logo">` : k.logoRusak ? '<span class="catatan-kecil teks-galat">Logo tersimpan tidak utuh dan tidak bisa ditampilkan. Unggah ulang logonya.</span>' : '<span class="catatan-kecil">Belum ada</span>'}</div>
               <span class="aksi"><label class="tombol sekunder kecil">Pilih gambar<input type="file" accept="image/png,image/jpeg" data-ubah="logo" hidden></label>
-              ${k.logo ? '<button type="button" class="tombol teks kecil" data-aksi="hapus-logo">Hapus</button>' : ''}</span></div>
+              ${k.logo || k.logoRusak ? '<button type="button" class="tombol teks kecil" data-aksi="hapus-logo">Hapus</button>' : ''}</span></div>
           </div>
         </fieldset>
         <label class="cek"><input type="checkbox" name="aktif" ${k.aktif ? 'checked' : ''}> Akun klien aktif</label>
@@ -6040,16 +6051,27 @@ async function vKlien(id, pesan) {
     </div>
   </main>`);
 }
-function bacaGambar(file, maksW, maksH, cb) {
+// Logo & tanda tangan dikecilkan bertahap sampai di bawah BATAS_GAMBAR (batas server): PNG dulu, lalu JPEG dengan
+// kualitas makin rendah, lalu ukuran gambar dikecilkan. Kalau tetap tidak muat, gagal(pesan) dipanggil.
+function bacaGambar(file, maksW, maksH, cb, gagal) {
   if (!file) return;
-  const img = new Image(), url = URL.createObjectURL(file);
+  const img = new Image(), url = URL.createObjectURL(file), batas = BATAS_GAMBAR - 1000, salah = gagal || (() => {});
+  img.onerror = () => { URL.revokeObjectURL(url); salah('File ini tidak bisa dibaca sebagai gambar. Gunakan file PNG atau JPG.'); };
   img.onload = () => {
-    const sk = Math.min(1, maksW / img.width, maksH / img.height), c = document.createElement('canvas');
-    c.width = Math.round(img.width * sk); c.height = Math.round(img.height * sk);
-    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-    let data = c.toDataURL('image/png');
-    if (data.length > 44000) { const x = c.getContext('2d'); x.globalCompositeOperation = 'destination-over'; x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); data = c.toDataURL('image/jpeg', 0.82); }
-    URL.revokeObjectURL(url); cb(data);
+    let sk = Math.min(1, maksW / img.width, maksH / img.height), data = '';
+    try {
+      for (let i = 0; i < 8; i++) {
+        const c = document.createElement('canvas'), x = c.getContext('2d');
+        c.width = Math.max(1, Math.round(img.width * sk)); c.height = Math.max(1, Math.round(img.height * sk));
+        x.drawImage(img, 0, 0, c.width, c.height);
+        data = c.toDataURL('image/png');
+        if (data.length <= batas) return cb(data);
+        x.globalCompositeOperation = 'destination-over'; x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+        for (const q of [0.82, 0.7, 0.58]) { data = c.toDataURL('image/jpeg', q); if (data.length <= batas) return cb(data); }
+        sk *= 0.8;
+      }
+      salah('Gambar terlalu besar atau terlalu rumit untuk disimpan. Gunakan gambar yang lebih sederhana.');
+    } finally { URL.revokeObjectURL(url); }
   };
   img.src = url;
 }
@@ -6703,7 +6725,11 @@ async function vProfil(pesan) {
     </form>
   </main>`);
 }
-function bacaTtd(file) { bacaGambar(file, 360, 140, data => { S.ttdBaru = data; $('#ttd-pratinjau').innerHTML = `<img src="${data}" alt="Tanda tangan baru">`; }); }
+function bacaTtd(el) {
+  const f = el.closest('form');
+  bacaGambar(el.files && el.files[0], 360, 140, data => { S.ttdBaru = data; $('#ttd-pratinjau').innerHTML = `<img src="${data}" alt="Tanda tangan baru">`; },
+    pesan => { el.value = ''; if (f) pesanForm(f, notis(pesan, 'galat')); });
+}
 async function simpanProfil(f) {
   const d = { nama: f.elements.nama.value.trim(), sipp: f.elements.sipp.value.trim() };
   if (S.ttdBaru !== undefined) d.ttd = S.ttdBaru;
@@ -6739,7 +6765,7 @@ async function vLaporan(kode, asal, pesan) {
     ${pilihVersi ? `<div class="versi-lap no-print">
       <div class="seg" role="radiogroup" aria-label="Versi laporan">${[['lengkap', 'Lengkap'], ['klien', 'Untuk klien']].map(([v, t]) => `<button type="button" role="radio" aria-checked="${S.versiLap === v}" data-aksi="versi-lap" data-v="${v}">${t}</button>`).join('')}</div>
       <p id="ket-versi">${ketVersi()}</p></div>` : `<div class="versi-lap no-print"><p>${ketVersi()}</p></div>`}
-    ${pesan || ''}
+    <div id="pesan-laporan" class="no-print">${pesan || ''}</div>
     ${panelReview(L)}
     <div class="lap-wadah" id="lap">${halamanLaporan(L, S.versiLap)}</div>
   </main>`);
@@ -7885,8 +7911,16 @@ const AKSI = {
     salinTeks(el, baris.join('\n') || 'Tidak ada kode yang belum dipakai.');
   },
   'unduh-csv': () => csvBatch(),
-  'batch-aktif': async el => { try { gambarBatch(await panggil('ubahBatch', { id: el.dataset.id, aktif: el.dataset.v === '1' })); } catch (e) { /* */ } },
-  'token-aktif': async el => { try { await panggil('ubahToken', { kode: el.dataset.kode, aktif: el.dataset.v === '1' }); vBatch(S.batchAktif.batch.id); } catch (e) { if (e.kode !== 'SESI') alert(e.message); } },
+  'batch-aktif': async el => {
+    el.disabled = true;
+    try { gambarBatch(await panggil('ubahBatch', { id: el.dataset.id, aktif: el.dataset.v === '1' })); }
+    catch (e) { if (e.kode !== 'SESI') gambarBatch(S.batchAktif, notis(`Status batch belum berubah: ${e.message}`, 'galat')); }
+  },
+  'token-aktif': async el => {
+    el.disabled = true;
+    try { await panggil('ubahToken', { kode: el.dataset.kode, aktif: el.dataset.v === '1' }); vBatch(S.batchAktif.batch.id); }
+    catch (e) { if (e.kode !== 'SESI') gambarBatch(S.batchAktif, notis(`Status kode ${el.dataset.kode} belum berubah: ${e.message}`, 'galat')); }
+  },
   'hapus-terpilih': async el => {
     const kode = [...document.querySelectorAll('.pilih-kode:checked')].map(x => x.value); if (!kode.length) return;
     if (el.dataset.yakin !== '1') { el.dataset.yakin = '1'; el.textContent = `Klik lagi untuk menghapus ${kode.length} kode`; el.classList.add('bahaya'); return; }
@@ -7909,7 +7943,11 @@ const AKSI = {
     try { const r = await panggil('hapusPeserta', { kode: [el.dataset.kode] }); S.laporan = null; S.peserta = null; S.daftarKlien = null;
       const a = S.asalLaporan || {}, n = notis(`Data peserta ${el.dataset.kode} dihapus${r.foto ? `, termasuk ${r.foto} foto` : ''}.`, 'ok');
       if (a.batch) vBatch(a.batch, n); else { S.pesanTab = n; vStaf('peserta'); } }
-    catch (e) { el.disabled = false; if (e.kode !== 'SESI') alert(e.message); }
+    catch (e) {
+      // Tombol kembali ke keadaan awal supaya penghapusan berikutnya tetap minta konfirmasi.
+      el.disabled = false; el.dataset.yakin = ''; el.textContent = 'Hapus data peserta'; el.classList.remove('bahaya');
+      if (e.kode !== 'SESI') pesanLaporan(notis(`Data peserta belum dihapus: ${e.message}`, 'galat'));
+    }
   },
   'hapus-batch': async el => {
     const b = S.batchAktif && S.batchAktif.batch, n = S.batchAktif ? S.batchAktif.token.filter(t => t.status !== 'Baru').length : 0;
@@ -7969,7 +8007,8 @@ const UBAH = {
   'modul-batch': el => gantiModulBatch(el),
   'klien-aktif': el => { S.klienAktif = el.value; S.filter.batch = ''; if ($('form[data-form="batch"]') || !$('#isi-tab')) vBuatBatch(); else vStaf(); },
   'metode-klien': el => { const tok = el.value === 'token'; $('#isi-token').hidden = !tok; $('#isi-langganan').hidden = tok; },
-  'logo': el => bacaGambar(el.files && el.files[0], 420, 160, data => { S.logoBaru = data; $('#logo-pratinjau').innerHTML = `<img src="${data}" alt="Logo baru">`; }),
+  'logo': el => bacaGambar(el.files && el.files[0], 420, 160, data => { S.logoBaru = data; $('#logo-pratinjau').innerHTML = `<img src="${data}" alt="Logo baru">`; },
+    pesan => { el.value = ''; const f = el.closest('form'); if (f) pesanForm(f, notis(pesan, 'galat')); }),
   'tes-modul': el => ubahModul(m => {
     const t = el.value;
     if (el.checked && !m.tes.includes(t)) { m.tes.push(t); tambahAspekTes(m.aspek, t, m.skala); }
@@ -7986,7 +8025,7 @@ const UBAH = {
   'pilih-peserta': () => perbaruiPilihPeserta(),
   'pilih-semua-peserta': el => { document.querySelectorAll('.pilih-peserta').forEach(x => { x.checked = el.checked; }); perbaruiPilihPeserta(); },
   'peran-akun': el => { $('#akun-klien').hidden = el.value === 'superadmin'; $('#akun-psikolog').hidden = el.value !== 'superadmin'; },
-  'ttd': el => bacaTtd(el.files && el.files[0])
+  'ttd': el => bacaTtd(el)
 };
 document.addEventListener('click', e => {
   const k = e.target.closest('#layar-tes [data-k]');
