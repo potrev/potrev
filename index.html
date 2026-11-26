@@ -844,6 +844,12 @@ button.papi-opsi:active{transform:scale(.995)}
 .mekanik .mk-pilihan .papi-opsi{padding:11px 16px 11px 14px;border-radius:14px}
 .mekanik .mk-gambar img{max-height:36vh}
 
+
+/* Plantation Management Simulator: permainan memenuhi layar di dalam bingkai */
+body.pms-on { overflow: hidden; }
+body.pms-on > #app, body.pms-on > #layar-tes { visibility: hidden; }
+#pms-root { position: fixed; inset: 0; z-index: 900; background: #E4EBD8; }
+#pms-root iframe { display: block; width: 100%; height: 100%; border: 0; }
 /* ================= Laporan A4 ================= */
 .lap-wadah{--skala:1;background:var(--isi-kuat,#D9DCE5);border-radius:20px;padding:16px 8px;display:flex;flex-direction:column;align-items:center;gap:16px;overflow-x:auto}
 .hal{zoom:var(--skala);width:210mm;height:297mm;flex:none;position:relative;overflow:hidden;background:#fff;color:#1B2433;box-shadow:0 2px 16px rgba(0,0,0,.3);
@@ -2809,7 +2815,7 @@ function modulBaru(tesList, skala) {
 }
 // Modul Assessment: kasus simulasi, batas waktu, kriteria kategori, biodata, dan kamera. Tanpa psikogram.
 function modulAsesmenBaru() {
-  return { id: '', jenis: 'asesmen', versi: 2, nama: '', status: 'Draft', biodata: 'mapping', tes: ['asesmen'], peran: '', jabatan: '', latar: '', komp: [],
+  return { id: '', jenis: 'asesmen', versi: 2, model: 'wms', nama: '', status: 'Draft', biodata: 'mapping', tes: ['asesmen'], peran: '', jabatan: '', latar: '', komp: [],
     menit: null, kategori: acKlon(AC_KAT_AWAL), kamera: true, intervalFoto: 5 };
 }
 function normalModulAsesmen(m) {
@@ -3472,7 +3478,13 @@ function acBersihkanSesi(ctx, s) {
   }
   return o;
 }
+var AC_MODEL = { wms: 'Work Management Simulator', pms: 'Plantation Management Simulator' };
+var AC_MODEL_SINGKAT = { wms: 'WMS', pms: 'PMS' };
+// Model simulasi modul Assessment versi 2: Work Management Simulator (in-basket) atau Plantation Management Simulator (permainan kebun).
+function acModelPMS(m) { return !!m && m.jenis === 'asesmen' && +m.versi === 2 && m.model === 'pms'; }
+function acModel(m) { return acModelPMS(m) ? 'pms' : 'wms'; }
 function acMenitBatch(m, mode) {
+  if (acModelPMS(m)) return mode === 'Uji coba' ? 35 : 75;
   var menit = m && m.menit != null && m.menit !== '' ? Math.max(0, Math.min(240, Math.round(+m.menit))) : AC_MENIT;
   if (isNaN(menit)) menit = AC_MENIT;
   return mode === 'Uji coba' ? (menit > 0 ? Math.min(menit, AC_MENIT_UJI) : AC_MENIT_UJI) : menit;
@@ -3758,25 +3770,35 @@ function acKompTulisan(data, m, kompL) {
 }
 // Ringkasan modul Assessment untuk daftar & laporan staf (tanpa isi soal).
 function acInfoModul(m) {
-  if (!acModulV2(m)) return { versi: 1, kasus: (m && m.kasus) || 'acak' };
+  if (!acModulV2(m)) return { versi: 1, kasus: (m && m.kasus) || 'acak', model: 'wms', modelNama: AC_MODEL.wms };
+  if (acModelPMS(m)) return { versi: 2, model: 'pms', modelNama: AC_MODEL.pms, peran: m.peran, peranNama: (AC_LIB.peran[m.peran] || {}).nama || m.peran, jabatan: m.jabatan || '', latar: 'lembah-panen',
+    latarNama: 'Perkebunan · Kebun Lembah Asri', komp: (m.komp || []).slice(), nItem: (m.pmsBank || []).length };
   var L = AC_LATAR.filter(function (x) { return x.id === m.latar; })[0] || {};
-  return { versi: 2, peran: m.peran, peranNama: (AC_LIB.peran[m.peran] || {}).nama || m.peran, jabatan: m.jabatan || '', latar: m.latar, latarNama: L.nama || m.latar,
+  return { versi: 2, model: 'wms', modelNama: AC_MODEL.wms, peran: m.peran, peranNama: (AC_LIB.peran[m.peran] || {}).nama || m.peran, jabatan: m.jabatan || '', latar: m.latar, latarNama: L.nama || m.latar,
     komp: (m.komp || []).slice(), nItem: (m.ids || []).length };
 }
 // Memeriksa & melengkapi modul versi 2 (o = modul hasil normalisasi). Mengembalikan pesan galat atau ''.
 function acNormalModulV2(m, o) {
-  o.versi = 2; o.kasus = '';
+  o.versi = 2; o.kasus = ''; o.model = m.model === 'pms' ? 'pms' : 'wms';
   o.peran = AC_PERSONA[m.peran] ? m.peran : '';
   if (!o.peran) return 'Pilih level jabatan yang akan dinilai.';
   o.jabatan = String(m.jabatan || '').replace(/\s+/g, ' ').trim().slice(0, 80);
   if (!o.jabatan) return 'Pilih atau tulis nama jabatan.';
-  o.latar = AC_LATAR.some(function (x) { return x.id === m.latar; }) ? m.latar : '';
-  if (!o.latar) return 'Pilih latar cerita simulasi.';
+  o.latar = o.model === 'pms' ? '' : AC_LATAR.some(function (x) { return x.id === m.latar; }) ? m.latar : '';
+  if (!o.latar && o.model !== 'pms') return 'Pilih latar cerita simulasi.';
   o.komp = [];
   (Array.isArray(m.komp) ? m.komp : []).forEach(function (k) { if (AC_LIB_MAP[k] && o.komp.indexOf(k) < 0) o.komp.push(k); });
   if (!o.komp.length) return 'Pilih minimal satu kompetensi yang akan dinilai.';
   if (o.komp.length > AC_MAKS_KOMP) return 'Maksimal ' + AC_MAKS_KOMP + ' kompetensi dalam satu modul.';
   o.seed = Math.round(+m.seed) > 0 ? Math.round(+m.seed) : 1 + Math.floor(Math.random() * 999999);
+  if (o.model === 'pms') {
+    // Kejadian bank dipilih server dari aspek yang dinilai; di server tiruan browser hanya dirapikan.
+    o.ids = []; o.menit = 75; delete o.latar; o.latar = '';
+    if (typeof pmsPilihBank === 'function') o.pmsBank = pmsPilihBank(o.komp, false);
+    else o.pmsBank = (Array.isArray(m.pmsBank) ? m.pmsBank : []).filter(function (a) { return a && /^N\d{1,2}$/.test(a.id) && /^[123][abc]$/.test(a.slot); }).slice(0, 9).map(function (a) { return { id: a.id, slot: a.slot }; });
+    return '';
+  }
+  delete o.pmsBank;
   if (typeof ASESMEN_DATA !== 'undefined' && ASESMEN_DATA && ASESMEN_DATA.bank) {
     var ids = acPilihItem(ASESMEN_DATA, acSpecModul(o, o.seed)).ids;
     o.ids = ids; o.menit = acMenitItems(acRakit(ASESMEN_DATA, acSpecModul(o, o.seed, ids)).items);
@@ -3956,7 +3978,7 @@ function buatServer(db) {
       kode: t.token, status: t.status, lembaga: p.namaLembaga, klien: { nama: k.nama, logo: logoKlien(k), warna: k.warna || '' },
       batch: { judul: b.judul, klien: k.nama, posisi: b.posisi || '', tes: urutan, mode: b.mode, kamera: !!m.kamera, intervalFoto: +m.intervalFoto || 5, fotoMaksKB: fotoMaksKB(p),
         batasPeringatan: +m.batasPeringatan, lingkupPeringatan: m.lingkupPeringatan === 'sesi' ? 'sesi' : 'tes', tampilHasil: !!m.tampilHasil, jenis: jenis },
-      asesmen: jenis === 'asesmen' ? { kasus: acModulV2(m) ? 'R' : (t.varian || 'A'), menit: acMenitBatch(m, b.mode) } : null,
+      asesmen: jenis === 'asesmen' ? { kasus: acModelPMS(m) ? 'PMS' : acModulV2(m) ? 'R' : (t.varian || 'A'), menit: acMenitBatch(m, b.mode), model: acModel(m) } : null,
       biodataTpl: m.biodata, cfg: cfgMode(p, b.mode),
       biodata: bio ? bio.data : null, persetujuan: bio && bio.persetujuan ? String(bio.persetujuan) : '',
       selesai: selesai, pelanggaranSesi: hasil.reduce(function (s, h) { return s + ((h.pelanggaran || []).length); }, 0), progres: progres
@@ -4016,7 +4038,8 @@ function buatServer(db) {
       if (!Array.isArray(t.urutan) || !t.urutan.length) patch.urutan = b.modulSnap.acak ? acakUrutan(b.modulSnap.tes) : b.modulSnap.tes.slice();
       // Assessment: kasus ditetapkan saat kode pertama kali dibuka (tetap atau acak per peserta).
       if (jenisModul(b.modulSnap) === 'asesmen' && !t.varian) {
-        if (acModulV2(b.modulSnap)) { adaAsesmen(); patch.varian = acVarianModul(ASESMEN_DATA, b.modulSnap); }
+        if (acModelPMS(b.modulSnap)) { adaPMS(); patch.varian = 'PMS'; }
+        else if (acModulV2(b.modulSnap)) { adaAsesmen(); patch.varian = acVarianModul(ASESMEN_DATA, b.modulSnap); }
         else patch.varian = ['A', 'B', 'C'].indexOf(b.modulSnap.kasus) >= 0 ? b.modulSnap.kasus : 'ABC'.charAt(Math.floor(db.acak() * 3));
       }
       t = db.ubah('Token', kode, patch);
@@ -4102,22 +4125,34 @@ function buatServer(db) {
   // Autosave: cuplikan pengerjaan yang sedang berjalan, agar bisa dilanjutkan dari perangkat lain.
   /* ---------- Assessment Center ---------- */
   function adaAsesmen() { if (typeof ASESMEN_DATA === 'undefined') throw galat('Data Assessment belum terpasang di server. Hubungi penyelenggara.'); }
-  function cekAsesmen(x) { if (jenisModul(x.m) !== 'asesmen') throw galat('Kode tes ini bukan untuk Assessment.'); return ctxAsesmen(x.m, x.t, null); }
+  function adaPMS() { if (typeof PMS_EV === 'undefined') throw galat('Plantation Management Simulator hanya tersedia di server. Hubungi penyelenggara.'); }
+  function cekAsesmen(x) { if (jenisModul(x.m) !== 'asesmen') throw galat('Kode tes ini bukan untuk Assessment.'); return ctxAsesmen(x.m, x.t, null, x.b.mode); }
   // Konteks kasus satu peserta: kasus tetap A/B/C (modul versi 1) atau kasus rakitan (versi 2).
-  function ctxAsesmen(m, t, h) {
+  function ctxAsesmen(m, t, h, mode) {
+    if (acModelPMS(m)) { adaPMS(); return pmsRakit(m, (h && h.cfg && h.cfg.uji) || mode === 'Uji coba' ? 'Uji coba' : ''); }
     adaAsesmen();
     if (acModulV2(m)) return acKonteksModul(ASESMEN_DATA, m, (h && h.cfg && h.cfg.varian) || t.varian || acVarianModul(ASESMEN_DATA, m));
     return acKonteks(ASESMEN_DATA, (h && h.cfg && h.cfg.kasus) || t.varian || 'A');
   }
   // Isi simulasi untuk peserta (tanpa bobot bukti) beserta autosave terakhir di server, bila ada.
   A.asesmenKonten = function (d) {
-    var x = sesiPeserta(d), ctxA = cekAsesmen(x), pg = db.satu('Progres', 'token', x.t.token), sesi = null, berlalu = 0;
+    var x = sesiPeserta(d), ctxA = cekAsesmen(x), pg = db.satu('Progres', 'token', x.t.token), sesi = null, berlalu = 0, pms = ctxA.model === 'pms';
     if (pg && pg.tes === 'asesmen' && pg.data) {
       sesi = db.isi(pg.data);
       var lalu = Date.now() - new Date(pg.disimpan).getTime();
       berlalu = Math.max(0, (+pg.berlalu || 0) + (isNaN(lalu) ? 0 : Math.max(0, lalu)));
     }
+    if (pms) return { konten: pmsKontenPeserta(ctxA, pesertaAsesmen(x).peserta), sesi: sesi, berlaluKini: berlalu, menit: acMenitBatch(x.m, x.b.mode) };
     return { konten: acKontenPeserta(ASESMEN_DATA, ctxA), sesi: sesi, berlaluKini: berlalu, menit: acMenitBatch(x.m, x.b.mode) };
+  };
+  // Mesin permainan Plantation Management Simulator (file HTML "MesinPMS" di proyek Apps Script, tanpa bobot penilaian).
+  A.pmsMesin = function (d) {
+    var x = sesiPeserta(d);
+    if (!acModelPMS(x.m)) throw galat('Kode tes ini bukan untuk Plantation Management Simulator.');
+    if (x.t.status === 'Selesai') throw galat('Kode tes ini sudah selesai dipakai. Terima kasih.', 'TOKEN');
+    adaPMS();
+    if (typeof db.mesinPMS !== 'function') throw galat('Mesin simulasi belum terpasang di server.');
+    return { html: db.mesinPMS() };
   };
   function pesertaAsesmen(x) {
     var bio = db.satu('Peserta', 'token', x.t.token), b = (bio && bio.data) || {};
@@ -4125,8 +4160,9 @@ function buatServer(db) {
   }
   function simpanProgresAsesmen(x, snap) {
     if (x.t.status === 'Selesai') return { dilewati: true };
-    var ctxA = cekAsesmen(x), sesi = acBersihkanSesi(ctxA, snap);
-    sesi.caseId = ctxA.id; sesi.participant = pesertaAsesmen(x).peserta;
+    var ctxA = cekAsesmen(x), sesi = ctxA.model === 'pms' ? pmsBersihkanSesi(snap) : acBersihkanSesi(ctxA, snap);
+    if (ctxA.model === 'pms') sesi.berlalu = Math.max(0, +snap.berlalu || 0);
+    sesi.caseId = ctxA.id; if (ctxA.model !== 'pms') sesi.participant = pesertaAsesmen(x).peserta;
     return db.kunciTulis(function () {
       if (db.cari('Hasil', 'token', x.t.token).some(function (h) { return h.tes === 'asesmen'; })) return { dilewati: true };
       var isi = { tes: 'asesmen', data: sesi, berlalu: Math.round(sesi.berlalu || 0), disimpan: kini() };
@@ -4137,18 +4173,19 @@ function buatServer(db) {
   function simpanHasilAsesmen(x, h) {
     var ctxA = cekAsesmen(x), ps = pesertaAsesmen(x);
     if (!ps.bio || !ps.bio.persetujuan) throw galat('Biodata dan persetujuan belum lengkap.');
-    var sesi = acBersihkanSesi(ctxA, h.sesi);
-    sesi.caseId = ctxA.id; sesi.participant = ps.peserta;
+    var pms = ctxA.model === 'pms', sesi = pms ? pmsBersihkanSesi(h.sesi) : acBersihkanSesi(ctxA, h.sesi);
+    sesi.caseId = ctxA.id; if (!pms) sesi.participant = ps.peserta;
     if (!sesi.status) sesi.status = 'selesai';
     if (!sesi.end) sesi.end = Date.now();
+    if (pms) { sesi.t0 = +sesi.created || sesi.end; sesi.limitMin = acMenitBatch(x.m, x.b.mode); }
     var kat = acNormalKat(x.m.kategori), pen = { ratings: {}, override: {}, category: '', notes: '' };
-    var ring = acRingkas(acSkor(ctxA, sesi, pen, kat));
+    var ring = acRingkas(pms ? pmsSkor(ctxA, sesi, pen, kat) : acSkor(ctxA, sesi, pen, kat));
     return db.kunciTulis(function () {
       var sudah = db.cari('Hasil', 'token', x.t.token);
       if (sudah.some(function (r) { return r.tes === 'asesmen'; })) throw galat('Hasil simulasi ini sudah tersimpan sebelumnya.', 'DUPLIKAT');
       var id = 'AC-' + stempelWaktu(new Date()) + '-' + acakTeks(4, ALFABET_KODE);
       db.tambah('Hasil', { id: id, token: x.t.token, batch: x.b.id, klien: x.b.klien, tes: 'asesmen', mode: x.b.mode, mulai: isoAtauKini(sesi.t0), selesai: isoAtauKini(sesi.end),
-        seed: 0, cfg: { kasus: ctxA.id, varian: ctxA.v2 ? x.t.varian : '', menit: sesi.limitMin, kategori: kat }, skor: ring, data: sesi, jawaban: '', pembetulan: [], pelanggaran: [],
+        seed: 0, cfg: { kasus: ctxA.id, varian: ctxA.v2 ? x.t.varian : '', menit: sesi.limitMin, kategori: kat, model: ctxA.model || 'wms', uji: !!ctxA.uji, bank: pms ? ctxA.aktif : undefined }, skor: ring, data: sesi, jawaban: '', pembetulan: [], pelanggaran: [],
         dihentikan: sesi.status === 'dihentikan' ? 'Sesi dihentikan' : '', jedaDetik: 0, log: [], flag: sesi.status === 'waktu_habis' ? 'Waktu habis' : '', dibuat: kini(), penilaian: pen });
       db.ubah('Progres', x.t.token, { tes: '', data: null, berlalu: 0, disimpan: kini() });
       var t = db.ubah('Token', x.t.token, { status: 'Selesai', selesai: kini(), rekomendasi: ring.kat ? AC_KAT[ring.kat] : '' });
@@ -4683,7 +4720,7 @@ function buatServer(db) {
     var out = {
       jenis: 'asesmen',
       batch: { id: b.id, judul: b.judul, posisi: b.posisi, mode: b.mode, tes: ['asesmen'], kamera: !!m.kamera, intervalFoto: m.intervalFoto, batasPeringatan: 0, lingkupPeringatan: 'sesi',
-        klien: k.nama, modulNama: m.nama, kasus: acModulV2(m) ? 'R' : t.varian || (h && h.cfg && h.cfg.kasus) || '', menit: acMenitBatch(m, b.mode), asesmenInfo: acInfoModul(m) },
+        klien: k.nama, modulNama: m.nama, kasus: acModelPMS(m) ? 'PMS' : acModulV2(m) ? 'R' : t.varian || (h && h.cfg && h.cfg.kasus) || '', menit: acMenitBatch(m, b.mode), asesmenInfo: acInfoModul(m) },
       modul: m, klien: { nama: k.nama, logo: logoKlien(k), warna: k.warna || '' },
       token: Object.assign(publikToken(t), t.reviewStatus === 'Sudah direview' && rev ? { reviewer: rev.nama || t.reviewer, reviewerSipp: rev.sipp || t.reviewerSipp } : {}),
       biodata: bio ? { data: bio.data || {}, persetujuan: bio.persetujuan || '', perangkat: bio.perangkat || '' } : null,
@@ -4691,8 +4728,9 @@ function buatServer(db) {
       ttd: t.reviewStatus === 'Sudah direview' && rev ? (rev.ttd || '') : '', bolehReview: bisaReview(u, t.klien), asesmen: null
     };
     if (!h) return out;
+    if (acModelPMS(m)) { var ctxP = ctxAsesmen(m, t, h, b.mode); out.asesmen = pmsLaporan(ctxP, db.isi(h.data), h, m); return out; }
     adaAsesmen();
-    var ctxA = ctxAsesmen(m, t, h), s = db.isi(h.data), bk = acBukti(ctxA, s), c = ctxA.c, kompL = ctxA.komp || AC_KOMP, kompPilih = {};
+    var ctxA = ctxAsesmen(m, t, h, b.mode), s = db.isi(h.data), bk = acBukti(ctxA, s), c = ctxA.c, kompL = ctxA.komp || AC_KOMP, kompPilih = {};
     kompL.forEach(function (x) { kompPilih[x.k] = 1; });
     out.asesmen = {
       komp: kompL, v2: !!ctxA.v2, latar: ctxA.v2 ? c.name : '', peran: ctxA.v2 ? ctxA.peran : 'DEP', jabatan: m.jabatan || '',
@@ -4711,7 +4749,12 @@ function buatServer(db) {
   function bersihkanPenilaian(ctxA, v) {
     v = v || {};
     var lv = function (x) { x = Math.round(+x); return x >= 1 && x <= 4 ? x : null; }, pen = { ratings: {}, override: {}, category: AC_KAT[v.category] ? v.category : '', notes: String(v.notes || '').slice(0, 4000) };
-    ctxA.items.filter(function (i) { return i.type === 'text'; }).forEach(function (it) {
+    if (ctxA.model === 'pms') Object.keys(ctxA.tulis).forEach(function (d) {
+      var r = (v.ratings || {})['L' + d] || {}, o = {};
+      ctxA.tulis[d].forEach(function (c) { var x = lv(r[c]); if (x) o[c] = x; });
+      pen.ratings['L' + d] = o;
+    });
+    else ctxA.items.filter(function (i) { return i.type === 'text'; }).forEach(function (it) {
       var r = (v.ratings || {})[it.id] || {}, o = {};
       it.rubric.comps.forEach(function (c) { var x = lv(r[c]); if (x) o[c] = x; });
       pen.ratings[it.id] = o;
@@ -4726,11 +4769,10 @@ function buatServer(db) {
     if (!bisaReview(u, t.klien)) throw galat('Hanya psikolog (assessor) yang boleh menilai dan menandatangani laporan.', 'AKSES');
     var b = db.satu('Batch', 'id', t.batch);
     if (jenisModul(b.modulSnap) !== 'asesmen') throw galat('Laporan ini bukan laporan Assessment.');
-    adaAsesmen();
     var h = hasilAsesmen(t);
     if (!h) throw galat('Peserta belum menyelesaikan simulasi.');
-    var ctxA = ctxAsesmen(b.modulSnap, t, h), pen = bersihkanPenilaian(ctxA, d.penilaian);
-    var n = acSkor(ctxA, db.isi(h.data), pen, acNormalKat(b.modulSnap.kategori)), ring = acRingkas(n);
+    var ctxA = ctxAsesmen(b.modulSnap, t, h, b.mode), pen = bersihkanPenilaian(ctxA, d.penilaian);
+    var n = (ctxA.model === 'pms' ? pmsSkor : acSkor)(ctxA, db.isi(h.data), pen, acNormalKat(b.modulSnap.kategori)), ring = acRingkas(n);
     var status = d.reviewStatus === 'Sudah direview' ? 'Sudah direview' : 'Draft';
     if (status === 'Sudah direview' && n.pendingText) throw galat('Nilai semua tulisan peserta sebelum menandai laporan sudah direview.');
     db.kunciTulis(function () {
@@ -4742,9 +4784,11 @@ function buatServer(db) {
   };
   // Perkiraan durasi & cakupan bukti untuk modul versi 2 yang sedang disusun (belum disimpan).
   A.estimasiAsesmen = function (d) {
-    sesiStaf(d); adaAsesmen();
+    sesiStaf(d);
     var r = normalModulAsesmen(Object.assign({}, d.modul || {}, { versi: 2, nama: 'x' }));
     if (r.galat) return { galat: r.galat };
+    if (acModelPMS(r.modul)) { adaPMS(); var ep = pmsEstimasi(r.modul); return { menit: ep.menit, nItem: ep.nItem, cakupan: ep.cakupan, kurang: ep.kurang, seed: r.modul.seed, bank: ep.bank, model: 'pms' }; }
+    adaAsesmen();
     var e = acEstimasi(ASESMEN_DATA, r.modul);
     return { menit: r.modul.menit, nItem: r.modul.ids.length, cakupan: e.cakupan, kurang: e.kurang, seed: r.modul.seed };
   };
@@ -4759,10 +4803,11 @@ function buatServer(db) {
       var bt = ambilBatch(u, d.id); judul = bt.judul;
       daftar = db.cari('Token', 'batch', bt.id).filter(function (t) { return t.status === 'Selesai'; });
     }
-    adaAsesmen();
     var satu = !!d.kode, batchMemo = {}, ring = [], bukti = [], kep = [], ind = [], tul = [], logR = [];
     // Daftar kompetensi mengikuti modul kelompok kode (versi 2: kompetensi pilihan; versi 1: 10 kompetensi tetap).
     var bAcuan = d.kode ? db.satu('Batch', 'id', daftar[0].batch) : bt, mAcuan = (bAcuan && bAcuan.modulSnap) || {}, kompL = acKompModul(mAcuan);
+    if (acModelPMS(mAcuan)) { adaPMS(); return rekapPMS(daftar, satu, judul || (bAcuan && bAcuan.judul) || '', kompL); }
+    adaAsesmen();
     var rc = acModulV2(mAcuan) ? acKompTulisan(ASESMEN_DATA, mAcuan, kompL) : ['COM', 'STM', 'AO', 'IS', 'CT', 'BA', 'PO'];
     var kompH = [];
     kompL.forEach(function (c) { kompH.push(c.name + ' — Level akhir', c.name + ' — Skor akhir', c.name + ' — Status'); });
@@ -4773,7 +4818,8 @@ function buatServer(db) {
       var b = batchMemo[t.batch] || (batchMemo[t.batch] = db.satu('Batch', 'id', t.batch));
       if (!b || jenisModul(b.modulSnap) !== 'asesmen') return;
       var h = hasilAsesmen(t); if (!h) return;
-      var ctxA = ctxAsesmen(b.modulSnap, t, h), s = db.isi(h.data), kat = acNormalKat(b.modulSnap.kategori);
+      if (acModelPMS(b.modulSnap)) return;
+      var ctxA = ctxAsesmen(b.modulSnap, t, h, b.mode), s = db.isi(h.data), kat = acNormalKat(b.modulSnap.kategori);
       var pen = h.penilaian || {}, n = acSkor(ctxA, s, pen, kat), m = n.m, bio = db.satu('Peserta', 'token', t.token), bd = (bio && bio.data) || {};
       var id = [bd.nama || t.nama || '', t.token];
       if (satu) judul = b.judul;
@@ -4819,6 +4865,49 @@ function buatServer(db) {
       kompL.map(function (c) { return [c.k, c.name, c.grp, c.def].concat(c.ind ? [c.ind.join('; '), '', '', ''] : c.lv); }), [6, 26, 16, 60, 50, 50, 50, 50]));
     return { judul: judul, jumlah: ring.length, sheets: sheets };
   };
+  // Rekap Excel Plantation Management Simulator (kolom mengikuti indikator permainan).
+  function rekapPMS(daftar, satu, judul, kompL) {
+    var ring = [], bukti = [], ind = [], tul = [], logR = [], batchMemo = {}, kompH = [], indKepala = null;
+    kompL.forEach(function (c) { kompH.push(c.name + ' — Level akhir', c.name + ' — Skor akhir', c.name + ' — Status'); });
+    var rc = []; [1, 2, 3].forEach(function (h) { PMS_TULIS[h].komp.forEach(function (c) { if (rc.indexOf(c) < 0 && kompL.some(function (k) { return k.k === c; })) rc.push(c); }); });
+    var tglSingkat = function (v) { var x = new Date(v), dd = function (n) { return (n < 10 ? '0' : '') + n; };
+      return isNaN(x) ? '' : x.getFullYear() + '-' + dd(x.getMonth() + 1) + '-' + dd(x.getDate()) + ' ' + dd(x.getHours()) + ':' + dd(x.getMinutes()); };
+    daftar.forEach(function (t) {
+      var b = batchMemo[t.batch] || (batchMemo[t.batch] = db.satu('Batch', 'id', t.batch));
+      if (!b || !acModelPMS(b.modulSnap)) return;
+      var h = hasilAsesmen(t); if (!h) return;
+      var ctxA = ctxAsesmen(b.modulSnap, t, h, b.mode), s = db.isi(h.data), kat = acNormalKat(b.modulSnap.kategori);
+      var pen = h.penilaian || {}, n = pmsSkor(ctxA, s, pen, kat), bio = db.satu('Peserta', 'token', t.token), bd = (bio && bio.data) || {};
+      var id = [bd.nama || t.nama || '', t.token], komp = [], g = s.m || {}, o = g.out || s.out || {};
+      kompL.forEach(function (c) { var x = n.comps[c.k] || {}; komp.push(x.final == null ? '' : x.final, x.eff == null ? '' : acDua(x.eff), x.status ? AC_STATUS[x.status] : 'Belum ada bukti'); });
+      ring.push([ring.length + 1].concat(id, [bd.jabatan || bd.posisi || b.posisi || '', bd.departemen || bd.sekolah || '', tglSingkat(h.selesai), +(n.m.durSec / 60).toFixed(1), AC_STATUS_SESI[s.status] || s.status || '', b.mode,
+        ctxA.jab, n.cat.final ? AC_KAT[n.cat.final] + (n.pendingText ? ' (sementara)' : '') : '', n.cat.sys ? AC_KAT[n.cat.sys] : ''], komp,
+        [n.avg == null ? '' : acDua(n.avg), n.below, n.pendingText, o.sent == null ? '' : o.sent, g.commit || '', o.late == null ? '' : o.late, g.spent == null ? '' : g.spent, t.reviewStatus === 'Sudah direview' ? 'Sudah direview' : 'Draft', pen.notes || '']));
+      var jenisB = function (e) { return e.kind === 'proses' ? 'Pola perilaku' : e.kind === 'rating' ? 'Penilaian tulisan' : e.kind === 'miss' ? 'Tidak ditangani' : 'Keputusan'; };
+      n.ev.forEach(function (e) { bukti.push(id.concat([(AC_LIB_MAP[e.c] || { name: e.c }).name, e.day ? PMS_HARI[e.day - 1].short : '', e.subj || '', String(e.act || '').slice(0, 3000), e.l, e.w, e.n, jenisB(e)])); });
+      var li = pmsIndikator(s); if (!indKepala) indKepala = li.map(function (x) { return x[0]; });
+      ind.push(id.concat(li.map(function (x) { return x[1]; })));
+      n.tulisan.forEach(function (w) {
+        var rt = (pen.ratings || {})[w.id] || {};
+        tul.push(id.concat([w.subj, w.dikirim ? w.teks : '(tidak dikirim)', w.kata, w.detik == null ? '' : w.detik], rc.map(function (c) { return w.comps.indexOf(c) >= 0 ? (rt[c] || 'belum dinilai') : ''; })));
+      });
+      if (satu) pmsLog(s).forEach(function (r) { var mm = Math.floor(r[0] / 60), ss = r[0] % 60; logR.push(id.concat([(mm < 10 ? '0' : '') + mm + ':' + (ss < 10 ? '0' : '') + ss, r[0], r[1], r[2], r[3], r[4]])); });
+    });
+    var sheet = function (nama, kepala, baris, lebar) { return { nama: nama, baris: [kepala].concat(baris), lebar: lebar }; };
+    var nIdx = ['Nama', 'Kode tes'];
+    var sheets = [
+      sheet('Ringkasan', ['No'].concat(nIdx, ['Jabatan / posisi', 'Unit', 'Tanggal selesai', 'Durasi (menit)', 'Status', 'Mode', 'Peran dalam simulasi', 'Kategori akhir', 'Kategori sistem'], kompH,
+        ['Rata-rata skor kompetensi', 'Di bawah standar', 'Tulisan belum dinilai', 'Kiriman Rabu (kg)', 'Komitmen (kg)', 'Terlambat (menit)', 'Pengeluaran (Rp)', 'Status review', 'Catatan assessor']), ring,
+        [5, 26, 13, 20, 18, 16, 10, 12, 10, 30, 20, 18].concat(kompH.map(function (x, i) { return i % 3 === 2 ? 17 : 10; }), [12, 12, 12, 10, 10, 10, 14, 14, 40])),
+      sheet('Bukti Perilaku', nIdx.concat(['Kompetensi', 'Hari', 'Situasi', 'Tindakan peserta', 'Level', 'Bobot', 'Catatan perilaku', 'Jenis bukti']), bukti, [24, 13, 24, 6, 34, 70, 7, 7, 60, 16]),
+      sheet('Indikator Perilaku', nIdx.concat(indKepala || []), ind, [24, 13].concat((indKepala || []).map(function () { return 18; }))),
+      sheet('Laporan Tertulis', nIdx.concat(['Tugas', 'Teks', 'Jumlah kata', 'Waktu menulis (detik)'], rc.map(function (c) { return AC_LIB_MAP[c].name; })), tul, [24, 13, 34, 90, 10, 12].concat(rc.map(function () { return 14; })))
+    ];
+    if (satu) sheets.push(sheet('Log Aktivitas', nIdx.concat(['Waktu (mm:ss)', 'Detik sejak mulai', 'Hari', 'Peristiwa', 'Situasi', 'Detail']), logR, [24, 13, 10, 10, 6, 30, 38, 50]));
+    sheets.push(sheet('Kamus Kompetensi', ['Kode', 'Kompetensi', 'Kelompok', 'Definisi', 'Indikator perilaku / Level 1', 'Level 2', 'Level 3', 'Level 4'],
+      kompL.map(function (c) { return [c.k, c.name, c.grp, c.def].concat(c.ind ? [c.ind.join('; '), '', '', ''] : c.lv); }), [6, 26, 16, 60, 50, 50, 50, 50]));
+    return { judul: judul, jumlah: ring.length, sheets: sheets };
+  }
   A.simpanReview = function (d) {
     var u = sesiStaf(d), t = db.satu('Token', 'token', teks(d.kode, 20).toUpperCase());
     if (!t) throw galat('Peserta tidak ditemukan.');
@@ -5645,7 +5734,7 @@ async function vAsesmen(pesan) {
 }
 // Sesi yang bisa dilanjutkan: dari perangkat ini atau dari autosave server, mana yang lebih jauh.
 function lanjutanAsesmen() {
-  const lokal = AC.sesiLokal(P.kode), srv = ACK.sesiServer;
+  const lokal = simAC().sesiLokal(P.kode), srv = ACK.sesiServer;
   if (!lokal && !srv) return null;
   if (lokal && (!srv || (lokal.ev || []).length >= (srv.ev || []).length)) return { sumber: 'lokal', sesi: lokal, sisa: lokal.deadline ? lokal.deadline - Date.now() : null };
   const berlalu = ACK.berlaluKini + Math.max(0, Date.now() - ACK.diterima);
@@ -5661,16 +5750,16 @@ function gambarAsesmen(pesan) {
     <button class="tombol utama kecil" data-aksi="asesmen-lanjut">${c.sisa != null && c.sisa <= 0 ? 'Kirim hasil' : 'Lanjutkan simulasi'}</button></div>`;
   render(kepala() + `<main class="wrap sempit">
     ${alurPeserta('Simulasi')}
-    <div class="tumpuk"><p class="eyebrow">Assessment Center</p><h1>Halo, ${esc(st.biodata.nama.split(' ')[0])}</h1>
-    <p class="lead">Dalam simulasi ${esc(st.batch.judul)} Anda menjalani empat hari kerja sebagai seorang Manager di layar komputer kantor.${st.batch.mode === 'Uji coba' ? ' Ini uji coba dengan waktu singkat.' : ''}</p></div>
+    <div class="tumpuk"><p class="eyebrow">${k.model === 'pms' ? 'Plantation Management Simulator' : 'Work Management Simulator'}</p><h1>Halo, ${esc(st.biodata.nama.split(' ')[0])}</h1>
+    <p class="lead">${k.model === 'pms' ? `Dalam simulasi ${esc(st.batch.judul)} Anda menjalani beberapa hari sebagai ${esc(k.jab)} di Kebun Lembah Asri, dalam permainan berbentuk peta kebun.` : `Dalam simulasi ${esc(st.batch.judul)} Anda menjalani empat hari kerja sebagai seorang Manager di layar komputer kantor.`}${st.batch.mode === 'Uji coba' ? ' Ini uji coba dengan waktu singkat.' : ''}</p></div>
     ${pesan ? notis(pesan.teks, pesan.jenis) : ''}
     ${banner}
     ${tertunda || c ? '' : `<section class="lembar tumpuk">
       <h2>Petunjuk</h2>
       <ol class="petunjuk-ac">${k.petunjuk.map(x => `<li>${tebalAC(x)}</li>`).join('')}</ol>
-      <div class="notis"><b>Batas waktu: ${menit > 0 ? menit + ' menit' : 'tanpa batas'}</b>${menit > 0 ? ', dihitung sejak Anda menekan Mulai simulasi, termasuk waktu membaca latar belakang. Saat waktu habis, simulasi berakhir dan hasil terkirim otomatis.' : '.'}${st.batch.kamera ? ` Kamera mengambil foto sekitar setiap ${fmt(st.batch.intervalFoto, 1)} menit.` : ''}</div>
-      <p class="catatan-kecil">Gunakan laptop atau komputer bila memungkinkan; layar ponsel bisa dipakai, tetapi lebih sempit. Pekerjaan tersimpan otomatis, jadi bila koneksi terputus Anda bisa melanjutkan dengan memasukkan kode yang sama.</p>
-      ${fsDidukung() ? '<label class="cek dua"><input type="checkbox" id="ac-fs" checked><span><b>Buka dalam layar penuh</b><small>Disarankan agar Anda fokus pada layar simulasi. Tekan Esc untuk keluar kapan saja.</small></span></label>' : ''}
+      <div class="notis"><b>${k.model === 'pms' ? 'Durasi sekitar ' + (st.batch.mode === 'Uji coba' ? '25' : '55') + ' menit' : 'Batas waktu: ' + (menit > 0 ? menit + ' menit' : 'tanpa batas')}</b>${k.model === 'pms' ? `, mengikuti jam di dalam permainan. Batas maksimal ${menit} menit sejak Anda menekan Mulai simulasi; setelah itu hasil terkirim otomatis.` : menit > 0 ? ', dihitung sejak Anda menekan Mulai simulasi, termasuk waktu membaca latar belakang. Saat waktu habis, simulasi berakhir dan hasil terkirim otomatis.' : '.'}${st.batch.kamera ? ` Kamera mengambil foto sekitar setiap ${fmt(st.batch.intervalFoto, 1)} menit.` : ''}</div>
+      <p class="catatan-kecil">${k.model === 'pms' ? 'Gunakan laptop atau komputer dengan keyboard.' : 'Gunakan laptop atau komputer bila memungkinkan; layar ponsel bisa dipakai, tetapi lebih sempit.'} Pekerjaan tersimpan otomatis, jadi bila koneksi terputus Anda bisa melanjutkan dengan memasukkan kode yang sama.</p>
+      ${fsDidukung() && k.model !== 'pms' ? '<label class="cek dua"><input type="checkbox" id="ac-fs" checked><span><b>Buka dalam layar penuh</b><small>Disarankan agar Anda fokus pada layar simulasi. Tekan Esc untuk keluar kapan saja.</small></span></label>' : ''}
       <label class="setuju"><input type="checkbox" id="ac-setuju" data-ubah="ac-setuju"><span>Saya memahami bahwa aktivitas saya selama simulasi, termasuk pesan yang dibuka, waktu, dan pilihan, dicatat untuk keperluan asesmen.</span></label>
       <div class="aksi"><button class="tombol utama" id="ac-mulai" data-aksi="asesmen-mulai" disabled>Mulai simulasi</button></div>
     </section>`}
@@ -5867,7 +5956,7 @@ async function kirimHasil(kiriman) {
     const r = await api('simpanHasil', { kode: kiriman.kode, sesi: kiriman.sesi, tes: kiriman.tes, hasil: kiriman.hasil, token: '' });
     simpanLokal('psikotes_tertunda', null);
     if (P && P.kode === kiriman.kode) terimaStateP(r.peserta);
-    if (kiriman.tes === 'asesmen') { ACK.konten = null; AC.hapusLokal(); return vSelesaiSemua(); }
+    if (kiriman.tes === 'asesmen') { ACK.konten = null; AC.hapusLokal(); PMS.hapusLokal(); return vSelesaiSemua(); }
     vSelesaiTes(kiriman, r);
   } catch (e) {
     if (e.kode === 'DUPLIKAT') { simpanLokal('psikotes_tertunda', null); try { await segarkanP(); } catch (x) { /* */ } }
@@ -7124,6 +7213,107 @@ const AC = (() => {
   return { mulai, sesiLokal, hapusLokal, aktif: () => aktif, tutup };
 })();
 
+
+/* ================= Plantation Management Simulator: permainan kebun di dalam bingkai ================= */
+// Mesin permainan diambil dari server (file MesinPMS di proyek Apps Script) hanya untuk peserta yang kodenya memakai model ini.
+// Isi kejadian dikirim tanpa bobot penilaian; permainan hanya mencatat pilihan dan perilaku, skor dihitung di server.
+const PMS = (() => {
+  const KUNCI = 'potrev_pms', AUTOSAVE = 30000;
+  let aktif = false, akar = null, bingkai = null, G = null, deadline = null, limitMin = 0, mesinHtml = null;
+  let kotor = false, sibuk = false, terakhirKirim = 0, fotoTimer = null, batasTimer = null, akhirTimer = null, selesaiDikirim = false;
+  function berlaluKini() { return deadline && limitMin > 0 ? Math.max(0, limitMin * 60000 - (deadline - Date.now())) : 0; }
+  function simpanLokalP() { if (G && P) { G.deadline = deadline; G.limitMin = limitMin; simpanLokal(KUNCI, { kode: P.kode, G }); } }
+  function cuplikan() { const c = JSON.parse(JSON.stringify(G)); c.berlalu = berlaluKini(); return c; }
+  async function autosave(paksa) {
+    if (!aktif || !G || !P || sibuk || G.phase === 'done' || (!kotor && !paksa)) return;
+    sibuk = true; kotor = false;
+    try { await apiP('simpanProgres', { tes: 'asesmen', snap: cuplikan() }); terakhirKirim = Date.now(); }
+    catch (e) { kotor = true; if (e.kode === 'SESI_PESERTA' || e.kode === 'TOKEN') diambilAlih(e); }
+    finally { sibuk = false; }
+  }
+  function beacon() {
+    if (!aktif || !G || !P) return;
+    const isi = { action: 'simpanProgres', kode: P.kode, sesi: P.sesi, tes: 'asesmen', snap: cuplikan() };
+    try { if (!DEMO && navigator.sendBeacon) navigator.sendBeacon(CFG.API_URL, new Blob([JSON.stringify(isi)], { type: 'text/plain;charset=utf-8' })); } catch (e) { /* cuplikan lokal tetap ada */ }
+  }
+  // Jembatan untuk permainan di dalam bingkai (dokumen srcdoc berasal dari halaman ini).
+  window.PMS_HOST = {
+    simpan(g) { if (!aktif) return; G = JSON.parse(JSON.stringify(g)); kotor = true; simpanLokalP(); },
+    selesai(sesi) { if (aktif) selesai(JSON.parse(JSON.stringify(sesi))); },
+  };
+  function pasang(html, cfg) {
+    lepas();
+    akar = document.createElement('div'); akar.id = 'pms-root';
+    bingkai = document.createElement('iframe');
+    bingkai.title = 'Plantation Management Simulator'; bingkai.setAttribute('allow', 'fullscreen; autoplay'); bingkai.allowFullscreen = true;
+    const json = JSON.stringify(cfg).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
+    bingkai.srcdoc = html.replace('/*__PMS_CFG__*/null', () => json);
+    bingkai.addEventListener('load', () => { try { bingkai.contentWindow.focus(); } catch (e) { } });
+    akar.append(bingkai); document.body.append(akar); document.body.classList.add('pms-on');
+  }
+  function lepas() { if (akar) akar.remove(); akar = null; bingkai = null; document.body.classList.remove('pms-on'); }
+  function jadwalFoto(awal) {
+    clearTimeout(fotoTimer);
+    if (!aktif || !P || !P.state.batch.kamera) return;
+    if (awal) setTimeout(() => { if (aktif) Kamera.foto(G ? 'Melanjutkan simulasi' : 'Awal simulasi', 'asesmen'); }, 1500);
+    const ms = (+P.state.batch.intervalFoto || 5) * 60000 * (0.6 + Math.random() * 0.8);
+    fotoTimer = setTimeout(() => { if (!aktif) return; Kamera.foto('Foto berkala', 'asesmen'); jadwalFoto(false); }, ms);
+  }
+  function tutup() {
+    aktif = false; clearTimeout(fotoTimer); clearInterval(batasTimer); clearTimeout(akhirTimer);
+    try { if (document.fullscreenElement) document.exitFullscreen(); } catch (e) { }
+    lepasWakeLock(); lepas();
+  }
+  function diambilAlih(e) {
+    tutup(); G = null; simpanLokal(KUNCI, null); hapusSesiP(); Kamera.matikan();
+    vMasukKode({ teks: e.kode === 'TOKEN' ? e.message : 'Kode tes ini sedang dibuka di perangkat lain, jadi simulasi dilanjutkan di perangkat tersebut.', jenis: 'peringatan' });
+  }
+  function selesai(sesi) {
+    if (selesaiDikirim) return; selesaiDikirim = true;
+    sesi = sesi || {}; sesi.berlalu = berlaluKini(); sesi.limitMin = limitMin;
+    Kamera.foto('Akhir simulasi', 'asesmen');
+    const kiriman = { kode: P.kode, sesi: P.sesi, tes: 'asesmen', hasil: { sesi } };
+    simpanLokal('psikotes_tertunda', kiriman);
+    simpanLokal(KUNCI, null);
+    tutup(); G = null;
+    kirimHasil(kiriman);
+  }
+  // Batas waktu kode tes: permainan diminta menutup sesi; bila tidak menjawab, cuplikan terakhir yang dikirim.
+  function cekBatas() {
+    if (!aktif || !deadline || Date.now() < deadline || akhirTimer) return;
+    try { bingkai && bingkai.contentWindow.PMS_AKHIRI && bingkai.contentWindow.PMS_AKHIRI('waktu_habis'); } catch (e) { }
+    akhirTimer = setTimeout(() => { if (aktif) selesai(Object.assign({}, G || {}, { status: 'waktu_habis', phase: 'done', finished: Date.now() })); }, 7000);
+  }
+  async function mulai(konten, sesi, opsi) {
+    opsi = opsi || {};
+    const st = P.state;
+    render(kepala() + `<main class="wrap sempit">${alurPeserta('Simulasi')}<p class="memuat">Memuat simulasi kebun…</p></main>`);
+    try { if (!mesinHtml) mesinHtml = (await apiP('pmsMesin')).html; }
+    catch (e) {
+      if (e.kode === 'SESI_PESERTA' || e.kode === 'TOKEN') return errPeserta(e);
+      return vAsesmen({ teks: e.message, jenis: 'galat' });
+    }
+    limitMin = +st.asesmen.menit || 75; selesaiDikirim = false; akhirTimer = null;
+    if (sesi) {
+      G = JSON.parse(JSON.stringify(sesi));
+      deadline = opsi.sumber === 'server' ? Date.now() + Math.max(0, limitMin * 60000 - (+opsi.berlaluKini || 0)) : (sesi.deadline || Date.now() + limitMin * 60000);
+    } else { G = null; deadline = Date.now() + limitMin * 60000; }
+    aktif = true;
+    pasang(mesinHtml, { nama: konten.nama || '', sapa: konten.sapa || 'Pak', jab: konten.jab, aktif: konten.aktif || [], uji: !!konten.uji, sesi: G });
+    mintaWakeLock(); jadwalFoto(true);
+    clearInterval(batasTimer); batasTimer = setInterval(cekBatas, 2000);
+    if (G) { kotor = true; autosave(true); }
+    cekBatas();
+  }
+  setInterval(() => { if (aktif && Date.now() - terakhirKirim > AUTOSAVE) autosave(); }, 5000);
+  window.addEventListener('pagehide', () => { if (aktif) { simpanLokalP(); beacon(); } });
+  window.addEventListener('beforeunload', e => { if (aktif && G && G.phase !== 'done') { simpanLokalP(); e.preventDefault(); e.returnValue = ''; } });
+  function sesiLokal(kode) { const x = bacaLokal(KUNCI); return x && x.kode === kode && x.G && x.G.phase !== 'done' ? x.G : null; }
+  function hapusLokal() { simpanLokal(KUNCI, null); }
+  return { mulai, sesiLokal, hapusLokal, aktif: () => aktif, tutup };
+})();
+// Simulasi yang dipakai kode tes yang sedang dibuka: Work Management Simulator (AC) atau Plantation Management Simulator (PMS).
+const simAC = () => (ACK.konten && ACK.konten.model === 'pms') || (P && P.state && P.state.asesmen && P.state.asesmen.model === 'pms') ? PMS : AC;
 
 /* ================= Mesin tes + pengawasan ================= */
 let T = null, ticker = null, kunciLayar = null, audio = null, terakhirSimpan = 0, abaTimer = null, fotoTimer = null, lanjutTimer = null;
@@ -9067,7 +9257,7 @@ async function vKlien(id, pesan) {
       <form class="lembar" data-form="klien" data-id="${esc(id || '')}" novalidate>
         <label class="isian"><span>Nama perusahaan *</span><input name="nama" required maxlength="120" value="${esc(k.nama)}"></label>
         <fieldset class="kelompok"><legend>Layanan</legend>
-          ${[['psikotes', 'Psikotes', 'Tes psikologi online dengan psikogram dan rekomendasi.'], ['asesmen', 'Assessment', 'Simulasi kerja in-basket dengan profil kompetensi pilihan dan penilaian assessor.'],
+          ${[['psikotes', 'Psikotes', 'Tes psikologi online dengan psikogram dan rekomendasi.'], ['asesmen', 'Assessment', 'Work Management Simulator (in-basket) atau Plantation Management Simulator (permainan kebun), dengan profil kompetensi pilihan dan penilaian assessor.'],
             ['keduanya', 'Psikotes & Assessment', 'Satu saldo token untuk keduanya; kode tes tetap terpisah per layanan.']].map(([v, j, d]) =>
             `<label class="cek dua"><input type="radio" name="layanan" value="${v}" data-ubah="layanan-klien" ${lay.kode === v ? 'checked' : ''}><span><b>${j}</b><small>${d}</small></span></label>`).join('')}
         </fieldset>
@@ -9515,7 +9705,7 @@ async function vBuatBatch(pesan, modulId) {
 }
 // Ringkasan modul terpilih di form kode tes: klien, alat tes, durasi, psikogram.
 const ketJudulBatch = j => j === 'asesmen' ? 'Tampil di sampul: “Laporan Hasil Assessment Center — [judul]”.' : 'Tampil di sampul: “Laporan Hasil Pemeriksaan Psikologis — [judul]”.';
-const ketModeBatch = j => j === 'asesmen' ? `Uji coba: simulasi paling lama ${AC_MENIT_UJI} menit, untuk mencoba alur.` : 'Uji coba: durasi tes dipersingkat, untuk mencoba alur.';
+const ketModeBatch = j => j === 'asesmen' ? `Uji coba: Work Management Simulator paling lama ${AC_MENIT_UJI} menit; Plantation Management Simulator hanya sampai hari Senin (±25 menit). Untuk mencoba alur.` : 'Uji coba: durasi tes dipersingkat, untuk mencoba alur.';
 function infoModulBatch(m) {
   if (!m) return '';
   if (jenisModulUI(m) === 'asesmen') return bagian(isSuper() ? `<b>${esc(namaKlien(m.klien))}</b>` : '', esc(NAMA_TES('asesmen')), esc(labelAsesmen(m.asesmenInfo, m.kasus, true)), m.menit ? `${m.menit} menit` : 'Tanpa batas waktu', `Profil ${m.asesmenInfo && m.asesmenInfo.versi === 2 ? m.asesmenInfo.komp.length : 10} kompetensi, dinilai assessor`);
@@ -9562,7 +9752,7 @@ function gambarBatch(r, pesan) {
     ${tKembali('Kode tes', 'data-aksi="tab" data-tab="kode"')}
     <div class="detail-kepala"><p class="eyebrow">${esc(b.klienNama)}</p><h1>${esc(b.judul)}</h1>
       <div class="meta"><span>Modul <b>${esc(b.modulNama)}</b></span>${b.posisi ? `<span>Posisi: ${esc(b.posisi)}</span>` : ''}
-        ${asm ? `<span>Simulasi in-basket · ${esc(labelAsesmen(b.asesmenInfo, b.kasus, true))}</span><span>${b.menit ? b.menit + ' menit' : 'Tanpa batas waktu'}</span>` : `<span>${b.tes.map(NAMA_TES).join(b.acak ? ', ' : ', lalu ')}${b.acak ? ' (urutan diacak)' : ''}</span><span>Psikogram skala ${b.skala}</span>`}${b.mode === 'Uji coba' ? '<span class="chip draf">Uji coba</span>' : ''}
+        ${asm ? `<span>${esc(labelAsesmen(b.asesmenInfo, b.kasus, true))}</span><span>${b.menit ? b.menit + ' menit' : 'Tanpa batas waktu'}</span>` : `<span>${b.tes.map(NAMA_TES).join(b.acak ? ', ' : ', lalu ')}${b.acak ? ' (urutan diacak)' : ''}</span><span>Psikogram skala ${b.skala}</span>`}${b.mode === 'Uji coba' ? '<span class="chip draf">Uji coba</span>' : ''}
         <span>${b.kamera ? `Kamera, foto ±${fmt(b.intervalFoto, 1)} mnt` : 'Tanpa kamera'}</span>${asm ? '' : `<span>Peringatan ${b.batasPeringatan}× ${b.lingkupPeringatan === 'sesi' ? 'per sesi' : 'per tes'}</span>`}
         <span>${b.berlakuSampai ? 'Berlaku s/d ' + fmtTanggal(b.berlakuSampai) : 'Tanpa batas waktu'}</span>${b.biaya ? `<span>${fmt(b.biaya, 2)} token</span>` : ''}
         ${b.aktif ? '<span class="chip ok">Aktif</span>' : '<span class="chip">Nonaktif</span>'}</div>
@@ -10444,7 +10634,7 @@ const AC_ALIAS_ID = { COM: 'komunikasi', SM: 'manajemen diri pengelolaan diri', 
 const disarankanAC = (c, peran) => !!(peran && c.rek && c.rek.indexOf(peran) >= 0);
 // Label ringkas modul / kelompok kode Assessment di daftar.
 function labelAsesmen(info, kasus, panjang) {
-  if (info && info.versi === 2) return panjang ? `${info.jabatan} · ${info.komp.length} kompetensi · ${info.latarNama}` : `${info.jabatan} · ${info.komp.length} kompetensi`;
+  if (info && info.versi === 2) { const mdl = AC_MODEL[info.model === 'pms' ? 'pms' : 'wms']; return panjang ? `${mdl} · ${info.jabatan} · ${info.komp.length} kompetensi · ${info.latarNama}` : `${mdl} · ${info.jabatan} · ${info.komp.length} kompetensi`; }
   return namaKasusAC(info ? info.kasus : kasus, panjang);
 }
 function pilihJabatanAC(m) {
@@ -10501,15 +10691,26 @@ function pilihLatarAC(m) {
       <span><b>${esc(l.nama)}</b><small>${esc(l.perusahaan)} (fiktif), ${esc(l.industri)}. ${esc(l.desk)}${l.lama ? ` Untuk level Manager, situasi diambil terutama dari Kasus ${l.lama} yang asli.` : ''}</small></span></label></div>`).join('')}</div>
     <p class="catatan-kecil">Semua latar memakai alur yang setara: target 120 sasaran sebelum 31 Oktober, tim inti lima orang, dan pemangku kepentingan yang sama perannya. Pilih yang paling dekat dengan dunia kerja peserta.</p></section>`;
 }
+// Model simulasi: Work Management Simulator (in-basket) atau Plantation Management Simulator (permainan kebun).
+function pilihModelAC(m) {
+  const opsi = [['wms', AC_MODEL.wms, 'Simulasi in-basket satu pekan kerja di layar komputer kantor: email, chat, telepon, dan dokumen. Memadukan studi kasus dan in-basket; latar industri bisa dipilih.'],
+    ['pms', AC_MODEL.pms, 'Simulasi berbentuk permainan: peserta menjadi pengelola Kebun Lembah Asri selama tiga hari kerja, berjalan di peta kebun, mengatur tim di Papan Tugas, menerima telepon, dan mengambil keputusan di lapangan. Perlu laptop dengan keyboard.']];
+  return `<section class="lembar tumpuk"><div class="judul-baris"><h2>Model simulasi</h2><small>Pilih satu</small></div>
+    <div class="opsi-daftar dua">${opsi.map(([k, n, d]) => `<div class="opsi"><label><input type="radio" name="model" value="${k}" data-ubah="ac-model" ${acModel(m) === k || (m.model || 'wms') === k ? 'checked' : ''}>
+      <span><b>${esc(n)}</b><small>${esc(d)}</small></span></label></div>`).join('')}</div>
+    <p class="catatan-kecil">Kedua model memakai daftar kompetensi dan level jabatan yang sama. Situasi yang dihadapi peserta mengikuti kompetensi yang dipilih.</p></section>`;
+}
 function gambarModulAsesmen(pesan) {
   const m = S.mEdit, boleh = S.mBoleh, kat = acNormalKat(m.kategori);
+  m.model = m.model === 'pms' ? 'pms' : 'wms';
+  const pms = m.model === 'pms';
   if (S.acLama === undefined) S.acLama = siapkanModulAC(m); else siapkanModulAC(m);
   const maksBawah = Math.max(1, Math.min(AC_MAKS_KOMP, m.komp.length || AC_MAKS_KOMP));
   render(kepala() + `<main class="wrap">
     ${tKembali('Modul', 'data-aksi="tab" data-tab="modul"')}
     <div class="tumpuk"><p class="eyebrow">${m.id ? 'Modul assessment' : 'Modul assessment baru'} untuk ${esc(namaKlien(m.klien))}</p><h1 id="judul-modul">${esc(m.nama || 'Modul assessment baru')}</h1>
       ${m.id ? `<p class="lead"><span class="chip ${m.status === 'Terbit' ? 'ok' : 'draf'}">${esc(m.status)}</span> ${m.status === 'Terbit' ? 'Perubahan hanya berlaku untuk kode tes yang dibuat setelah disimpan.' : ''}</p>`
-        : '<p class="lead">Simulasi in-basket: peserta menjalani satu pekan kerja lewat email, chat, telepon, dan dokumen. Anda menentukan level jabatan dan kompetensi yang dinilai; situasi simulasi dirakit otomatis mengikuti pilihan itu. Hasilnya profil kompetensi dan kategori potensi yang dinilai assessor.</p>'}</div>
+        : '<p class="lead">Pilih model simulasi, level jabatan, dan kompetensi yang dinilai; situasi simulasi dirakit otomatis mengikuti pilihan itu.</p><p class="lead" hidden>Simulasi in-basket: peserta menjalani satu pekan kerja lewat email, chat, telepon, dan dokumen. Anda menentukan level jabatan dan kompetensi yang dinilai; situasi simulasi dirakit otomatis mengikuti pilihan itu. Hasilnya profil kompetensi dan kategori potensi yang dinilai assessor.</p>'}</div>
     ${pesan || ''}
     ${S.acLama && boleh ? notis('Modul ini dibuat dengan format lama (kasus tetap). Pilihan di bawah sudah disetarakan: level Manager, 10 kompetensi lama, dan latar kasusnya. Setelah disimpan, modul memakai format baru. Kode tes yang sudah dibuat tidak berubah.', 'peringatan') : ''}
     ${boleh ? '' : notis('Anda hanya bisa melihat modul ini.')}
@@ -10521,14 +10722,15 @@ function gambarModulAsesmen(pesan) {
         <section class="lembar tumpuk"><div class="judul-baris"><h2>Biodata peserta</h2><small>Pilih satu</small></div>
           <div class="opsi-daftar">${URUT_BIODATA.map(k => `<div class="opsi"><label><input type="radio" name="biodata" value="${k}" data-mf="biodata" ${m.biodata === k ? 'checked' : ''}>
             <span><b>${esc(BIODATA[k].nama)}</b><small>${BIODATA[k].field.length} isian: ${esc(ringkasBiodata(k))}</small></span></label>${tombolLihat('pratinjau-biodata', `data-k="${k}"`)}</div>`).join('')}</div></section>
+        ${pilihModelAC(m)}
         ${pilihJabatanAC(m)}
         ${pilihKompAC(m)}
-        ${pilihLatarAC(m)}
+        ${pms ? '' : pilihLatarAC(m)}
         <section class="lembar tumpuk"><div class="judul-baris"><h2>Rakitan simulasi</h2><small>Dihitung otomatis</small></div>
           <div id="ac-estimasi" aria-live="polite">${estimasiTeksAC(S.acEst)}</div></section>
         <section class="lembar tumpuk"><h2>Waktu & pengawasan</h2>
           <div class="grid-isian">
-            <div class="isian"><span>Batas waktu</span><p class="nilai-tetap" id="ac-menit">${S.acEst && S.acEst.menit ? S.acEst.menit + ' menit' : (m.menit ? m.menit + ' menit' : '–')}</p><small>Mengikuti jumlah situasi: waktu baca latar belakang, setiap situasi, dan refleksi penutup (maks. ${AC_MENIT_MAKS} menit). Kode uji coba paling lama ${AC_MENIT_UJI} menit.</small></div>
+            <div class="isian"><span>Batas waktu</span><p class="nilai-tetap" id="ac-menit">${pms ? '±55 menit (maks. 75)' : S.acEst && S.acEst.menit ? S.acEst.menit + ' menit' : (m.menit ? m.menit + ' menit' : '–')}</p><small>Mengikuti jumlah situasi: waktu baca latar belakang, setiap situasi, dan refleksi penutup (maks. ${AC_MENIT_MAKS} menit). Kode uji coba paling lama ${AC_MENIT_UJI} menit.</small></div>
             <label class="isian"><span>Foto kira-kira tiap (menit)</span><input data-mf="intervalFoto" type="number" min="1" max="30" step="0.5" value="${esc(m.intervalFoto)}"><small>Foto juga diambil di awal, saat telepon krisis, dan di akhir simulasi.</small></label>
           </div>
           <label class="cek"><input type="checkbox" data-mf="kamera" ${m.kamera ? 'checked' : ''}> Wajib kamera & foto berkala</label>
@@ -10552,13 +10754,18 @@ function gambarModulAsesmen(pesan) {
   if (!S.acEst || S.acEst.kunci !== kunciEstAC(m)) jadwalEstimasiAC();
 }
 // Perkiraan rakitan (jumlah situasi, durasi, cakupan bukti) dihitung server dari bank soal.
-const kunciEstAC = m => [m.peran, m.latar, m.komp.join(','), m.seed].join('|');
+const kunciEstAC = m => [m.model || 'wms', m.peran, m.model === 'pms' ? '' : m.latar, m.komp.join(','), m.seed].join('|');
 function estimasiTeksAC(e) {
   const m = S.mEdit;
-  if (!m || !m.peran || !m.latar || !m.komp.length) return `<p class="catatan-kecil">Pilih level jabatan, minimal satu kompetensi, dan latar cerita untuk melihat rakitan simulasi.</p>`;
+  const pms = m && m.model === 'pms';
+  if (!m || !m.peran || (!pms && !m.latar) || !m.komp.length) return `<p class="catatan-kecil">Pilih level jabatan, minimal satu kompetensi${pms ? '' : ', dan latar cerita'} untuk melihat rakitan simulasi.</p>`;
   if (!e || e.kunci !== kunciEstAC(m)) return '<p class="catatan-kecil">Menghitung rakitan simulasi…</p>';
   if (e.galat) return notis(e.galat, 'galat');
-  const cak = m.komp.map(k => { const n = e.cakupan[k] || 0; return `<span class="chip ${n >= AC_BUKTI_MIN ? 'ok' : 'l1'}">${esc(AC_LIB_MAP[k].name)} · ${n} situasi</span>`; }).join('');
+  const cak = m.komp.map(k => { const n = e.cakupan[k] || 0; return `<span class="chip ${n >= AC_BUKTI_MIN ? 'ok' : 'l1'}">${esc(AC_LIB_MAP[k].name)} · ${n} ${pms ? 'peluang bukti' : 'situasi'}</span>`; }).join('');
+  if (pms) return `<p class="angka-ringkas"><span>Alur inti Lembah Panen + <b>${e.nItem}</b> kejadian tambahan</span><span>Durasi <b>±55 menit</b> (maks. ${e.menit})</span><span><b>${m.komp.length}</b> kompetensi</span></p>
+    <div class="ac-terpilih">${cak}</div>
+    <p class="catatan-kecil">Kejadian tambahan (telepon dan percakapan di kebun) dipilih otomatis agar setiap kompetensi punya cukup bukti; laporan sore dinilai assessor untuk kompetensi yang relevan.</p>
+    ${e.kurang.length ? notis(`${e.kurang.map(k => AC_LIB_MAP[k].name).join(', ')} punya kurang dari ${AC_BUKTI_MIN} peluang bukti di model ini. Kurangi jumlah kompetensi, pilih model ${AC_MODEL.wms}, atau lengkapi dengan metode lain.`, 'peringatan') : ''}`;
   return `<p class="angka-ringkas"><span><b>${e.nItem}</b> situasi kerja</span><span>Batas waktu <b>${e.menit} menit</b></span><span><b>${m.komp.length}</b> kompetensi</span></p>
     <div class="ac-terpilih">${cak}</div>
     ${e.kurang.length ? notis(`${e.kurang.map(k => AC_LIB_MAP[k].name).join(', ')} hanya muncul di kurang dari ${AC_BUKTI_MIN} situasi karena batas waktu ${AC_MENIT_MAKS} menit. Kurangi jumlah kompetensi agar bukti setiap kompetensi cukup.`, 'peringatan') : ''}`;
@@ -10566,17 +10773,17 @@ function estimasiTeksAC(e) {
 let _acEstT = null, _acEstNo = 0;
 function jadwalEstimasiAC() {
   clearTimeout(_acEstT);
-  const m = S.mEdit; if (!m || !m.peran || !m.latar || !m.komp.length) { const b = $('#ac-estimasi'); if (b) b.innerHTML = estimasiTeksAC(null); return; }
+  const m = S.mEdit; if (!m || !m.peran || (m.model !== 'pms' && !m.latar) || !m.komp.length) { const b = $('#ac-estimasi'); if (b) b.innerHTML = estimasiTeksAC(null); return; }
   _acEstT = setTimeout(async () => {
     const no = ++_acEstNo, kunci = kunciEstAC(m);
     try {
-      const r = await panggil('estimasiAsesmen', { modul: { peran: m.peran, jabatan: m.jabatan || 'Jabatan', latar: m.latar, komp: m.komp, seed: m.seed } });
+      const r = await panggil('estimasiAsesmen', { modul: { model: m.model || 'wms', peran: m.peran, jabatan: m.jabatan || 'Jabatan', latar: m.latar, komp: m.komp, seed: m.seed } });
       if (no !== _acEstNo || S.mEdit !== m) return;
       S.acEst = Object.assign({ kunci }, r.galat ? { galat: r.galat } : r);
-      if (!r.galat) { m.menit = r.menit; }
+      if (!r.galat) { m.menit = r.menit; if (r.bank) m.pmsBank = r.bank; }
     } catch (e) { if (no !== _acEstNo) return; S.acEst = { kunci, galat: e.message }; }
     const b = $('#ac-estimasi'); if (b) b.innerHTML = estimasiTeksAC(S.acEst);
-    const mn = $('#ac-menit'); if (mn) mn.textContent = S.acEst.menit ? S.acEst.menit + ' menit' : '–';
+    const mn = $('#ac-menit'); if (mn) mn.textContent = m.model === 'pms' ? '±55 menit (maks. 75)' : S.acEst.menit ? S.acEst.menit + ' menit' : '–';
   }, 350);
 }
 function saringKompAC() {
@@ -10755,8 +10962,10 @@ function halamanLaporanAsesmen(L, versi) {
   const infoAC = bt.asesmenInfo || null, v2 = !!(infoAC && infoAC.versi === 2) || !!(A && A.v2);
   const kasusId = v2 ? 'R' : (A && A.kasus.id) || bt.kasus || t.varian || '', KA = (A && A.komp) || AC_KOMP;
   const latarAC = v2 && infoAC ? AC_LATAR.find(x => x.id === infoAC.latar) : null;
-  const ks = v2 ? { peran: (A && A.kasus.peran) || (infoAC && infoAC.jabatan) || '', tempat: latarAC ? latarAC.perusahaan : '', desk: latarAC ? latarAC.desk : '' } : AC_KASUS[kasusId];
-  const namaKasusL = panjang => v2 ? (latarAC ? latarAC.nama : 'Kasus rakitan') + (panjang && infoAC ? ' · ' + infoAC.jabatan : '') : namaKasusAC(kasusId, panjang);
+  const pmsL = (A && A.model === 'pms') || (infoAC && infoAC.model === 'pms');
+  const ks0 = v2 ? { peran: (A && A.kasus.peran) || (infoAC && infoAC.jabatan) || '', tempat: latarAC ? latarAC.perusahaan : '', desk: latarAC ? latarAC.desk : '' } : AC_KASUS[kasusId];
+  const ks = pmsL ? { peran: (A && A.kasus.peran) || (infoAC && infoAC.jabatan) || '', tempat: 'Kebun Lembah Asri', desk: 'Kebun sayur fiktif yang memasok tomat dan cabai ke beberapa restoran, dengan pelanggan terbesar PT Dapur Nusantara. Target pekan: 300 kg tomat grade A pada Rabu pukul 10.00, anggaran operasional Rp 5 juta, tim lapangan empat orang.' } : ks0;
+  const namaKasusL = panjang => pmsL ? 'Perkebunan · Kebun Lembah Asri' + (panjang && infoAC ? ' · ' + infoAC.jabatan : '') : v2 ? (latarAC ? latarAC.nama : 'Kasus rakitan') + (panjang && infoAC ? ' · ' + infoAC.jabatan : '') : namaKasusAC(kasusId, panjang);
   const n = A ? nilaiLaporanAC(L) : null, m = A ? A.metrik || {} : {}, si = statusIntegritasAC(L);
   let no = 0; const nomor = () => String(++no).padStart(2, '0');
 
@@ -10773,7 +10982,7 @@ function halamanLaporanAsesmen(L, versi) {
     <div class="sp-bawah">
       <div class="sp-peserta"><p class="label">Nama peserta</p><p class="sp-nama">${esc(nama)}</p></div>
       <div class="sp-meta">
-        ${[['Kode tes', `<span class="mono">${esc(t.kode)}</span>`], ['Tanggal simulasi', esc(fmtTanggal(tglTes, true))], ['Metode', esc('Simulasi in-basket · ' + namaKasusL())],
+        ${[['Kode tes', `<span class="mono">${esc(t.kode)}</span>`], ['Tanggal simulasi', esc(fmtTanggal(tglTes, true))], ['Metode', esc((pmsL ? AC_MODEL.pms + ' · ' : v2 ? AC_MODEL.wms + ' · ' : 'Simulasi in-basket · ') + namaKasusL())],
           ['Nomor telepon', esc(b.telepon || '–')], ['Email', esc(b.email || '–')], ['Status laporan', reviewed ? '<span class="status-lap final">Final · dinilai assessor</span>' : '<span class="status-lap draf">Draf · belum dinilai</span>']]
           .map(([k, v]) => `<div><p class="label">${k}</p><p class="sp-v">${v}</p></div>`).join('')}
       </div>
@@ -10793,14 +11002,14 @@ function halamanLaporanAsesmen(L, versi) {
     ${kartuBiodata(L.modul.biodata, b, usia, L)}
     <h3 class="sub-judul">Pelaksanaan simulasi</h3>
     <table class="t-lap"><thead><tr><th>Simulasi</th><th>Tanggal</th><th>Waktu</th><th>Durasi kerja</th><th>Batas waktu</th><th>Status</th></tr></thead><tbody>
-      ${h0 && A ? `<tr><td><b>In-basket · ${esc(namaKasusL())}</b>${bt.mode === 'Uji coba' ? ' <span class="pil abu">Uji coba</span>' : ''}</td><td>${esc(fmtTanggal(h0.mulai))}</td>
+      ${h0 && A ? `<tr><td><b>${pmsL ? 'Simulasi kebun' : 'In-basket'} · ${esc(namaKasusL())}</b>${bt.mode === 'Uji coba' ? ' <span class="pil abu">Uji coba</span>' : ''}</td><td>${esc(fmtTanggal(h0.mulai))}</td>
         <td class="mono">${esc(fmtJam(h0.mulai).slice(0, 5))}–${esc(fmtJam(h0.selesai).slice(0, 5))}</td><td>${esc(durasiRingkas(m.durSec))}</td><td>${A.limitMin ? esc(A.limitMin + ' menit') : 'Tanpa batas'}</td><td>${pilStatus}</td></tr>`
-        : `<tr><td><b>In-basket${kasusId ? ' · ' + esc(namaKasusL()) : ''}</b></td><td colspan="4" class="redup-lap">Belum diselesaikan</td><td>${pilStatus}</td></tr>`}
+        : `<tr><td><b>${pmsL ? 'Simulasi kebun' : 'In-basket'}${kasusId ? ' · ' + esc(namaKasusL()) : ''}</b></td><td colspan="4" class="redup-lap">Belum diselesaikan</td><td>${pilStatus}</td></tr>`}
     </tbody></table>
     ${ks ? `<div class="cara-baca"><h3>Kasus simulasi</h3><dl>
       <div><dt>${v2 ? 'Latar' : 'Kasus'}</dt><dd>${esc(namaKasusL(true))}</dd></div><div><dt>Peran peserta</dt><dd>${esc((A && A.kasus.peran) || ks.peran)}</dd></div>
       <div><dt>Perusahaan</dt><dd>${esc(((A && A.kasus.perusahaan) || ks.tempat) + ' (fiktif)')}</dd></div><div><dt>Lokasi</dt><dd>${esc((A && A.kasus.tempat) || '–')}</dd></div></dl>
-      <p>${esc(ks.desk)} Simulasi berlangsung empat hari kerja (Senin–Kamis) dengan ${A ? m.total || 21 : (infoAC && infoAC.nItem) || 21} item: email, chat, telepon, dan dokumen.${v2 ? ' Situasi dirakit dari bank soal mengikuti level jabatan dan kompetensi yang dinilai.' : ''}</p>
+      <p>${esc(ks.desk)} ${pmsL ? `Model ${esc(AC_MODEL.pms)}: permainan berbentuk peta kebun dengan latihan kontrol, satu hari orientasi yang tidak dinilai, lalu tiga hari kerja (Senin–Rabu) dan laporan tertulis setiap sore. Selain alur inti, ${A ? (A.bank || []).length : (infoAC && infoAC.nItem) || 0} kejadian tambahan dipilih mengikuti kompetensi yang dinilai.` : `Simulasi berlangsung empat hari kerja (Senin–Kamis) dengan ${A ? m.total || 21 : (infoAC && infoAC.nItem) || 21} item: email, chat, telepon, dan dokumen.${v2 ? ' Situasi dirakit dari bank soal mengikuti level jabatan dan kompetensi yang dinilai.' : ''}`}</p>
       ${v2 ? `<p>Kompetensi yang dinilai (${KA.length}): ${KA.map(c => esc(c.name)).join(', ')}.</p>` : ''}</div>` : ''}
     <div class="strip-setuju">${ikon('cek')}<p>${bio.persetujuan ? `Persetujuan pengambilan data pribadi${bt.kamera ? ' dan foto' : ''} diberikan secara elektronik pada <b>${esc(fmtTgl(bio.persetujuan))}</b>${bio.perangkat ? ' melalui ' + esc(perangkatRingkas(bio.perangkat)) : ''}. Pernyataan lengkap terlampir di akhir laporan.` : 'Persetujuan belum diberikan.'}</p></div>` });
 
@@ -10860,6 +11069,21 @@ function halamanLaporanAsesmen(L, versi) {
       });
       H.push({ isi: sek(noB, 'Bukti perilaku', 'Bukti Perilaku per Kompetensi', 'Setiap keputusan, tindakan, dan pola perilaku peserta dipetakan ke kompetensi dengan level 1–4 dan bobot. Penilaian assessor atas tulisan berbobot 1,2.') + blokB.join('') });
 
+      if (pmsL) {
+        H.push({ isi: sek(nomor(), 'Proses kerja', 'Indikator Perilaku & Konsekuensi Keputusan', 'Indikator dicatat otomatis dari aktivitas peserta di dalam permainan. Sebagian menjadi bukti perilaku (pola perilaku) pada kompetensi terkait.') +
+          `<div class="ac-blok">${tabelAC(['Indikator', 'Nilai'], (A.ind || []).map(([k, v]) => `<tr><td>${esc(k)}</td><td><b>${esc(v)}</b></td></tr>`), 'ac-ind')}</div>
+          <h3 class="sub-judul">Konsekuensi keputusan dalam simulasi</h3>
+          <div class="ac-blok"><p class="ac-meta">Hasil panen per hari di dunia simulasi. Tidak dipakai langsung dalam skor kompetensi.</p>
+            ${(A.hasilHari || []).length ? tabelAC(['Hari', 'Panen tomat (kg)'], A.hasilHari.map(x => `<tr><td>${esc(x.hari)}</td><td class="mono">${esc(x.panen)}</td></tr>`)) : '<p class="kosong-lap">Belum ada hari kerja yang diselesaikan.</p>'}</div>` });
+        const tulisP = A.tulisan.map(w => { const rt = ((A.penilaian || {}).ratings || {})[w.id] || {};
+          return `<div class="ac-blok"><h4>${esc(w.subj)}</h4>
+            ${w.dikirim ? `<p class="ac-meta">${w.kata} kata${w.detik ? ' · waktu menulis ' + esc(durasiRingkas(w.detik)) : ''}</p><div class="ac-teks">${esc(w.teks)}</div>
+              ${w.comps.length ? `<p class="ac-nilai">${w.comps.map(c => `<span>${esc(AC_KOMP_MAP[c].name)} <b>${rt[c] ? 'Level ' + rt[c] : 'belum dinilai'}</b></span>`).join('')}</p>` : ''}`
+              : `<p class="kosong-lap">${w.muncul ? 'Tidak ditulis oleh peserta.' : 'Belum sampai pada hari ini saat simulasi berakhir.'}</p>`}</div>`; });
+        H.push({ isi: sek(nomor(), 'Hasil kerja', 'Laporan Tertulis & Kesepakatan Tim') + tulisP.join('') + `
+          <div class="ac-blok"><h4>Perbaikan cara kerja yang disepakati di penutupan pekan</h4>${(A.kesepakatan || []).length ? `<ul class="ac-daftar">${A.kesepakatan.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '<p class="kosong-lap">Tidak ada kesepakatan tercatat.</p>'}</div>
+          ${(A.bank || []).length ? `<div class="ac-blok"><h4>Kejadian tambahan sesuai kompetensi yang dinilai</h4><p class="ac-meta">${A.bank.map(esc).join(' · ')}</p></div>` : ''}` });
+      } else {
       /* Indikator perilaku & konsekuensi keputusan */
       const ind = [
         ['Waktu membaca latar belakang', m.briefSec != null ? durasiRingkas(m.briefSec) : '–'],
@@ -10901,6 +11125,7 @@ function halamanLaporanAsesmen(L, versi) {
         ${tulis.join('')}
         <div class="ac-blok"><h4>Refleksi peserta</h4><p class="ac-meta"><i>${esc(A.tanyaRefleksi || '')}</i></p>${A.refleksi ? `<div class="ac-teks">${esc(A.refleksi)}</div>` : '<p class="kosong-lap">Tidak diisi.</p>'}</div>
         ${A.catatan && A.catatan.trim() ? `<div class="ac-blok"><h4>Catatan pribadi peserta</h4><p class="ac-meta">Ditulis di aplikasi Catatan selama simulasi. Tidak dinilai langsung; dapat dipakai sebagai konteks.</p><div class="ac-teks">${esc(acPotong(A.catatan, 3000))}</div></div>` : ''}` });
+      }
 
       /* Integritas & log aktivitas */
       const noLog = nomor(), log = A.log || [];
@@ -11653,8 +11878,8 @@ const AKSI = {
   // peserta
   'pakai-kode': el => bukaKode(el.dataset.kode),
   'asesmen-muat': () => vAsesmen(),
-  'asesmen-mulai': () => { if (!ACK.konten || !$('#ac-setuju') || !$('#ac-setuju').checked) return; AC.mulai(ACK.konten, null, { fs: !!($('#ac-fs') && $('#ac-fs').checked) }); },
-  'asesmen-lanjut': () => { const c = lanjutanAsesmen(); if (!c) return vAsesmen(); AC.mulai(ACK.konten, c.sesi, { sumber: c.sumber, berlaluKini: c.berlaluKini }); },
+  'asesmen-mulai': () => { if (!ACK.konten || !$('#ac-setuju') || !$('#ac-setuju').checked) return; simAC().mulai(ACK.konten, null, { fs: !!($('#ac-fs') && $('#ac-fs').checked) }); },
+  'asesmen-lanjut': () => { const c = lanjutanAsesmen(); if (!c) return vAsesmen(); simAC().mulai(ACK.konten, c.sesi, { sumber: c.sumber, berlaluKini: c.berlaluKini }); },
   'ke-login-staf': () => vLoginStaf(),
   'ke-kode': () => vMasukKode(),
   'ubah-biodata': () => vBiodata(),
@@ -11868,6 +12093,7 @@ const UBAH = {
     else { S.acJabLain = false; m.jabatan = el.value; m.peran = acPeranJabatan(el.value) || m.peran; }
   }),
   'ac-peran': el => ubahModul(m => { m.peran = el.value; }),
+  'ac-model': el => ubahModul(m => { m.model = el.value === 'pms' ? 'pms' : 'wms'; }),
   'ac-latar': el => { if (!S.mEdit || !S.mBoleh) return; S.mEdit.latar = el.value; const b = $('#ac-estimasi'); if (b) b.innerHTML = estimasiTeksAC(S.acEst); jadwalEstimasiAC(); },
   'ac-komp': el => ubahKompAC(el),
   'logo': el => bacaGambar(el.files && el.files[0], 420, 160, data => { S.logoBaru = data; $('#logo-pratinjau').innerHTML = `<img src="${data}" alt="Logo baru">`; },
